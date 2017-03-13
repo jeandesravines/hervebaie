@@ -1,12 +1,14 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-import App from '../components/App';
+import App from '../components/app';
 import LoginSignin from '../components/login-signin';
 
-export default (
-  <Route path="/" component={App}>
-    //<IndexRoute component={Login}/>
-    <Route path="login/signin" component={LoginSignin}/>
-  </Route>
+export default () => (
+  <BrowserRouter>
+    <div>
+      <Route exact path="/" component={App} />
+      <Route path="/login/signin" component={LoginSignin} />
+    </div>
+  </BrowserRouter>
 );

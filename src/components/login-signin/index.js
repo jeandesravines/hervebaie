@@ -7,14 +7,8 @@ import { signIn } from './actions';
  * @const {Object.<string, Object>}
  */
 const inputs = {
-  email: {
-    type: 'email',
-    label: 'Email',
-  },
-  password: {
-    type: 'password',
-    label: 'Password',
-  },
+  email: { type: 'email', label: 'Email' },
+  password: { type: 'password', label: 'Password' },
 };
 
 /**
@@ -29,12 +23,20 @@ const mapStateToProps = (state) => ({
  * @extends Components
  */
 @connect(mapStateToProps, { signIn })
-export default class LoginIndex extends Component {
+export default class LoginSignin extends Component {
+  /**
+   * @param {Event} event
+   */
   onSubmit(event) {
+    event.preventDefault();
+   
+    const form = event.target;
     const {
       email,
       password,
-    } = _.mapValues()
+    } = form.elements;
+    
+    this.props.signIn(email.value, password.value);
   }
   
   /**
@@ -43,7 +45,7 @@ export default class LoginIndex extends Component {
    * @private
    */
   renderInputs(inputs) {
-    return _.mapValues(inputs, ({type, label}, name) => {
+    return _.map(inputs, ({type, label}, name) => {
       return (
         <label key={name}>
           {label}: <input type={type} name={name} required />
@@ -67,12 +69,11 @@ export default class LoginIndex extends Component {
   }
 
   /**
-   * @return {Object}
+   * @const {Object}
    * @static
    */
-  static get propsTypes() {
-    return {
-      user: PropTypes.object,
-    };
-  }
+  static propsTypes = {
+    user: PropTypes.object,
+    signIn: PropTypes.func.isRequired,
+  };
 }
