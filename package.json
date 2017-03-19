@@ -1,45 +1,46 @@
 {
-  "name": "@jdes/hervebaie-front",
   "private": true,
-  "description": "Herve Baie",
+  "name": "@jdes/hervebaie-front",
   "author": "Jean Desravines <hi@jeandesravines.com> (http://www.jeandesravines.com)",
+  "description": "Herve Baie",
   "contributors": [
     "Luc Berger <luc@lallyberger.com> (http://www.lallyberger.com)"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jeandesravines/hervebaie-front"
-  },
-  "devDependencies": {
-    "babel-core": "^6.21.0",
-    "babel-loader": "^6.4.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-env": "^1.2.1",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "babel-preset-stage-1": "^6.22.0",
-    "css-loader": "^0.27.1",
-    "node-sass": "^4.5.0",
-    "sass-loader": "^6.0.3",
-    "style-loader": "^0.13.2",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1"
-  },
   "dependencies": {
-    "firebase": "^3.7.1",
+    "firebase": "^3.7.2",
     "lodash": "^4.17.4",
     "react": "^15.4.2",
     "react-dom": "latest",
     "react-redux": "^5.0.0",
     "react-router-dom": "^4.0.0",
     "redux": "^3.6.0",
-    "redux-form": "^6.5.0",
     "redux-promise": "^0.5.3"
   },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-1": "^6.22.0",
+    "css-loader": "^0.27.3",
+    "eslint": "^3.17.1",
+    "eslint-plugin-react": "^6.10.0",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.14.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeandesravines/hervebaie-front"
+  },
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --host 0.0.0.0 --port 3001",
     "build": "webpack -p",
-    "test": "jest"
+    "lint": "eslint --ext .jsx --ext .js --fix public src test",
+    "start": "webpack-dev-server --port 3000"
   }
 }

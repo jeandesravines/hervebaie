@@ -3,7 +3,7 @@ import { auth } from 'firebase';
 /**
  * @const {string}
  */
-export const LOGIN_SIGNIN = 'LOGIN_SIGNIN';
+export const AUTH_SIGNIN = 'AUTH_SIGNIN';
 
 /**
  * @param {string} email
@@ -14,10 +14,9 @@ export const LOGIN_SIGNIN = 'LOGIN_SIGNIN';
  * }}
  */
 export const signIn = (email, password) => {
-  const deferred = auth().signInWithEmailAndPassword(email, password);
-
   return {
-    type: LOGIN_SIGNIN,
-    payload: deferred,
+    type: AUTH_SIGNIN,
+    payload: auth()
+      .signInWithEmailAndPassword(email, password),
   };
 };

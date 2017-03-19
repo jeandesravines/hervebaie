@@ -1,21 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
-import { initializeApp } from 'firebase';
+import { Provider } from 'react-redux';
+import firebase from 'firebase';
 
 import configuration from './configuration/configuration';
-import Router from './routes';
 import reducer from './reducers';
+import App from './components/App';
+import './assets/styles/index.scss';
 
 const store = createStore(reducer, applyMiddleware(reduxPromise));
 const component = (
   <Provider store={store}>
-    <Router />
+    <BrowserRouter>
+      <Route path="/" component={App} />
+    </BrowserRouter>
   </Provider>
 );
 
-initializeApp(configuration.firebase);
-
-ReactDOM.render(component, document.querySelector('.container'));
+firebase.initializeApp(configuration.firebase);
+ReactDOM.render(
+  component, 
+  document.getElementById('root')
+);

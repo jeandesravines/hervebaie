@@ -1,11 +1,10 @@
 module.exports = {
   entry: [
-    'webpack/hot/only-dev-server',
     './src/index.js'
   ],
   output: {
     path: __dirname + '/build',
-    filename: 'index.js'
+    filename: 'app.js'
   },
   module: {
     loaders: [{
@@ -13,7 +12,7 @@ module.exports = {
       loader: 'babel-loader',
       exclude: /node_modules/,
       options: {
-        presets: ['es2015', 'stage-0', 'react'],
+        presets: ['es2015', 'stage-1', 'react'],
         plugins: ['transform-decorators-legacy']
       }
     }, {
@@ -21,6 +20,9 @@ module.exports = {
       loaders: ['style-loader', 'css-loader', 'sass-loader'],
       exclude: /node_modules/
     }]
+  },
+  resolve: {
+    extensions: ['.js', '.json', '.jsx']
   },
   devServer: {
     contentBase: './public',
