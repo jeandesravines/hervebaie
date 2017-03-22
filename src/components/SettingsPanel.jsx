@@ -11,8 +11,9 @@ const mapStateToProps = (state) => ({
 @connect(mapStateToProps, actions)
 export default class SettingsPanel extends Component {
   render() {
+    console.log(this.props);
     const fontOptions = _.map(this.props.fonts, (font, key) => (
-      <option key={key} value={key}>{font.fontFamily}</option>
+      <option key={key} value={key}>{key}</option>
     ));
     
     return (
@@ -44,6 +45,29 @@ export default class SettingsPanel extends Component {
             onChange={e => this.setValue(e)}
             value={this.props.settings.fontSize} />
         </div>
+        <div>
+          <label>Background color:</label>
+          <input name="backgroundColor"
+            type="color"
+            onChange={e => this.setValue(e)}
+            value={this.props.settings.backgroundColor} />
+        </div>
+        <div>
+          <label>Background color alpha:</label>
+          <input name="backgroundColorAlpha"
+            type="number"
+            min="0" max="1" step="0.05"
+            onChange={e => this.setValue(e)}
+            value={this.props.settings.backgroundColorAlpha} />
+        </div>
+        <div>
+          <label>Background alpha:</label>
+          <input name="backgroundAlpha"
+            type="number"
+            min="0" max="1" step="0.05"
+            onChange={e => this.setValue(e)}
+            value={this.props.settings.backgroundAlpha} />
+        </div>
       </div>
     );
   }
@@ -55,12 +79,6 @@ export default class SettingsPanel extends Component {
       checked
     } = e.target;
     
-    console.log({e, name, checked, value});
-    
     this.props.setValue(name, checked || value);
-  }
-
-  setFont(e) {
-
   }
 }

@@ -5,10 +5,12 @@ import { FONTS_SET } from '../actions/fonts';
  * @const {Array.<string>}
  */
 const names = [
+  'Andale Mono',
   'Arial',
-  'Courrier',
-  'Courrier new',
+  'Courrier New',
   'Helvetica',
+  'Lucida Console',
+  'Lucida Sans Typewriter',
   'monospace',
 ];
 
@@ -16,14 +18,15 @@ const names = [
  * @const {Array.<Object>}
  */
 const fonts = _.map(names, (name) => ({
-  fontFamily: name,
+  name,
+  fontFamily: `${name}, monospace`,
 }));
 
 /**
  * @const {Object.<string, Object>}
  */
 const defaultState = _.mapKeys(fonts, (font) => {
-  return font.fontFamily;
+  return font.name;
 });
 
 /**

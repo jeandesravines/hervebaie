@@ -14,7 +14,7 @@ export default class FontsContainer extends Component {
     const fonts = _.map(this.props.fonts, (font, key) => (
       <Font key={key} 
         font={font}
-        onLoad={(props) => this.props.setFont(key, props)}/>
+        onLoad={(props) => this.props.setFont(key, props)} />
     ));
     
     const style = {

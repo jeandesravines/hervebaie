@@ -1,13 +1,9 @@
 import { IMAGE_SET } from '../actions/image';
 
 /**
- * @const {{
- *   image: Image?
- * }}
+ * @const Image?
  */
-const defaultState = {
-  image: null,
-};
+const defaultState = null;
 
 /**
  * @param {Object} [state]
@@ -19,7 +15,7 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case IMAGE_SET:
-      return {...state, image: action.payload};
+      return action.payload.cloneNode();
     default:
       return state;
   }

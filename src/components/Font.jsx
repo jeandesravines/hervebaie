@@ -6,7 +6,7 @@ export default class Font extends Component {
   render() {
     return (
       <text 
-        ref={node => this.node = node}
+        ref={e => this.node = e}
         fontFamily={this.props.font.fontFamily}
         alignmentBaseline="hanging"
         fontSize={10}>0</text>
@@ -14,14 +14,14 @@ export default class Font extends Component {
   }
   
   componentDidMount() {
-    const bBox = this.node.getBBox();
-    const { width, height, x, y } = bBox;
+    const bbox = this.node.getBBox();
+    const { width, height, x, y } = bbox;
 
-    if (width && height) {
+    if (width && height) {      
       this.props.onLoad({
         ...this.props.font,
-        width: Math.floor(width + x * 2),
-        height: Math.floor(height + y * 2),
+        width: width + x * 2,
+        height: height + y * 2,
         dx: -x,
         dy: -y,
       });
@@ -29,7 +29,9 @@ export default class Font extends Component {
   }
   
   static propTypes = {
-    font: React.PropTypes.object.isRequired,
     onLoad: React.PropTypes.func.isRequired,
+    font: React.PropTypes.shape({
+      fontFamily: React.PropTypes.string.isRequired,
+    }).isRequired,
   };
 }
