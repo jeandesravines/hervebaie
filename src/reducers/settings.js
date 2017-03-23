@@ -4,10 +4,10 @@ import { SETTINGS_SET } from '../actions/settings';
  * @const {Object}
  */
 const initialState = {
-  backgroundAlpha: 0.1,
+  backgroundAlpha: 0.05,
   backgroundColor: '#FFFFFF',
   backgroundColorAlpha: 0.0,
-  fontName: 'monospace',
+  fontFamily: 'Andale Mono',
   fontSize: 8,
   maxSize: 800,
 };

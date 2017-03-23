@@ -11,7 +11,6 @@ const mapStateToProps = (state) => ({
 @connect(mapStateToProps, actions)
 export default class SettingsPanel extends Component {
   render() {
-    console.log(this.props);
     const fontOptions = _.map(this.props.fonts, (font, key) => (
       <option key={key} value={key}>{key}</option>
     ));
@@ -30,7 +29,7 @@ export default class SettingsPanel extends Component {
             value={this.props.settings.maxSize} />
         </div>
         <div>
-          <label>Font Family:</label>
+          <label>Font:</label>
           <select name="fontFamily"
             onChange={e => this.setValue(e)}
             value={this.props.settings.fontFamily}>

@@ -18,15 +18,14 @@ const names = [
  * @const {Array.<Object>}
  */
 const fonts = _.map(names, (name) => ({
-  name,
-  fontFamily: `${name}, monospace`,
+  fontFamily: name,
 }));
 
 /**
  * @const {Object.<string, Object>}
  */
 const defaultState = _.mapKeys(fonts, (font) => {
-  return font.name;
+  return font.fontFamily;
 });
 
 /**

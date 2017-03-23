@@ -4,9 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import { Provider } from 'react-redux';
-import firebase from 'firebase';
 
-import configuration from './configuration/configuration';
 import reducer from './reducers';
 import App from './components/App';
 import './assets/styles/index.scss';
@@ -20,7 +18,6 @@ const component = (
   </Provider>
 );
 
-firebase.initializeApp(configuration.firebase);
 ReactDOM.render(
   component, 
   document.getElementById('root')

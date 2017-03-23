@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions/settings';
 
 const mapStateToProps = (state) => ({
   fonts: state.fonts,
@@ -7,7 +8,7 @@ const mapStateToProps = (state) => ({
   settings: state.settings,
 });
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, actions)
 export default class Canvas extends Component {
   state = {
     canvas: null,
@@ -15,6 +16,9 @@ export default class Canvas extends Component {
     font: null,
   };
   
+  /**
+   * @inheritDoc
+   */
   componentWillReceiveProps(nextProps) {
     const {
       image,
@@ -22,72 +26,16 @@ export default class Canvas extends Component {
       settings,
     } = nextProps;
     
-    if (image === null) {
+    if (!image) {
       return;
     }
     
-    const {
-      fontName,
-      fontSize,
-    } = settings;
-    
-    const canvas = document.createElement('canvas');
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalHeight;
-    
-    const context = canvas.getContext('2d');
-    context.drawImage(image, 0, 0);
-    
-    const selectedFont = fonts[fontName];
-    const fontRatio = selectedFont.width / selectedFont.height;
-    const fontCoef = fontSize / 10;
-    const fontWidth = selectedFont.width * fontCoef;
-    const fontHeight = selectedFont.height * fontCoef;
-
-    const font = {
-      fontSize,
-      fontFamily: selectedFont.fontFamily,
-      dx: selectedFont.dx * fontRatio,
-      dy: selectedFont.dy * fontRatio,
-      coef: fontCoef,
-      ratio: fontRatio,
-      width: fontWidth,
-      height: fontHeight,
-    };
-    
-    this.setState({
-      canvas,
-      context,
-      font,
-    });
-  }
-  
-  shouldComponentUpdate(nextProps) {
-    return nextProps.image !== null;
-  }
-  
-  render() {
-    const image = this.props.image;
-
-    if (!image) {
-      return null;
-    }
-
-    const {
-      naturalWidth,
-      naturalHeight,
-    } = image;
-    
-    const {
-      maxSize,
-    } = this.props.settings;
-
-    const {
-      fontFamily,
-      fontSize,
-    } = this.state.font;
-    
+    const { naturalWidth, naturalHeight } = image;
+    const imageMaxSize = Math.max(naturalWidth, naturalHeight);
     const imageRatio = naturalWidth / naturalHeight;
+    const maxSize = settings.maxSize;// Math.min(settings.maxSize, imageMaxSize);
+    const maxSizeRatio = maxSize / settings.maxSize;
+    
     let width;
     let height;
 
@@ -99,33 +47,73 @@ export default class Canvas extends Component {
       height = maxSize;
     }
 
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    
+    const context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0, width, height);
+    
+    const { fontFamily } = settings;
+    const fontSize = Math.max(1, settings.fontSize * maxSizeRatio);
+    const fontCoef = fontSize / 10;
+    const {
+      dx,
+      dy,
+      width: fontWidth,
+      height: fontHeight,
+    } = fonts[fontFamily];
+
+    const font = {
+      fontSize,
+      fontFamily,
+      fontRatio: fontWidth / fontHeight,
+      dx: dx * fontCoef,
+      dy: dy * fontCoef,
+      width: fontWidth * fontCoef,
+      height: fontHeight * fontCoef,
+    };
+    
+    this.setState({
+      canvas,
+      context,
+      font,
+    });
+  }
+  
+  /**
+   * @inheritDoc
+   */
+  shouldComponentUpdate(nextProps) {
+    return !!nextProps.image;
+  }
+  
+  /**
+   * @inheritDoc
+   */
+  render() {
+    if (!this.props.image) {
+      return null;
+    }
+
+    const {
+      canvas: { height, width },
+      font: { fontFamily, fontSize, fontRatio },
+    } = this.state;
+    
     const props = {
       preserveAspectRatio: 'none',
-      fontFamily,
+      fontFamily: `${fontFamily}, monospace`,
       fontSize,
-      viewBox: `0 0 ${width} ${height}`,
+      viewBox: `0 0 ${width} ${height / fontRatio}`,
     };
 
     return (
       <svg {...props}>
         {this.drawBackgroundColor()}
         {this.drawBackground()}
-        {this.drawPixels(width, height)}
+        {this.drawPixels()}
       </svg>
-    );
-  }
-  
-  drawBackgroundColor() {
-    const {
-      backgroundColor,
-      backgroundColorAlpha,
-    } = this.props.settings;
-    
-    return (
-      <rect fill={backgroundColor}
-        opacity={backgroundColorAlpha}
-        width="100%"
-        height="100%" />
     );
   }
   
@@ -143,35 +131,18 @@ export default class Canvas extends Component {
     );
   }
   
-  drawPixels() {
+  drawBackgroundColor() {
     const {
-      width,
-      height,
-    } = this.state.canvas;
-
-    const {
-      width: fontWidth,
-    } = this.state.font;
+      backgroundColor,
+      backgroundColorAlpha,
+    } = this.props.settings;
     
-    const {
-      naturalWidth,
-    } = this.props.image;
-
-    const pixelSize = fontWidth * 3;
-    const countW = width / pixelSize;
-    const countH = height / pixelSize;
-    const offset = naturalWidth / countW;
-    const pixels = [];
-    
-    for (let i = 0; i < countW; i ++) {
-      for (let j = 0; j < countH; j ++) {
-        pixels.push(
-          this.drawPixel(i, j, offset)
-        );
-      }
-    }
-    
-    return pixels;
+    return (
+      <rect fill={backgroundColor}
+        opacity={backgroundColorAlpha}
+        width="100%"
+        height="100%" />
+    );
   }
   
   drawPixel(x, y, offset) {
@@ -180,7 +151,7 @@ export default class Canvas extends Component {
     const pixelY = y * (height + dy) * 3;
     
     const data = this.state.context
-      .getImageData(x * offset, y * offset, offset, offset)
+      .getImageData(x * offset, y * offset, 1, 1)
       .data;
     
     const rgba = Array.from(data)
@@ -193,7 +164,7 @@ export default class Canvas extends Component {
         x: pixelX,
         y: pixelY + i * height,
         dx,
-        dy: dy * i,
+        dy: dy,
         alignmentBaseline: 'hanging',
         fill: `rgba(${rgba})`,
       };
@@ -211,5 +182,28 @@ export default class Canvas extends Component {
     return (
       <g key={`${x}-${y}`}>{lines}</g>
     );
+  }
+  
+  drawPixels() {
+    const {
+      canvas: { width, height },
+      font: { width: fontWidth },
+    } = this.state;
+
+    const pixelSize = fontWidth * 3;
+    const countW = width / pixelSize;
+    const countH = height / pixelSize;
+    const offset = width / countW;
+    const pixels = [];
+    
+    for (let i = 0; i < countW; i ++) {
+      for (let j = 0; j < countH; j ++) {
+        pixels.push(
+          this.drawPixel(i, j, offset)
+        );
+      }
+    }
+    
+    return pixels;
   }
 }
