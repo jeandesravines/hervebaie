@@ -12,8 +12,11 @@ module.exports = {
       loader: 'babel-loader',
       exclude: /node_modules/,
       options: {
-        presets: ['es2015', 'stage-1', 'react'],
-        plugins: ['transform-decorators-legacy']
+        presets: ['react', 'es2015', 'stage-1'],
+        plugins: [
+          'transform-decorators-legacy',
+          'typecheck'
+        ]
       }
     }, {
       test: /\.s?css$/,
@@ -26,6 +29,8 @@ module.exports = {
   },
   devServer: {
     contentBase: './public',
+    port: 3000,
+    host: '0.0.0.0',
     historyApiFallback: true
   }
 };

@@ -7,9 +7,11 @@ const initialState = {
   backgroundAlpha: 0.05,
   backgroundColor: '#FFFFFF',
   backgroundColorAlpha: 0.0,
-  fontFamily: 'Andale Mono',
-  fontSize: 8,
+  fontFamily: 'Arial',
+  fontSize: 20,
   maxSize: 800,
+  components: false,
+  componentsContrast: 0.4,
 };
 
 /**

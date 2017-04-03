@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Font from './Font';
-import * as actions from '../actions/fonts';
+import { setFont } from '../actions/fonts';
 
 const mapStateToProps = (state) => ({
   fonts: state.fonts,
 });
 
-@connect(mapStateToProps, actions)
+@connect(mapStateToProps, { setFont })
 export default class FontsContainer extends Component {
   render() {
     const fonts = _.map(this.props.fonts, (font, key) => (

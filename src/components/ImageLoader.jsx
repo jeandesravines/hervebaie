@@ -4,10 +4,6 @@ import * as actions from '../actions/image';
 
 @connect(null, actions)
 export default class ImageLoader extends Component {
-  /**
-   * @param {Event} e
-   * @private
-   */
   onClick(e) {
     e.preventDefault();
     
@@ -19,12 +15,6 @@ export default class ImageLoader extends Component {
     input.click();
   }
   
-  /**
-   * @param {Event} e
-   * @param {HTMLInputElement} e.target
-   * @param {FileList} e.target.files
-   * @private
-   */
   onChange(e) {
     const file = e.target.files[0];
     const image = new Image();
@@ -36,9 +26,6 @@ export default class ImageLoader extends Component {
     image.src = URL.createObjectURL(e.target.files[0]);
   }
   
-  /**
-   * @inheritDoc
-   */
   render() {
     return (
       <div>

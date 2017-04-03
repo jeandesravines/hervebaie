@@ -3,16 +3,9 @@ import AppRouter from './AppRouter';
 import SettingsPanel from './SettingsPanel';
 import Canvas from './Canvas';
 
-import '../assets/styles/app.scss';
+import _style from  '../assets/styles/app.scss';
 
-/**
- * @class
- * @extends Components
- */
 export default class App extends Component {
-  /**
-   * @inheritDoc
-   */
   render() {
     return (
       <div className="app">
