@@ -10,8 +10,8 @@ const initialState = {
   fontFamily: 'Arial',
   fontSize: 20,
   maxSize: 800,
-  components: false,
-  componentsContrast: 0.4,
+  rvb: false,
+  contrast: 0.4,
 };
 
 /**

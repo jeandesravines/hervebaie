@@ -1,3 +1,16 @@
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+var webpack = require('webpack');
+
+var plugins = [
+  //new LodashModuleReplacementPlugin()
+];
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(new webpack.optimize.LodashModuleReplacementPlugin());
+  plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
+  plugins.push(new webpack.optimize.UglifyJsPlugin());
+}
+
 module.exports = {
   entry: [
     './src/index.js'
@@ -8,14 +21,15 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: /\.jsx?$/,
       loader: 'babel-loader',
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       options: {
-        presets: ['react', 'es2015', 'stage-1'],
+        presets: ['es2017', 'stage-0', 'react'],
         plugins: [
           'transform-decorators-legacy',
-          'typecheck'
+          'typecheck',
+          'lodash'
         ]
       }
     }, {
@@ -24,13 +38,15 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
+  plugins: plugins,
   resolve: {
-    extensions: ['.js', '.json', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   devServer: {
+    compress: true,
     contentBase: './public',
+    historyApiFallback: true,
     port: 3000,
-    host: '0.0.0.0',
-    historyApiFallback: true
+    host: '0.0.0.0'
   }
 };

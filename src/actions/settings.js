@@ -11,3 +11,10 @@ export const setValue = (key, value) => {
     },
   };
 };
+
+export const setSettings = (settings) => {
+  return {
+    type: SETTINGS_SET,
+    payload: settings,
+  };
+};
