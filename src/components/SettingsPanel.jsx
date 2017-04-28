@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import ImageLoader from './ImageLoader';
+import InputSettings from './InputSettings';
 import * as actions from '../actions/settings';
 
 const mapStateToProps = (state) => ({
@@ -11,106 +13,103 @@ const mapStateToProps = (state) => ({
 @connect(mapStateToProps, actions)
 export default class SettingsPanel extends Component {
   state = {
-    
+    settings: null,
   };
   
-  componentDidReceiveProps(props) {
-    this.setState(props);
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      settings: nextProps.settings,
+    });
+  }
+
+  setSettings(e) {
+    e.preventDefault();
+
+    this.props.setSettings(this.state.settings);
+  }
+
+  setValue(e) {
+    const { target } = e;
+    const { name, checked, type } = target;
+    const value = type === 'number' ? Number(target.value) : target.value;
+    
+    this.setState({
+      settings: {
+        ...this.state.settings,
+        [name]: type === 'checkbox' ? checked : value,
+      },
+    });
   }
   
-  render() {
-    const fontOptions = _.map(this.props.fonts, (font: Object, key: string) => (
-      <option key={key} value={key}>{key}</option>
-    ));
+  render(): any {
+    const { settings } = this.state;
     
+    if (!settings) {
+      return null;
+    }
+    
+    const fonts = _.mapValues(
+      this.props.fonts, 
+      (_font, key: string) => key
+    );
+
     return (
-      <form onSubmit={e => this.setSettings()}>
+      <form onSubmit={e => this.setSettings(e)}>
         <div>
           <ImageLoader />
         </div>
+        <InputSettings type="number"
+          step="1"
+          name="maxSize"
+          label="Max size"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.maxSize} />
+        <InputSettings type="select"
+          options={fonts}
+          name="font" 
+          label="Font"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.fontFamily} />
+        <InputSettings type="number"
+          step="1"
+          name="fontSize"
+          label="Font size"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.fontSize} />
+        <InputSettings type="number"
+          min="0" max="1" step="0.05"
+          name="backgroundColorAlpha" 
+          label="Background color alpha"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.backgroundColorAlpha} />
+        <InputSettings type="color"
+          name="backgroundColor" 
+          label="Background color"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.backgroundColor} />
+        <InputSettings type="number"
+          min="0" max="1" step="0.05"
+          name="backgroundAlpha" 
+          label="Background alpha"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.backgroundAlpha} />
+        <InputSettings type="checkbox"
+          name="rvb" 
+          label="Draw as RVB"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.rvb} />
+        <InputSettings type="number"
+          show={this.state.settings.rvb}
+          min="-1" max="1" step="0.05"
+          name="rvb" 
+          label="RVB contrast"
+          onChange={e => this.setValue(e)}
+          value={this.state.settings.contrast} />
+ 
         <div>
-          <label>Max Size:</label>
-          <input name="maxSize"
-            type="number"
-            step="1"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.maxSize} />
-        </div>
-        <div>
-          <label>Font:</label>
-          <select name="fontFamily"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.fontFamily}>
-            {fontOptions}
-          </select>
-        </div>
-        <div>
-          <label>Font Size:</label>
-          <input name="fontSize"
-            type="number"
-            step="1"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.fontSize} />
-        </div>
-        <div>
-          <label>Background color alpha:</label>
-          <input name="backgroundColorAlpha"
-            type="number"
-            min="0" max="1" step="0.05"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.backgroundColorAlpha} />
-        </div>
-        <div>
-          <label>Background color:</label>
-          <input name="backgroundColor"
-            type="color"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.backgroundColor} />
-        </div>
-        <div>
-          <label>Background alpha:</label>
-          <input name="backgroundAlpha"
-            type="number"
-            min="0" max="1" step="0.05"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.backgroundAlpha} />
-        </div>
-        <div>
-          <label>Components colors:</label>
-          <input name="components"
-            type="checkbox"
-            onChange={e => this.setValue(e)}
-            checked={this.props.settings.components} />
-        </div>
-        <div style={this.getConditionalStyle('components')}>
-          <label>Components colors' contrast:</label>
-          <input name="componentsContrast"
-            type="number"
-            min="-1" max="1" step="0.05"
-            onChange={e => this.setValue(e)}
-            value={this.props.settings.componentsContrast} />
-        </div>
-        <div>
-          <button type="submit">Valider</button>
+          <button type="submit">Draw</button>
         </div>
       </form>
     );
-  }
-  
-  getConditionalStyle(name: string): Object {
-    return this.props.settings[name] ? {} : {display: 'none'};
-  }
-    
-  setValue(e: Event) {
-    const {
-      name,
-      value,
-      checked,
-      type,
-    } = e.target;
-    
-    this.setState({
-      [name]: type === 'checkbox' ? checked : value,
-    });
   }
 }

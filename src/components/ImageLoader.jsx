@@ -15,7 +15,7 @@ export default class ImageLoader extends Component {
     input.click();
   }
   
-  onChange(e) {
+  onChange(e: Event) {
     const file = e.target.files[0];
     const image = new Image();
     
@@ -31,7 +31,7 @@ export default class ImageLoader extends Component {
       <div>
         FileInput: 
         
-        <button onClick={this.onClick.bind(this)}>
+        <button onClick={e => this.onClick(e)}>
           Select
         </button>
       </div>
