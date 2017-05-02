@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Pixel from './Pixel';
+import RvbPixel from './RvbPixel';
 import BackgroundImage from './BackgroundImage';
 import BackgroundColor from './BackgroundColor';
 import * as actions from '../actions/settings';
@@ -102,7 +103,7 @@ export default class Canvas extends Component {
     const pixelRatio = pixelW / pixelH;
     const height = canvasWidth / pixelRatio;
     
-    const props = {
+    const svgProps = {
       preserveAspectRatio: 'none',
       fontFamily: `${fontFamily}, monospace`,
       fontSize,
@@ -112,7 +113,7 @@ export default class Canvas extends Component {
     };
 
     return (
-      <svg {...props}>
+      <svg {...svgProps}>
         {this.drawBackgroundColor()}
         {this.drawBackground()}
         {this.drawPixels()}
@@ -169,10 +170,10 @@ export default class Canvas extends Component {
     
     const pixels = new Array(countW * countH);
     const pixelProps = { contrast, font, rvb };
-    let key = 0;
+    const PixelComponent = rvb ? RvbPixel : Pixel;
     
     for (let y = countH; y--;) {
-      for (let x = countW; x--; key++) {
+      for (let x = countW; x--;) {
         const data = Array.from(
           context
             .getImageData(x * size, y * size, 1, 1)
@@ -180,7 +181,12 @@ export default class Canvas extends Component {
         );
         
         pixels.push(
-          <Pixel key={key} x={x} y={y} data={data} {...pixelProps} />
+          <PixelComponent 
+            {...pixelProps}
+            key={`${x}-${y}`} 
+            x={x} 
+            y={y} 
+            data={data} />
         );
       }
     }

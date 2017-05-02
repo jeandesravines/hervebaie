@@ -11,6 +11,10 @@ export default class Font extends Component {
     }
   };
   
+  shouldComponentUpdate() {
+    return false;
+  }
+  
   render() {
     const font = this.props.font;
     const fontFamily = `${font.fontFamily}, monospace`;

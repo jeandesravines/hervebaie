@@ -10,11 +10,25 @@ const mapStateToProps = (state) => ({
 
 @connect(mapStateToProps, { setFont })
 export default class FontsContainer extends Component {
+  state: {
+    fonts: Object
+  };
+  
+  componentShouldUpdate(nextProps) {
+    return this.state.fonts === undefined
+  } 
+  
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      fonts: {...this.props.fonts}
+    });
+  }
+  
   render() {
-    const fonts = _.map(this.props.fonts, (font, key) => (
+    const fonts = _.map(this.fonts, (font, key) => (
       <Font key={key} 
         font={font}
-        onLoad={(props) => this.props.setFont(key, props)} />
+        onLoad={(font) => this.fontDidLoad(key, font)} />
     ));
     
     const style = {
@@ -29,4 +43,9 @@ export default class FontsContainer extends Component {
       <svg style={style}>{fonts}</svg>
     );
   }
+  
+  fontDidLoad(key, font) {
+    this.props.setFont(key, font);
+    delete this.fonts[key];
+  } 
 }
