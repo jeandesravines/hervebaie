@@ -1,0 +1,13 @@
+{
+  "presets": ["es2017", "stage-0", "react"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "typecheck",
+    "lodash"
+  ],
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}
