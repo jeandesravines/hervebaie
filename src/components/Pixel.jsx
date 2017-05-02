@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-export default class Pixel extends Component {
+export default class Pixel extends PureComponent {
   props: {
     x: number,
     y: number,
@@ -12,25 +12,21 @@ export default class Pixel extends Component {
       dy: number
     }
   };
-    
-  shouldComponentUpdate(): bool {
-    return false;
-  }
-  
+
   render() {
-    const { 
-      x, 
+    const {
+      x,
       y,
       font: { width, height, dx, dy }
     } = this.props;
-    
+
     const lineHeight = height + dy;
     const lineWidth = width + dx;
     const lineX = x * lineWidth * 3 + dx;
     const lineY = y * lineHeight * 3 + dy;
     const pixelData = this.getPixelData();
     const lines = new Array(3);
-    
+
     for (let i = 3; i--;) {
       const { color, text } = pixelData[i];
       const props = {
@@ -45,12 +41,12 @@ export default class Pixel extends Component {
         <text {...props}>{text}</text>
       );
     }
-    
+
     return (
       <g key={`${x}-${y}`}>{lines}</g>
     );
   }
-  
+
   getPixelData(): Array<{text: string, color: string}> {
     const { data } = this.props;
     const pixelData = new Array(3);
@@ -66,15 +62,15 @@ export default class Pixel extends Component {
     return pixelData;
   }
 
-  getColorFromData(data: number[]): string {
+  getColorFromData(data: Array<number>): string {
     const rgba = data.slice(0, 3)
       .concat([data[3] / 255])
       .join(',');
-    
+
     return `rgba(${rgba})`;
   }
 
-  getTextFromComponent(component: Array<number>): string {
+  getTextFromComponent(component: number): string {
     const value = component.toString();
 
     return '0'.repeat(3)

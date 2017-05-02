@@ -2,11 +2,7 @@
 
 const webpack = require('webpack');
 const _ = require('lodash');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-
-const plugins = [
-  new LodashModuleReplacementPlugin()
-];
+const plugins = [];
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(new webpack.optimize.OccurrenceOrderPlugin());

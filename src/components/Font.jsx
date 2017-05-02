@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-const fontSize = 200;
+import configuration from '../configuration/configuration';
+const { font: {preSize: fontSize} } = configuration;
 
 export default class Font extends Component {
   node: ?HTMLEement;
@@ -10,27 +10,11 @@ export default class Font extends Component {
       fontFamily: string
     }
   };
-  
+
   shouldComponentUpdate() {
     return false;
   }
-  
-  render() {
-    const font = this.props.font;
-    const fontFamily = `${font.fontFamily}, monospace`;
-    
-    return (
-      <svg>
-        <text 
-          ref={n => this.node = n}
-          fontFamily={fontFamily}
-          alignmentBaseline="hanging"
-          dominantBaseline="bottom"
-          fontSize={fontSize}>0</text>
-      </svg>
-    );
-  }
-  
+
   componentDidMount() {
     const { height, width, x, y } = this.node.getBBox();
 
@@ -38,7 +22,7 @@ export default class Font extends Component {
       const coef = 1 / fontSize;
       const fontHeight = height + y * 2;
       const fontWidth = width + x * 2 * 0;
-      
+
       this.props.onLoad({
         ...this.props.font,
         coef,
@@ -49,5 +33,21 @@ export default class Font extends Component {
         width: fontWidth * coef
       });
     }
+  }
+
+  render() {
+    const font = this.props.font;
+    const fontFamily = `${font.fontFamily}, monospace`;
+
+    return (
+      <svg>
+        <text
+          ref={n => this.node = n}
+          fontFamily={fontFamily}
+          alignmentBaseline="hanging"
+          dominantBaseline="bottom"
+          fontSize={fontSize}>0</text>
+      </svg>
+    );
   }
 }
