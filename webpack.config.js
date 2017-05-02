@@ -1,14 +1,16 @@
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-var webpack = require('webpack');
+'use strict';
 
-var plugins = [
-  //new LodashModuleReplacementPlugin()
+const webpack = require('webpack');
+const _ = require('lodash');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+
+const plugins = [
+  new LodashModuleReplacementPlugin()
 ];
 
 if (process.env.NODE_ENV === 'production') {
-  plugins.push(new webpack.optimize.LodashModuleReplacementPlugin());
   plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
-  plugins.push(new webpack.optimize.UglifyJsPlugin());
+  //plugins.push(new webpack.optimize.UglifyJsPlugin());
 }
 
 module.exports = {
@@ -20,22 +22,14 @@ module.exports = {
     filename: 'app.js'
   },
   module: {
-    loaders: [{
-      loader: 'babel-loader',
+    rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      options: {
-        presets: ['es2017', 'stage-0', 'react'],
-        plugins: [
-          'transform-decorators-legacy',
-          'typecheck',
-          'lodash'
-        ]
-      }
+      loader: 'babel-loader',
     }, {
       test: /\.s?css$/,
-      loaders: ['style-loader', 'css-loader', 'sass-loader'],
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      loaders: ['style-loader', 'css-loader', 'sass-loader']
     }]
   },
   plugins: plugins,
