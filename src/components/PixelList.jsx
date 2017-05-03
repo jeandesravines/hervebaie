@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Pixel from './Pixel';
-import RvbPixel from './RvbPixel';
+import RgbPixel from './RgbPixel';
 import BackgroundImage from './BackgroundImage';
 import BackgroundColor from './BackgroundColor';
 import * as actions from '../actions/settings';
@@ -15,9 +15,12 @@ const mapStateToProps = (state) => ({
 
 @connect(mapStateToProps, actions)
 export default class Canvas extends Component {
-  /**
-   * @inheritDoc
-   */
+  node: ?HTMLEement;
+
+  shouldComponentUpdate(nextProps): boolean {
+    return !!nextProps.image;
+  }
+  
   componentWillReceiveProps(nextProps) {
     const {
       image,
@@ -77,9 +80,6 @@ export default class Canvas extends Component {
     });
   }
   
-  /**
-   * @inheritDoc
-   */
   render() {
     if (!this.props.image) {
       return null;
@@ -95,7 +95,7 @@ export default class Canvas extends Component {
         fontRatio,
         height: fontHeight,
         width: fontWidth
-      },
+      }
     } = this.state;
     
     const pixelW = (fontWidth + dx) * 3 + dx;
@@ -113,7 +113,7 @@ export default class Canvas extends Component {
     };
 
     return (
-      <svg {...svgProps}>
+      <svg {...svgProps} ref={n => this.node = n}>
         {this.drawBackgroundColor()}
         {this.drawBackground()}
         {this.drawPixels()}
@@ -121,9 +121,25 @@ export default class Canvas extends Component {
     );
   }
   
-  /**
-   *
-   */
+  componentDidUpdate() {
+    const data = this.node.outerHTML
+      .replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"')
+      .replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    
+    const url = URL.createObjectURL(
+      new Blob([data], {
+        type: 'image/svg+xml;charset=utf-8'
+      })
+    );
+    
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.taret = '_blank';
+    link.download = 'hervebaie';
+    link.click();
+  }
+  
   drawBackground() {
     const { backgroundAlpha } = this.props.settings;
     const { canvas } = this.state;
@@ -135,9 +151,6 @@ export default class Canvas extends Component {
     );
   }
   
-  /**
-   *
-   */
   drawBackgroundColor() {
     const {
       backgroundColor,
@@ -151,9 +164,6 @@ export default class Canvas extends Component {
     );
   }
   
-  /**
-   * 
-   */
   drawPixels(): Array {
     const {
       canvas: { width, height },
@@ -161,16 +171,16 @@ export default class Canvas extends Component {
       font
     } = this.state;
     
-    const { rvb, contrast } = this.props.settings;
-
     const offset = font.width * 3;
-    const countW = Math.ceil(width / offset);
+    const pixelW =  width / offset;
+    const countW = Math.ceil(pixelW);
     const countH = Math.ceil(height / offset);
-    const size = width / countW;
+    const size = width / pixelW;
     
     const pixels = new Array(countW * countH);
-    const pixelProps = { contrast, font, rvb };
-    const PixelComponent = rvb ? RvbPixel : Pixel;
+    const { rgb, contrast } = this.props.settings;
+    const pixelProps = { contrast, font };
+    const PixelComponent = rgb ? RgbPixel : Pixel;
     
     for (let y = countH; y--;) {
       for (let x = countW; x--;) {

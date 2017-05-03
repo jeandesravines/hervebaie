@@ -40,14 +40,14 @@ export default class Font extends Component {
     const fontFamily = `${font.fontFamily}, monospace`;
 
     return (
-      <svg>
+      <g>
         <text
           ref={n => this.node = n}
           fontFamily={fontFamily}
           alignmentBaseline="hanging"
           dominantBaseline="bottom"
           fontSize={fontSize}>0</text>
-      </svg>
+      </g>
     );
   }
 }

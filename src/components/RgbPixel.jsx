@@ -1,7 +1,7 @@
 import React from 'react';
 import Pixel from './Pixel';
 
-export default class RvbPixel extends Pixel {
+export default class RgbPixel extends Pixel {
   props: {
     x: number,
     y: number,
@@ -12,7 +12,6 @@ export default class RvbPixel extends Pixel {
       dx: number,
       dy: number
     },
-    rvb: bool,
     contrast: bool
   };
 
@@ -36,5 +35,9 @@ export default class RvbPixel extends Pixel {
     }
     
     return pixelData;
+  }
+
+  getDarkerComponent(component: number, contrast: number): number {
+    return Math.floor(component + (255 - component) * contrast);
   }
 }

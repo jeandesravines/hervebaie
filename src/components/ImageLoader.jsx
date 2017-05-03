@@ -37,9 +37,8 @@ export default class ImageLoader extends Component {
   render() {
     return (
       <div>
-        FileInput:
-
-        <button onClick={e => this.onClick(e)}>
+        Select an image:
+        <button type="button" onClick={e => this.onClick(e)}>
           Select
         </button>
       </div>

@@ -34,21 +34,11 @@ export default class SettingsPanel extends Component {
 
   setValue(e) {
     const { target } = e;
-    const { name, checked, type } = target;
-    let value;
-
-    if (type === 'number') {
-      value = Number(target.value);
-    } else if (type === 'checkbox') {
-      value = checked;
-    } else {
-      value = target.value
-    }
 
     this.setState({
       settings: {
         ...this.state.settings,
-        [name]: value,
+        [target.name]: target.value,
       },
     });
   }
@@ -117,18 +107,18 @@ export default class SettingsPanel extends Component {
           value={this.state.settings.backgroundAlpha} />
         <InputSettings
           type="checkbox"
-          name="rvb"
-          label="Draw as RVB"
+          name="rgb"
+          label="Draw as RGB"
           onChange={e => this.setValue(e)}
           value={this.state.settings.rvb} />
         <InputSettings
           type="number"
-          hide={!this.state.settings.rvb}
+          hide={!this.state.settings.rgb}
           min="-1"
           max="1"
           step="0.05"
-          name="rvb"
-          label="RVB contrast"
+          name="rgb"
+          label="RGB contrast"
           onChange={e => this.setValue(e)}
           value={this.state.settings.contrast} />
 

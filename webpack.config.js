@@ -1,20 +1,25 @@
 'use strict';
 
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const _ = require('lodash');
+
 const plugins = [];
+const buildPath = __dirname + '/build';
+const publicPath = __dirname + '/public';
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
-  //plugins.push(new webpack.optimize.UglifyJsPlugin());
+  plugins.push(new webpack.optimize.UglifyJsPlugin());
+  plugins.push(new CopyWebpackPlugin([{
+    from: publicPath
+  }]))
 }
 
 module.exports = {
-  entry: [
-    './src/index.js'
-  ],
+  entry: './src/index.js',
   output: {
-    path: __dirname + '/build',
+    path: buildPath,
     filename: 'app.js'
   },
   module: {
@@ -24,7 +29,6 @@ module.exports = {
       loader: 'babel-loader',
     }, {
       test: /\.s?css$/,
-      exclude: /node_modules/,
       loaders: ['style-loader', 'css-loader', 'sass-loader']
     }]
   },
@@ -34,7 +38,7 @@ module.exports = {
   },
   devServer: {
     compress: true,
-    contentBase: './public',
+    contentBase: publicPath,
     historyApiFallback: true,
     port: 3000,
     host: '0.0.0.0'

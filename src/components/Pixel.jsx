@@ -29,16 +29,16 @@ export default class Pixel extends PureComponent {
 
     for (let i = 3; i--;) {
       const { color, text } = pixelData[i];
-      const props = {
+      const textProps = {
         key: i,
-        x: lineX,
-        y: lineY + i * lineHeight,
+        x: this.round(lineX),
+        y: this.round(lineY + i * lineHeight),
         alignmentBaseline: 'hanging',
         fill: color
       };
 
       lines[i] = (
-        <text {...props}>{text}</text>
+        <text {...textProps}>{text}</text>
       );
     }
 
@@ -63,8 +63,15 @@ export default class Pixel extends PureComponent {
   }
 
   getColorFromData(data: Array<number>): string {
-    const rgba = data.slice(0, 3)
-      .concat([data[3] / 255])
+    const colorComponents = data.slice(0, 3);
+    const alpha = data[3];
+
+    if (alpha === 255) {
+      return this.rgbToHexadecimal(colorComponents);
+    }
+    
+    const rgba = colorComponents
+      .concat([alpha / 255])
       .join(',');
 
     return `rgba(${rgba})`;
@@ -78,7 +85,11 @@ export default class Pixel extends PureComponent {
       .concat(value);
   }
 
-  getDarkerComponent(component: number, contrast: number): number {
-    return Math.floor(component + (255 - component) * contrast);
+  round(value: number): number {
+    return Math.round(value * 100) / 100
+  }
+
+  rgbToHexadecimal(components: Array<number>): string {
+    return components.reduce((hex, n) => hex + n.toString(16), '#');
   }
 }

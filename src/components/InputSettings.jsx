@@ -16,6 +16,19 @@ export default (props: Props) => {
   const id = 'input-settings-' + name;
   const style = hide ? {display: 'none'} : {};
   const inputProps = _.omit({...props, id}, ['hide', 'label', 'options']);
+  
+  const onChange = (e) => {
+    const { target } = e;
+    const { type } = target;
+
+    if (type === 'number') {
+      target.value = Number(target.value);
+    } else if (type === 'checkbox') {
+      target.value = target.checked;
+    }
+    
+    props.onChange(e);
+  };
 
   if (type === 'radio' || type === 'checkbox') {
      return (

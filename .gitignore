@@ -1,7 +1,5 @@
-npm-*.log*
-yarn-*.log*
-yarn.lock
-
+*.lock
+*.log
 
 /build
 /coverage
