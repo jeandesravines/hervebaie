@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import ImageLoader from './ImageLoader';
-import InputSettings from './InputSettings';
-import * as actions from '../actions/settings';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import _ from "lodash";
+import ImageLoader from "./ImageLoader";
+import InputSettings from "./InputSettings";
+import * as actions from "../actions/settings";
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   settings: state.settings,
-  fonts: state.fonts,
+  fonts: state.fonts
 });
 
 @connect(mapStateToProps, actions)
@@ -23,7 +23,7 @@ export default class SettingsPanel extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      settings: nextProps.settings,
+      settings: nextProps.settings
     });
   }
 
@@ -38,8 +38,8 @@ export default class SettingsPanel extends Component {
     this.setState({
       settings: {
         ...this.state.settings,
-        [target.name]: target.value,
-      },
+        [target.name]: target.value
+      }
     });
   }
 
@@ -50,10 +50,7 @@ export default class SettingsPanel extends Component {
       return null;
     }
 
-    const fonts = _.mapValues(
-      this.props.fonts,
-      (_font, key: string) => key
-    );
+    const fonts = _.mapValues(this.props.fonts, (_font, key: string) => key);
 
     return (
       <form onSubmit={e => this.applySettings(e)}>
@@ -66,21 +63,24 @@ export default class SettingsPanel extends Component {
           name="maxSize"
           label="Max size"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.maxSize} />
+          value={this.state.settings.maxSize}
+        />
         <InputSettings
           type="select"
           options={fonts}
           name="fontFamily"
           label="Font"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.fontFamily} />
+          value={this.state.settings.fontFamily}
+        />
         <InputSettings
           type="number"
           step="1"
           name="fontSize"
           label="Font size"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.fontSize} />
+          value={this.state.settings.fontSize}
+        />
         <InputSettings
           type="number"
           min="0"
@@ -89,13 +89,15 @@ export default class SettingsPanel extends Component {
           name="backgroundColorAlpha"
           label="Background color alpha"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundColorAlpha} />
+          value={this.state.settings.backgroundColorAlpha}
+        />
         <InputSettings
           type="color"
           name="backgroundColor"
           label="Background color"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundColor} />
+          value={this.state.settings.backgroundColor}
+        />
         <InputSettings
           type="number"
           min="0"
@@ -104,13 +106,15 @@ export default class SettingsPanel extends Component {
           name="backgroundAlpha"
           label="Background alpha"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundAlpha} />
+          value={this.state.settings.backgroundAlpha}
+        />
         <InputSettings
           type="checkbox"
           name="rgb"
           label="Draw as RGB"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.rvb} />
+          value={this.state.settings.rvb}
+        />
         <InputSettings
           type="number"
           hide={!this.state.settings.rgb}
@@ -120,7 +124,8 @@ export default class SettingsPanel extends Component {
           name="rgb"
           label="RGB contrast"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.contrast} />
+          value={this.state.settings.contrast}
+        />
 
         <div>
           <button type="submit">Draw</button>

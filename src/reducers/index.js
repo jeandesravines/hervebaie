@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
-import fonts from './fonts';
-import image from './image';
-import settings from './settings';
+import { combineReducers } from "redux";
+import fonts from "./fonts";
+import image from "./image";
+import settings from "./settings";
 
 /**
  * @const {function(): Object}
@@ -9,5 +9,5 @@ import settings from './settings';
 export default combineReducers({
   fonts,
   image,
-  settings,
+  settings
 });

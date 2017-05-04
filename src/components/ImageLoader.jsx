@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../actions/image';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../actions/image";
 
 @connect(null, actions)
 export default class ImageLoader extends Component {
@@ -15,11 +15,11 @@ export default class ImageLoader extends Component {
   onClick(e) {
     e.preventDefault();
 
-    const input = document.createElement('input');
+    const input = document.createElement("input");
 
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.addEventListener('change', this.onChange.bind(this));
+    input.type = "file";
+    input.accept = "image/*";
+    input.addEventListener("change", this.onChange.bind(this));
     input.click();
   }
 
@@ -27,11 +27,12 @@ export default class ImageLoader extends Component {
     const file = e.target.files[0];
     const image = new Image();
 
-    image.addEventListener('load', (e) => {
-      this.props.setImage(e.target);
+    image.addEventListener("load", () => {
+      this.props.setImage(image);
     });
 
-    image.src = URL.createObjectURL(e.target.files[0]);
+    image.alt = file.name.replace(/\..+$/, "");
+    image.src = URL.createObjectURL(file);
   }
 
   render() {

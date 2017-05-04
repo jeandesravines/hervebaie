@@ -1,5 +1,5 @@
 export default {
-  font: {
-    preSize: 300
+  export: {
+    prefix: "HerveBaie - "
   }
 };

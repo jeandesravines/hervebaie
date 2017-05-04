@@ -1,30 +1,30 @@
-import _ from 'lodash';
-import { FONTS_SET } from '../actions/fonts';
+import _ from "lodash";
+import { FONTS_SET } from "../actions/fonts";
 
 /**
  * @const {Array.<string>}
  */
 const names = [
-  'Andale Mono',
-  'Arial',
-  'Courrier New',
-  'Helvetica',
-  'Lucida Console',
-  'Lucida Sans Typewriter',
-  'monospace',
+  "Andale Mono",
+  "Arial",
+  "Courrier New",
+  "Helvetica",
+  "Lucida Console",
+  "Lucida Sans Typewriter",
+  "monospace"
 ];
 
 /**
  * @const {Array.<Object>}
  */
-const fonts = _.map(names, (name) => ({
-  fontFamily: name,
+const fonts = _.map(names, name => ({
+  fontFamily: name
 }));
 
 /**
  * @const {Object.<string, Object>}
  */
-const defaultState = _.mapKeys(fonts, (font) => {
+const defaultState = _.mapKeys(fonts, font => {
   return font.fontFamily;
 });
 
@@ -38,7 +38,7 @@ const defaultState = _.mapKeys(fonts, (font) => {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case FONTS_SET:
-      return {...state, ...action.payload};
+      return { ...state, ...action.payload };
     default:
       return state;
   }

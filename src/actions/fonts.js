@@ -1,4 +1,4 @@
-export const FONTS_SET = 'FONTS_SET';
+export const FONTS_SET = "FONTS_SET";
 
 /**
  * @param {string} key
@@ -12,7 +12,7 @@ export const setFont = (key, font) => {
   return {
     type: FONTS_SET,
     payload: {
-      [key]: font,
-    },
+      [key]: font
+    }
   };
 };

@@ -1,4 +1,4 @@
-import { IMAGE_SET } from '../actions/image';
+import { IMAGE_SET } from "../actions/image";
 
 /**
  * @const Image?

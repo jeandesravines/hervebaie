@@ -1,9 +1,9 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import Drawer from './Drawer';
+import React from "react";
+import { Route } from "react-router-dom";
+import Drawer from "./Drawer";
 
 export default () => (
   <div>
-     <Route exact path="/draw" component={Drawer} />
+    <Route exact path="/draw" component={Drawer} />
   </div>
 );

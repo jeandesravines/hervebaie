@@ -1,15 +1,9 @@
-import React from 'react';
+import React from "react";
 
-export default ({color, opacity}) => {
+export default ({ color, opacity }) => {
   if (!opacity) {
     return null;
   }
 
-  return (
-    <rect 
-      fill={color}
-      opacity={opacity}
-      width="100%"
-      height="100%" />
-  );
+  return <rect fill={color} opacity={opacity} width="100%" height="100%" />;
 };

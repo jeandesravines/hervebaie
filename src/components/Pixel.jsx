@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
 export default class Pixel extends PureComponent {
   props: {
@@ -14,11 +14,7 @@ export default class Pixel extends PureComponent {
   };
 
   render() {
-    const {
-      x,
-      y,
-      font: { width, height, dx, dy }
-    } = this.props;
+    const { x, y, font: { width, height, dx, dy } } = this.props;
 
     const lineHeight = height + dy;
     const lineWidth = width + dx;
@@ -27,35 +23,31 @@ export default class Pixel extends PureComponent {
     const pixelData = this.getPixelData();
     const lines = new Array(3);
 
-    for (let i = 3; i--;) {
+    for (let i = 3; i--; ) {
       const { color, text } = pixelData[i];
       const textProps = {
         key: i,
         x: this.round(lineX),
         y: this.round(lineY + i * lineHeight),
-        alignmentBaseline: 'hanging',
+        alignmentBaseline: "hanging",
         fill: color
       };
 
-      lines[i] = (
-        <text {...textProps}>{text}</text>
-      );
+      lines[i] = <text {...textProps}>{text}</text>;
     }
 
-    return (
-      <g key={`${x}-${y}`}>{lines}</g>
-    );
+    return <g key={`${x}-${y}`}>{lines}</g>;
   }
 
-  getPixelData(): Array<{text: string, color: string}> {
+  getPixelData(): Array<{ text: string, color: string }> {
     const { data } = this.props;
     const pixelData = new Array(3);
     const color = this.getColorFromData(data);
 
-    for (let i = 3; i--;) {
+    for (let i = 3; i--; ) {
       pixelData[i] = {
         color,
-        text: this.getTextFromComponent(data[i]),
+        text: this.getTextFromComponent(data[i])
       };
     }
 
@@ -69,10 +61,8 @@ export default class Pixel extends PureComponent {
     if (alpha === 255) {
       return this.rgbToHexadecimal(colorComponents);
     }
-    
-    const rgba = colorComponents
-      .concat([alpha / 255])
-      .join(',');
+
+    const rgba = colorComponents.concat([alpha / 255]).join(",");
 
     return `rgba(${rgba})`;
   }
@@ -80,16 +70,16 @@ export default class Pixel extends PureComponent {
   getTextFromComponent(component: number): string {
     const value = component.toString();
 
-    return '0'.repeat(3)
-      .substr(0, 3 - value.length)
-      .concat(value);
+    return "0".repeat(3).substr(0, 3 - value.length).concat(value);
   }
 
   round(value: number): number {
-    return Math.round(value * 100) / 100
+    return Math.round(value * 100) / 100;
   }
 
   rgbToHexadecimal(components: Array<number>): string {
-    return components.reduce((hex, n) => hex + n.toString(16), '#');
+    return components.reduce((hex, n) => {
+      return hex + n < 16 ? "0" : "" + n.toString(16);
+    }, "#");
   }
 }
