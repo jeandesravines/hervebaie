@@ -13,8 +13,11 @@ const mapStateToProps = state => ({
   settings: state.settings
 });
 
-@connect(mapStateToProps, { setSvgData })
-export default class PixelList extends Component {
+const mapDispatchToProps = {
+  setSvgData
+};
+
+export class PixelList extends Component {
   svgNode: ?HTMLElement;
 
   props: {
@@ -162,11 +165,12 @@ export default class PixelList extends Component {
     const countW = Math.ceil(width / sizeW);
     const countH = Math.ceil(height / sizeH);
 
-    const pixels = new Array(countW * countH);
+    const { rgb, contrast } = settings;
     const PixelComponent = rgb ? RgbPixel : Pixel;
     const canvasContext = canvas.getContext("2d");
-    const { rgb, contrast } = settings;
+
     const pixelProps = { contrast, font };
+    const pixels = new Array(countW * countH);
 
     for (let y = countH; y--; ) {
       const dataY = Math.floor(y * sizeH);
@@ -191,3 +195,8 @@ export default class PixelList extends Component {
     return pixels;
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PixelList);

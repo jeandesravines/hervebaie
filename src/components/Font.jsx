@@ -66,16 +66,14 @@ export default class Font extends Component {
     const { family } = this.props;
 
     return (
-      <svg>
-        <text
-          ref={n => this.textNode = n}
-          fontFamily={family}
-          alignmentBaseline="hanging"
-          dominantBaseline="bottom"
-          fontSize={Font.fontSize}>
-          0
-        </text>
-      </svg>
+      <text
+        ref={n => this.textNode = n}
+        fontFamily={family}
+        alignmentBaseline="hanging"
+        dominantBaseline="bottom"
+        fontSize={Font.fontSize}>
+        0
+      </text>
     );
   }
 }

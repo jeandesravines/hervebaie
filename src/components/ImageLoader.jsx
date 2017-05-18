@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../actions/image";
+import { setImage } from "../actions/image";
 
-@connect(null, actions)
-export default class ImageLoader extends Component {
+const mapDispatchToProps = {
+  setImage
+};
+
+export class ImageLoader extends Component {
   props: {
     setImage: Function
   };
@@ -46,3 +49,8 @@ export default class ImageLoader extends Component {
     );
   }
 }
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ImageLoader);

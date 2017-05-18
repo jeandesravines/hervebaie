@@ -32,4 +32,6 @@ export class SvgExporter extends Component {
   }
 }
 
-export default connect(mapStateToProps)(SvgExporter);
+export default connect(
+  mapStateToProps
+)(SvgExporter);

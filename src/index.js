@@ -8,8 +8,8 @@ import reducer from "./reducers";
 import App from "./components/App";
 import "./assets/styles/index.scss";
 
-const store = createStore(reducer, applyMiddleware(reduxPromise));
-const component = (
+export const store = createStore(reducer, applyMiddleware(reduxPromise));
+export const component = (
   <Provider store={store}>
     <App />
   </Provider>

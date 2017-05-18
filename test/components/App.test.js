@@ -17,7 +17,7 @@ describe("render", () => {
       <App />
     );
 
-    expect(wrapper.is(".app")).toBe(true);
+    expect(wrapper.hasClass("hb-app")).toBe(true);
   });
 });
   

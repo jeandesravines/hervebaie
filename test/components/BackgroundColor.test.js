@@ -14,7 +14,7 @@ describe("render", () => {
       <BackgroundColor {...props}/>
     );
   });
-  
+
   test("should returns null", () => {
     const props = {
       opacity: 0

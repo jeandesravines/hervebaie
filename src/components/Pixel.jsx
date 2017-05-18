@@ -26,8 +26,8 @@ export default class Pixel extends PureComponent {
       const { color, text } = pixelData[i];
       const textProps = {
         key: i,
-        x: this.round(lineX),
-        y: this.round(lineY + i * lineHeight),
+        x: Pixel.round(lineX),
+        y: Pixel.round(lineY + i * lineHeight),
         alignmentBaseline: "hanging",
         fill: color
       };
@@ -41,42 +41,46 @@ export default class Pixel extends PureComponent {
   getPixelData(): Array<{ text: string, color: string }> {
     const { data } = this.props;
     const pixelData = new Array(3);
-    const color = this.getColorFromData(data);
+    const color = Pixel.getColorFromData(data);
 
     for (let i = 3; i--; ) {
       pixelData[i] = {
         color,
-        text: this.getTextFromComponent(data[i])
+        text: Pixel.getTextFromComponent(data[i])
       };
     }
 
     return pixelData;
   }
 
-  getColorFromData(data: Array<number>): string {
+  static getColorFromData(data: Array<number>): string {
     const colorComponents = data.slice(0, 3);
     const alpha = data[3];
 
     if (alpha === 255) {
-      return this.rgbToHexadecimal(colorComponents);
+      return Pixel.rgbToHexadecimal(colorComponents);
     }
 
-    const rgba = colorComponents.concat([alpha / 255]).toString();
+    const opacity = Pixel.round(alpha / 255);
+    const rgba = colorComponents.concat([opacity])
+      .toString();
 
     return `rgba(${rgba})`;
   }
 
-  getTextFromComponent(component: number): string {
+  static getTextFromComponent(component: number): string {
     const value = component.toString();
 
-    return "0".repeat(3).substr(0, 3 - value.length).concat(value);
+    return "0".repeat(3)
+      .substr(0, 3 - value.length)
+      .concat(value);
   }
 
-  round(value: number): number {
+  static round(value: number): number {
     return Math.round(value * 100) / 100;
   }
 
-  rgbToHexadecimal(components: Array<number>): string {
+  static rgbToHexadecimal(components: Array<number>): string {
     return components.reduce((hex, n) => {
       return hex + (n < 16 ? "0" : "") + n.toString(16);
     }, "#");

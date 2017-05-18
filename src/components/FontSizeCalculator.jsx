@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
+
 import Font from "./Font";
 import { setFont } from "../actions/fonts";
+import "../assets/styles/FontSizeCalculator.scss";
 
 const mapStateToProps = state => ({
   fonts: state.fonts
@@ -30,16 +32,8 @@ export class FontSizeCalculator extends Component {
         onLoad={props => this.setFont(name, props)} />
     ));
 
-    const style = {
-      position: "absolute",
-      top: "-1px",
-      left: "-1px",
-      width: 0,
-      height: 0
-    };
-
     return (
-      <svg style={style}>{fonts}</svg> 
+      <svg className="hb-font-size-calculator">{fonts}</svg> 
     );
   }
   
@@ -54,4 +48,4 @@ export class FontSizeCalculator extends Component {
 export default connect(
   mapStateToProps, 
   mapDispatchToProps
-)(FontSizeCalculator)
+)(FontSizeCalculator);

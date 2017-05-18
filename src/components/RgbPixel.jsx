@@ -23,17 +23,17 @@ export default class RgbPixel extends Pixel {
       const components = pattern.slice(0);
       const component = data[i];
 
-      components[i] = this.getDarkerComponent(component, contrast);
+      components[i] = RgbPixel.getDarkerComponent(component, contrast);
       pixelData[i] = {
-        color: this.getColorFromData(components),
-        text: this.getTextFromComponent(component)
+        color: Pixel.getColorFromData(components),
+        text: Pixel.getTextFromComponent(component)
       };
     }
 
     return pixelData;
   }
 
-  getDarkerComponent(component: number, contrast: number): number {
-    return Math.floor(component + (255 - component) * contrast);
+  static getDarkerComponent(component: number, contrast: number): number {
+    return Math.max(0, Math.floor(component + (255 - component) * contrast));
   }
 }

@@ -4,12 +4,9 @@ import { shallow, mount } from "enzyme";
 import Font from "../../src/components/Font";
 
 beforeAll(() => {
-  HTMLUnknownElement.prototype.getBBox = () => ({
-      x: -5, 
-      y: -5, 
-      width: 800, 
-      height: 600
-    });
+  HTMLUnknownElement.prototype.getBBox = () => {
+    return { x: -5, y: -5, width: 800, height: 600 };
+  };
 });
 
 afterAll(() => {
@@ -24,14 +21,37 @@ describe("component", () => {
 
 describe("render", () => {
   test("renders without crashing", () => {
+    const props = {
+      family: "Arial",
+      onLoad: jest.fn()
+    };
+
     mount(
-      <Font family="Arial" onLoad={jest.fn()} />
+      <Font {...props} />
     );
+  });
+
+  test("should be a text", () => {
+    const props = {
+      family: "Arial",
+      onLoad: jest.fn()
+    };
+
+    const wrapper = shallow(
+      <Font {...props} />
+    );
+
+    expect(wrapper.name()).toBe('text');
   });
   
   test("text node should have props", () => {
+    const props = {
+      family: "Arial",
+      onLoad: jest.fn()
+    };
+
     const wrapper = shallow(
-      <Font family="Arial" onLoad={jest.fn()} />
+      <Font {...props} />
     );
 
     expect(wrapper.find("text").props()).toMatchObject({
@@ -40,13 +60,31 @@ describe("render", () => {
       alignmentBaseline: "hanging",
       dominantBaseline: "bottom"
     });
-  })
+  });
+  
+  test("should contains '0'", () => {
+    const props = {
+      family: "Arial",
+      onLoad: jest.fn()
+    };
+
+    const wrapper = shallow(
+      <Font {...props} />
+    );
+
+    expect(wrapper.text()).toBe('0');
+  });
 });
 
 describe("shouldComponentUpdate", () => {
   test("should returns false", () => {
+    const props = {
+      family: "Arial",
+      onLoad: jest.fn()
+    };
+
     const wrapper = shallow(
-      <Font family="Arial" onLoad={jest.fn()} />
+      <Font {...props} />
     );
     
     const shouldComponentUpdate = wrapper
@@ -59,8 +97,13 @@ describe("shouldComponentUpdate", () => {
 
 describe("getBBox", () => {
   it("returns a simulated SVGRect", () => {
+    const props = {
+      family: "Arial",
+      onLoad: jest.fn()
+    };
+
     const wrapper = mount(
-      <Font family="Arial" onLoad={jest.fn()} />
+      <Font {...props} />
     );
 
     const instance = wrapper.instance();
@@ -85,9 +128,14 @@ describe("componentDidMount", () => {
 
       done();
     };
+    
+    const props = {
+      family: "Arial",
+      onLoad
+    };
 
     mount(
-      <Font family="Arial" onLoad={onLoad} />
+      <Font {...props} />
     );
   });
 });

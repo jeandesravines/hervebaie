@@ -1,6 +1,7 @@
 import React from "react";
 import { mount, shallow } from 'enzyme';
 import createStore from '../mock/store';
+
 import ConnectedSvgExporter, { SvgExporter } from "../../src/components/SvgExporter";
 
 beforeAll(() => {

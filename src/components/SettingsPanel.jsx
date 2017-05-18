@@ -3,15 +3,18 @@ import { connect } from "react-redux";
 import _ from "lodash";
 
 import InputSettings from "./InputSettings";
-import * as actions from "../actions/settings";
+import { setSettings } from "../actions/settings";
 
 const mapStateToProps = state => ({
   settings: state.settings,
   fonts: state.fonts
 });
 
-@connect(mapStateToProps, actions)
-export default class SettingsPanel extends Component {
+const mapDispatchToProps = {
+  setSettings
+};
+
+export class SettingsPanel extends Component {
   state: {
     settings: Object
   } = {};
@@ -133,3 +136,8 @@ export default class SettingsPanel extends Component {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsPanel);
