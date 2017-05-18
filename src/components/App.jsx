@@ -1,10 +1,14 @@
 import React from "react";
-import AppRouter from "./AppRouter";
+import { BrowserRouter, Route } from "react-router-dom";
+import DrawScene from "./DrawScene";
+import "../assets/styles/app.scss";
 
-import _style from "../assets/styles/app.scss";
-
-export default () => (
-  <div className="app">
-    <AppRouter />
-  </div>
-);
+export default function App() {
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <Route exact path="/draw" component={DrawScene} />
+      </BrowserRouter>
+    </div>
+  );
+}

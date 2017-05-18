@@ -3,10 +3,5 @@
   "plugins": [
     "transform-decorators-legacy",
     "lodash"
-  ],
-  "env": {
-    "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    }
-  }
+  ]
 }

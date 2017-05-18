@@ -10,9 +10,7 @@ export const IMAGE_SET = "IMAGE_SET";
  *   payload: Image
  * }}
  */
-export const setImage = image => {
-  return {
-    type: IMAGE_SET,
-    payload: image
-  };
-};
+export const setImage = (image: Image) => ({
+  type: IMAGE_SET,
+  payload: image
+});

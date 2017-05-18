@@ -1,4 +1,3 @@
-import React from "react";
 import Pixel from "./Pixel";
 
 export default class RgbPixel extends Pixel {

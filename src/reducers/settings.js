@@ -3,11 +3,11 @@ import { SETTINGS_SET } from "../actions/settings";
 /**
  * @const {Object}
  */
-const initialState = {
+const _state = {
   backgroundAlpha: 0.05,
   backgroundColor: "#FFFFFF",
   backgroundColorAlpha: 0.0,
-  fontFamily: "Arial",
+  fontName: "Arial",
   fontSize: 20,
   maxSize: 800,
   rgb: false,
@@ -18,10 +18,10 @@ const initialState = {
  * @param {Object} [state]
  * @param {Object} action
  * @param {string} action.type
- * @param {Object} action.payload
+ * @param {*} action.payload
  * @return {Object}
  */
-export default (state = initialState, action) => {
+export default (state = _state, action): Object => {
   switch (action.type) {
     case SETTINGS_SET:
       return { ...state, ...action.payload };

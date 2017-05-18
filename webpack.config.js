@@ -2,18 +2,19 @@
 
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const _ = require('lodash');
 
 const plugins = [];
 const buildPath = __dirname + '/build';
 const publicPath = __dirname + '/public';
 
 if (process.env.NODE_ENV === 'production') {
-  plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
-  plugins.push(new webpack.optimize.UglifyJsPlugin());
-  plugins.push(new CopyWebpackPlugin([{
-    from: publicPath
-  }]))
+  plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new CopyWebpackPlugin([{
+      from: publicPath
+    }])
+  );
 }
 
 module.exports = {

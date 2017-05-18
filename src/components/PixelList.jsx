@@ -5,7 +5,7 @@ import Pixel from "./Pixel";
 import RgbPixel from "./RgbPixel";
 import BackgroundImage from "./BackgroundImage";
 import BackgroundColor from "./BackgroundColor";
-import * as actions from "../actions/settings";
+import { setSvgData } from "../actions/svg-data";
 
 const mapStateToProps = state => ({
   fonts: state.fonts,
@@ -13,14 +13,15 @@ const mapStateToProps = state => ({
   settings: state.settings
 });
 
-@connect(mapStateToProps, actions)
-export default class Canvas extends Component {
-  node: ?HTMLEement;
+@connect(mapStateToProps, { setSvgData })
+export default class PixelList extends Component {
+  svgNode: ?HTMLElement;
 
   props: {
     fonts: Array,
     image: ?HTMLImageElement,
-    settings: Object
+    settings: Object,
+    setSvgData: Function
   };
 
   state: {
@@ -48,35 +49,36 @@ export default class Canvas extends Component {
       return null;
     }
 
+    const { fontSize } = this.props.settings;
     const {
-      canvas: { width: canvasWidth },
+      canvas: { width, height },
       font: {
         dx,
         dy,
         fontFamily,
-        fontSize,
-        fontRatio,
         height: fontHeight,
         width: fontWidth
       }
     } = this.state;
 
-    const pixelW = (fontWidth + dx) * 3 + dx;
-    const pixelH = (fontHeight + dy) * 3 + dy;
+    const pixelW = (fontWidth + dx) * 3;
+    const pixelH = (fontHeight + dy) * 3;
     const pixelRatio = pixelW / pixelH;
-    const height = canvasWidth / pixelRatio;
+    
+    const viewBoxH = Math.round(height / pixelRatio);
+    const viewBox = `0 0 ${width} ${viewBoxH}`;
 
     const svgProps = {
       preserveAspectRatio: "none",
-      fontFamily: `${fontFamily}, monospace`,
+      fontFamily,
       fontSize,
-      width: canvasWidth,
-      height: canvasWidth,
-      viewBox: `0 0 ${canvasWidth} ${height}`
+      width,
+      height,
+      viewBox
     };
 
     return (
-      <svg {...svgProps} ref={n => (this.node = n)}>
+      <svg {...svgProps} ref={n => this.svgNode = n}>
         {this.drawBackgroundColor()}
         {this.drawBackground()}
         {this.drawPixels()}
@@ -85,23 +87,15 @@ export default class Canvas extends Component {
   }
 
   componentDidUpdate() {
-    const { image } = this.props;
-    const data = this.node.outerHTML
+    const data = this.svgNode.outerHTML
       .replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"')
       .replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-
-    const url = URL.createObjectURL(
+    
+    this.props.setSvgData(
       new Blob([data], {
         type: "image/svg+xml;charset=utf-8"
       })
     );
-
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.target = "_blank";
-    link.download = image.alt;
-    link.click();
   }
 
   getCanvas({ image, settings }): HTMLCanvasElement {
@@ -123,7 +117,7 @@ export default class Canvas extends Component {
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
-
+    
     const context = canvas.getContext("2d");
     context.drawImage(image, 0, 0, width, height);
 
@@ -131,28 +125,17 @@ export default class Canvas extends Component {
   }
 
   getFont({ fonts, settings }): Object {
-    const { fontFamily, fontSize } = settings;
+    const { fontName, fontSize } = settings;
+    const { dx, dy, width, height, family } = fonts[fontName];
 
-    const {
-      coef,
-      dx,
-      dy,
-      width: fontWidth,
-      height: fontHeight,
-      ratio: fontRatio
-    } = fonts[fontFamily];
-
-    const font = {
+    return {
       fontSize,
-      fontFamily,
-      fontRatio,
+      fontFamily: family,
       dx: dx * fontSize,
       dy: dy * fontSize,
-      height: fontHeight * fontSize,
-      width: fontWidth * fontSize
+      height: height * fontSize,
+      width: width * fontSize
     };
-
-    return font;
   }
 
   drawBackground() {
@@ -171,25 +154,27 @@ export default class Canvas extends Component {
   }
 
   drawPixels(): Array {
+    const { settings } = this.props;
     const { canvas, font } = this.state;
-
     const { width, height } = canvas;
-    const offset = font.width * 3;
-    const pixelW = width / offset;
-    const countW = Math.ceil(pixelW);
-    const countH = Math.ceil(height / offset);
-    const size = width / pixelW;
+    const sizeW = font.width * 3;
+    const sizeH = font.width * 3;
+    const countW = Math.ceil(width / sizeW);
+    const countH = Math.ceil(height / sizeH);
 
     const pixels = new Array(countW * countH);
-    const { rgb, contrast } = this.props.settings;
-    const pixelProps = { contrast, font };
     const PixelComponent = rgb ? RgbPixel : Pixel;
     const canvasContext = canvas.getContext("2d");
+    const { rgb, contrast } = settings;
+    const pixelProps = { contrast, font };
 
     for (let y = countH; y--; ) {
+      const dataY = Math.floor(y * sizeH);
+
       for (let x = countW; x--; ) {
+        const dataX = Math.floor(x * sizeW);
         const data = Array.from(
-          canvasContext.getImageData(x * size, y * size, 1, 1).data
+          canvasContext.getImageData(dataX, dataY, 1, 1).data
         );
 
         pixels.push(
@@ -198,8 +183,7 @@ export default class Canvas extends Component {
             key={`${x}-${y}`}
             x={x}
             y={y}
-            data={data}
-          />
+            data={data} />
         );
       }
     }

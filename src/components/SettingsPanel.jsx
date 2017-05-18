@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import ImageLoader from "./ImageLoader";
+
 import InputSettings from "./InputSettings";
 import * as actions from "../actions/settings";
 
@@ -16,7 +16,8 @@ export default class SettingsPanel extends Component {
     settings: Object
   } = {};
 
-  prop: {
+  props: {
+    fonts: Array<Object>,
     settings: Object,
     setSettings: Function
   };
@@ -54,12 +55,9 @@ export default class SettingsPanel extends Component {
 
     return (
       <form onSubmit={e => this.applySettings(e)}>
-        <div>
-          <ImageLoader />
-        </div>
         <InputSettings
           type="number"
-          step="1"
+          step="10"
           name="maxSize"
           label="Max size"
           onChange={e => this.setValue(e)}
@@ -75,6 +73,7 @@ export default class SettingsPanel extends Component {
         />
         <InputSettings
           type="number"
+          min="1"
           step="1"
           name="fontSize"
           label="Font size"

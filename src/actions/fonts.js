@@ -1,3 +1,6 @@
+/**
+ * @const {string}
+ */
 export const FONTS_SET = "FONTS_SET";
 
 /**
@@ -5,14 +8,12 @@ export const FONTS_SET = "FONTS_SET";
  * @param {Object} font
  * @return {{
  *   type: string,
- *   payload: Object
+ *   payload: Object.<string, Object>
  * }}
  */
-export const setFont = (key, font) => {
-  return {
-    type: FONTS_SET,
-    payload: {
-      [key]: font
-    }
-  };
-};
+export const setFont = (key: string, font: Object) => ({
+  type: FONTS_SET,
+  payload: {
+    [key]: font
+  }
+});

@@ -15,7 +15,6 @@ export default class Pixel extends PureComponent {
 
   render() {
     const { x, y, font: { width, height, dx, dy } } = this.props;
-
     const lineHeight = height + dy;
     const lineWidth = width + dx;
     const lineX = x * lineWidth * 3 + dx;
@@ -62,7 +61,7 @@ export default class Pixel extends PureComponent {
       return this.rgbToHexadecimal(colorComponents);
     }
 
-    const rgba = colorComponents.concat([alpha / 255]).join(",");
+    const rgba = colorComponents.concat([alpha / 255]).toString();
 
     return `rgba(${rgba})`;
   }
@@ -79,7 +78,7 @@ export default class Pixel extends PureComponent {
 
   rgbToHexadecimal(components: Array<number>): string {
     return components.reduce((hex, n) => {
-      return hex + n < 16 ? "0" : "" + n.toString(16);
+      return hex + (n < 16 ? "0" : "") + n.toString(16);
     }, "#");
   }
 }

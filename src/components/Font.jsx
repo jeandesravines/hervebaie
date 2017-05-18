@@ -1,53 +1,81 @@
 import React, { Component } from "react";
-import configuration from "../configuration/configuration";
-
-const fontSize = 500;
 
 export default class Font extends Component {
-  node: ?HTMLEement;
+  /**
+   * @static
+   * @const {number}
+   */
+  static fontSize = 500;
+  
+  /**
+   * @const {Object}
+   */
   props: {
     onLoad: Function,
-    font: {
-      fontFamily: string
-    }
+    family: string
   };
+  
+  /**
+   * The text node
+   * @readonly
+   * @type {?HTMLElement}
+   */
+  textNode: ?HTMLElement;
 
+  /**
+   * @inheritDoc
+   */
   shouldComponentUpdate(): boolean {
     return false;
   }
+  
+  /**
+   * Get an SVGRect of the text node
+   * @return {{
+   *   x: number,
+   *   y: number,
+   *   height: number,
+   *   width: number
+   * }}
+   */
+  getBBox(): {x: number, y: number, height: number, width: number} {
+    return this.textNode.getBBox();
+  }
 
+  /**
+   * @inheritDoc
+   */
   componentDidMount() {
-    const { height, width, x, y } = this.node.getBBox();
-    const coef = 1 / fontSize;
+    const { height, width, x, y } = this.getBBox();
+    const coef = 1 / Font.fontSize;
     const fontHeight = height + y * 2;
     const fontWidth = width;
 
     this.props.onLoad({
-      ...this.props.font,
-      coef,
       dx: -x * coef,
       dy: -y * coef,
-      ratio: fontWidth / fontHeight,
       height: fontHeight * coef,
       width: fontWidth * coef
     });
   }
 
+  /**
+   * @inheritDoc
+   */
   render() {
-    const { font } = this.props;
-    const fontFamily = `${font.fontFamily}, monospace`;
+    const { family } = this.props;
 
     return (
-      <g>
+      <svg>
         <text
-          ref={n => (this.node = n)}
-          fontFamily={fontFamily}
+          ref={n => this.textNode = n}
+          fontFamily={family}
           alignmentBaseline="hanging"
           dominantBaseline="bottom"
-          fontSize={fontSize}>
+          fontSize={Font.fontSize}>
           0
         </text>
-      </g>
+      </svg>
     );
   }
 }

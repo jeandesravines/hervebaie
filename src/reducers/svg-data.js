@@ -1,9 +1,9 @@
-import { IMAGE_SET } from "../actions/image";
+import { DATA_SET } from "../actions/svg-data";
 
 /**
- * @const Image?
+ * @const {Blob?}
  */
-const _state: ?Image = null;
+const _state: ?Blob = null;
 
 /**
  * @param {Object} [state]
@@ -12,10 +12,10 @@ const _state: ?Image = null;
  * @param {*} action.payload
  * @return {Object}
  */
-export default (state = _state, action): Object => {
+export default (state = _state, action) => {
   switch (action.type) {
-    case IMAGE_SET:
-      return action.payload.cloneNode();
+    case DATA_SET:
+      return action.payload.slice();
     default:
       return state;
   }

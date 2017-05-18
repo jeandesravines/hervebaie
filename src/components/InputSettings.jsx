@@ -11,11 +11,10 @@ type Props = {
   value: number | string | boolean
 };
 
-export default (props: Props) => {
+export default function InputSettings(props: Props) {
   const { name, type, label, hide } = props;
   const id = "input-settings-" + name;
   const style = hide ? { display: "none" } : {};
-  const inputProps = _.omit({ ...props, id }, ["hide", "label", "options"]);
 
   const onChange = e => {
     const { target } = e;
@@ -29,6 +28,8 @@ export default (props: Props) => {
 
     props.onChange(e);
   };
+  
+  const inputProps = _.omit({ ...props, id, onChange }, ["hide", "label", "options"]);
 
   if (type === "radio" || type === "checkbox") {
     return (
@@ -58,4 +59,4 @@ export default (props: Props) => {
       </div>
     );
   }
-};
+}

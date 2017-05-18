@@ -1,6 +1,11 @@
 import React from "react";
 
-export default ({ canvas, opacity }) => {
+type Props = {
+  canvas: HTMLCanvasElement,
+  opacity: number
+};
+
+export default function BackgroundImage({ canvas, opacity }: Props) {
   if (!opacity) {
     return null;
   }
@@ -14,4 +19,4 @@ export default ({ canvas, opacity }) => {
       height="100%"
     />
   );
-};
+}
