@@ -19,15 +19,12 @@ const mapDispatchToProps = {
   setFont
 };
 
-export class FontSizeCalculator extends Component {
-  /**
-   * @const {Object}
-   */
-  props: {
-    fonts: Object,
-    setFont: Function
-  };
+type Props = {
+  fonts: Object,
+  setFont: Function
+};
 
+export class FontSizeCalculator extends Component<void, Props> {
   /**
    * @inheritDoc
    */
@@ -38,7 +35,7 @@ export class FontSizeCalculator extends Component {
   /**
    * @inheritDoc
    */
-  render(): any {
+  render() {
     const fonts = _.map(this.props.fonts, (font, name) => (
       <Font
         key={name}

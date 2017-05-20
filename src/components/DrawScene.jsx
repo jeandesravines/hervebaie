@@ -9,7 +9,7 @@ import FontSizeCalculator from "./FontSizeCalculator";
 /**
  * @return {*}
  */
-export default function DrawScene(): any {
+export default function DrawScene() {
   return (
     <div>
       <FontSizeCalculator />

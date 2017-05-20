@@ -5,7 +5,7 @@ import DrawScene from "./DrawScene";
 /**
  * @return {*}
  */
-export default function App(): any {
+export default function App() {
   return (
     <BrowserRouter>
       <Route exact path="/draw" component={DrawScene} />

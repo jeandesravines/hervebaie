@@ -20,21 +20,21 @@ const mapDispatchToProps = {
   setSettings
 };
 
-export class SettingsPanel extends Component {
-  state: {
-    settings: Object
-  } = {};
+type State = {
+  settings: Object
+};
 
-  props: {
-    fonts: Array<Object>,
-    settings: Object,
-    setSettings: Function
-  };
+type Props = {
+  fonts: Array<Object>,
+  settings: Object,
+  setSettings: Function
+};
 
+export class SettingsPanel extends Component<void, Props, State> {
   /**
    * @param {Object}
    */
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     this.setState({
       settings: nextProps.settings
     });

@@ -9,12 +9,12 @@ const mapStateToProps = (state) => ({
   image: state.image
 });
 
-export class SvgExporter extends Component {
-  props: {
-    data: Blob,
-    image: Image
-  };
+type Props = {
+  data: Blob,
+  image: Image
+};
 
+export class SvgExporter extends Component<void, Props> {
   /**
    * @inheritDoc
    */
@@ -29,11 +29,11 @@ export class SvgExporter extends Component {
     const title = `${image.alt}.svg`;
     
     return (
-        <a 
-          target="_blank"
-          rel="noopener noreferrer"
-          download={title}
-          href={url}>Download as SVG</a>
+      <a 
+        target="_blank"
+        rel="noopener noreferrer"
+        download={title}
+        href={url}>Download as SVG</a>
     );
   }
 }

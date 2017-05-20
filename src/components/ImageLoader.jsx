@@ -10,14 +10,11 @@ const mapDispatchToProps = {
   setImage
 };
 
-export class ImageLoader extends Component {
-  /**
-   * @type {Object}
-   */
-  props: {
-    setImage: (HTMLImageElement) => Object
-  };
+type Props = {
+  setImage: (HTMLImageElement) => Object
+};
 
+export class ImageLoader extends Component<void, Props> {
   /**
    * @return {boolean}
    */
@@ -43,7 +40,7 @@ export class ImageLoader extends Component {
   /**
    * @inheritDoc
    */
-  render(): any {
+  render() {
     return (
       <div>
         <label htmlFor="hb-image-loader__input">

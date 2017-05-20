@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 
-export default class Font extends Component {
+type Props = {
+  onLoad: Function,
+  family: string
+};
+
+export default class Font extends Component<void, Props> {
   /**
    * @static
    * @const {number}
    */
   static fontSize = 500;
-  
-  /**
-   * @const {Object}
-   */
-  props: {
-    onLoad: Function,
-    family: string
-  };
   
   /**
    * The text node
@@ -56,13 +53,11 @@ export default class Font extends Component {
   /**
    * @inheritDoc
    */
-  render(): any {
-    const { family } = this.props;
-
+  render() {
     return (
       <text
         ref={n => this.textNode = n}
-        fontFamily={family}
+        fontFamily={this.props.family}
         alignmentBaseline="hanging"
         dominantBaseline="bottom"
         fontSize={Font.fontSize}>

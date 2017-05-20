@@ -26,31 +26,7 @@ describe("render", () => {
       onLoad: jest.fn()
     };
 
-    mount(
-      <Font {...props} />
-    );
-  });
-
-  test("should be a text", () => {
-    const props = {
-      family: "Arial",
-      onLoad: jest.fn()
-    };
-
-    const wrapper = shallow(
-      <Font {...props} />
-    );
-
-    expect(wrapper.name()).toBe('text');
-  });
-  
-  test("text node should have props", () => {
-    const props = {
-      family: "Arial",
-      onLoad: jest.fn()
-    };
-
-    const wrapper = shallow(
+    const wrapper = mount(
       <Font {...props} />
     );
 

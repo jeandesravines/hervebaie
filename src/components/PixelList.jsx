@@ -7,11 +7,20 @@ import BackgroundImage from "./BackgroundImage";
 import BackgroundColor from "./BackgroundColor";
 import { setSvgData } from "../actions/svg-data";
 
+type Font = {
+  dx: number,
+  dy: number,
+  name: string,
+  family: string,
+  height: number,
+  width: number
+};
+
 type Props = {
-  fonts: Array,
+  fonts: Object<Font>,
   image: ?HTMLImageElement,
-  setSvgData: Function,
-  settings: Object
+  setSvgData: (Object) => Object,
+  settings: Object<string | number | boolean>
 };
 
 type State = {
@@ -126,7 +135,7 @@ export class PixelList extends Component<void, Props, State> {
    * @param {Object} props
    * @return {HTMLCanvasElement}
    */
-  static getCanvas(props: { image: Image, settings: Object }): HTMLCanvasElement {
+  static getCanvas(props: Props): HTMLCanvasElement {
     const { image, settings } = props;
     const { maxSize } = settings;
     const { naturalWidth, naturalHeight } = image;
@@ -157,7 +166,7 @@ export class PixelList extends Component<void, Props, State> {
    * @param {Object} props
    * @return {Object}
    */
-  static getFont(props: { fonts: Object, settings: Object }): Object {
+  static getFont(props: Props): Object {
     const { fonts, settings } = props;
     const { fontName, fontSize } = settings;
     const { dx, dy, width, height, family } = fonts[fontName];
@@ -175,7 +184,7 @@ export class PixelList extends Component<void, Props, State> {
   /**
    * @return {*}
    */
-  drawBackground(): any {
+  drawBackground() {
     const { backgroundAlpha } = this.props.settings;
     const { canvas } = this.state;
 
@@ -185,7 +194,7 @@ export class PixelList extends Component<void, Props, State> {
   /**
    * @return {*}
    */
-  drawBackgroundColor(): any {
+  drawBackgroundColor() {
     const { backgroundColor, backgroundColorAlpha } = this.props.settings;
 
     return (
@@ -196,7 +205,7 @@ export class PixelList extends Component<void, Props, State> {
   /**
    * @return {Array}
    */
-  drawPixels(): Array<?Pixel> {
+  drawPixels(): Array {
     const { settings } = this.props;
     const { canvas, font } = this.state;
     const { width, height } = canvas;

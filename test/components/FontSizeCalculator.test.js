@@ -23,42 +23,27 @@ describe("render", () => {
         Helvetica: {family: "Helvetica"}
       }
     });
-    
+
     mount(
       <ConnectedFontSizeCalculator store={store} />
     );
   });
-  
-  it("should be a 'svg' node", () => {
+
+  it("contains Fonts", () => {
     const props = {
       fonts: {
         Arial: {family: "Arial"},
         Helvetica: {family: "Helvetica"}
       }
     };
-    
-    const wrapper = shallow(
-      <FontSizeCalculator {...props} />
-    );
-    
-    expect(wrapper.name()).toBe("svg");
-  });
-  
-  test("should contains Fonts", () => {
-    const props = {
-      fonts: {
-        Arial: { family: "Arial, monospace" },
-        Helvetica: { family: "Helvetica, monospace" }
-      }
-    };
-    
-    const wrapper = shallow(
-      <FontSizeCalculator {...props} />
-    );
 
+    const wrapper = shallow(
+      <FontSizeCalculator {...props} />
+    );
+    
     _.forEach(props.fonts, (font) => {
       expect(
-        wrapper.find(`Font[family="${font.family}"]`)
+        wrapper.find(`svg Font[family="${font.family}"]`)
       ).toHaveLength(1);
     });
   });
@@ -82,8 +67,8 @@ describe("setFont", () => {
   test("should call the props.setFont function", () => {
     const props = {
       fonts: {
-        Arial: {family: "Arial, monospace"},
-        Helvetica: {family: "Helvetica, monospace"}
+        Arial: {family: "Arial,monospace"},
+        Helvetica: {family: "Helvetica,monospace"}
       },
       setFont: jest.fn()
     };
