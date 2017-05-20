@@ -2,10 +2,16 @@ import React from "react";
 
 type Props = {
   color: string,
-  opacity: number
+  opacity: ?number
 };
 
-export default function BackgroundColor({ color, opacity }: Props) {
+/**
+ * @param {Object} props
+ * @return {*}
+ */
+export default function BackgroundColor(props: Props) {
+  const { color, opacity } = props;
+  
   if (!opacity) {
     return null;
   }

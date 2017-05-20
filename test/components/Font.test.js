@@ -58,21 +58,9 @@ describe("render", () => {
       fontFamily: "Arial",
       fontSize: Font.fontSize,
       alignmentBaseline: "hanging",
-      dominantBaseline: "bottom"
+      dominantBaseline: "bottom",
+      children: "0"
     });
-  });
-  
-  test("should contains '0'", () => {
-    const props = {
-      family: "Arial",
-      onLoad: jest.fn()
-    };
-
-    const wrapper = shallow(
-      <Font {...props} />
-    );
-
-    expect(wrapper.text()).toBe('0');
   });
 });
 
@@ -115,27 +103,24 @@ describe("getBBox", () => {
 });
 
 describe("componentDidMount", () => {
-  test("should call onLoad prop", (done) => {
-    const onLoad = (props) => {
-      const coef = 1 / Font.fontSize;
-
-      expect(props).toMatchObject({
-        dx: 5 * coef,
-        dy: 5 * coef,
-        width: 800 * coef,
-        height: (600 - 5 * 2) * coef,
-      });
-
-      done();
-    };
-    
+  test("should call onLoad prop", () => {
     const props = {
       family: "Arial",
-      onLoad
+      onLoad: jest.fn()
     };
 
     mount(
       <Font {...props} />
     );
+    
+    const coef = 1 / Font.fontSize;
+    const expected = {
+      dx: 5 * coef,
+      dy: 5 * coef,
+      width: 800 * coef,
+      height: (600 - 5 * 2) * coef,
+    };
+    
+    expect(props.onLoad).toHaveBeenCalledWith(expected);
   });
 });

@@ -14,6 +14,9 @@ export default class RgbPixel extends Pixel {
     contrast: boolean
   };
 
+  /**
+   * @return {Array}
+   */
   getPixelData(): Array<{ text: string, color: string }> {
     const { data, contrast } = this.props;
     const pixelData = new Array(3);
@@ -33,6 +36,11 @@ export default class RgbPixel extends Pixel {
     return pixelData;
   }
 
+  /**
+   * @param {number} component
+   * @param {contrast} number
+   * @return {number}
+   */
   static getDarkerComponent(component: number, contrast: number): number {
     return Math.max(0, Math.floor(component + (255 - component) * contrast));
   }

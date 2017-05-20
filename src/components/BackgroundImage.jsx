@@ -1,11 +1,12 @@
 import React from "react";
 
-type Props = {
-  canvas: HTMLCanvasElement,
-  opacity: number
-};
-
-export default function BackgroundImage({ canvas, opacity }: Props) {
+/**
+ * @param {Object} props
+ * @return {*}
+ */
+export default function BackgroundImage(props: { opacity: ?number, canvas: HTMLCanvasElement }): any {
+  const { opacity, canvas } = props; 
+  
   if (!opacity) {
     return null;
   }

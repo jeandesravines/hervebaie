@@ -6,7 +6,10 @@ import ImageLoader from "./ImageLoader";
 import SvgExporter from "./SvgExporter";
 import FontSizeCalculator from "./FontSizeCalculator";
 
-export default function DrawScene() {
+/**
+ * @return {*}
+ */
+export default function DrawScene(): any {
   return (
     <div>
       <FontSizeCalculator />

@@ -85,12 +85,12 @@ describe("render", () => {
     expect(childs).toHaveLength(3);
     
     childs.forEach((child, i) => {
-      expect(child.text()).toBe(texts[i]);
       expect(child.props()).toMatchObject({
         x: 104,
         y: 285 + i * (9.4),
         alignmentBaseline: "hanging",
-        fill: "#0d0e0f"
+        fill: "#0d0e0f",
+        children: texts[i]
       });
     });
   });

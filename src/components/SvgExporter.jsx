@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+/**
+ * @const {Function(Object): Object}
+ */
 const mapStateToProps = (state) => ({
   data: state.svgData,
   image: state.image
@@ -11,7 +14,10 @@ export class SvgExporter extends Component {
     data: Blob,
     image: Image
   };
-  
+
+  /**
+   * @inheritDoc
+   */
   render() {
     const { data, image } = this.props;
     

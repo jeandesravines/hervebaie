@@ -17,7 +17,6 @@ export default class Font extends Component {
   
   /**
    * The text node
-   * @readonly
    * @type {?HTMLElement}
    */
   textNode: ?HTMLElement;
@@ -31,14 +30,9 @@ export default class Font extends Component {
   
   /**
    * Get an SVGRect of the text node
-   * @return {{
-   *   x: number,
-   *   y: number,
-   *   height: number,
-   *   width: number
-   * }}
+   * @return {Object}
    */
-  getBBox(): {x: number, y: number, height: number, width: number} {
+  getBBox(): { x: number, y: number, height: number, width: number } {
     return this.textNode.getBBox();
   }
 
@@ -62,7 +56,7 @@ export default class Font extends Component {
   /**
    * @inheritDoc
    */
-  render() {
+  render(): any {
     const { family } = this.props;
 
     return (

@@ -5,11 +5,17 @@ import _ from "lodash";
 import InputSettings from "./InputSettings";
 import { setSettings } from "../actions/settings";
 
+/**
+ * @const {Function(Object): Object}
+ */
 const mapStateToProps = state => ({
   settings: state.settings,
   fonts: state.fonts
 });
 
+/**
+ * @const {Object}
+ */
 const mapDispatchToProps = {
   setSettings
 };
@@ -25,18 +31,28 @@ export class SettingsPanel extends Component {
     setSettings: Function
   };
 
+  /**
+   * @param {Object}
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
       settings: nextProps.settings
     });
   }
 
-  applySettings(e) {
+  /**
+   * @param {Event} e
+   */
+  applySettings(e: Event) {
     e.preventDefault();
+
     this.props.setSettings(this.state.settings);
   }
 
-  setValue(e) {
+  /**
+   * @param {Event} e
+   */
+  setValue(e: Event) {
     const { target } = e;
 
     this.setState({
@@ -47,6 +63,9 @@ export class SettingsPanel extends Component {
     });
   }
 
+  /**
+   * @inheritDoc
+   */
   render() {
     const { settings } = this.state;
 

@@ -7,46 +7,64 @@ import BackgroundImage from "./BackgroundImage";
 import BackgroundColor from "./BackgroundColor";
 import { setSvgData } from "../actions/svg-data";
 
+type Props = {
+  fonts: Array,
+  image: ?HTMLImageElement,
+  setSvgData: Function,
+  settings: Object
+};
+
+type State = {
+  canvas: ?HTMLCanvasElement,
+  font: ?Object
+};
+
+/**
+ * @const {Function(Object): Object}
+ */
 const mapStateToProps = state => ({
   fonts: state.fonts,
   image: state.image,
   settings: state.settings
 });
 
+/**
+ * @const {Object.<string, Function>}
+ */
 const mapDispatchToProps = {
   setSvgData
 };
 
-export class PixelList extends Component {
+export class PixelList extends Component<void, Props, State> {
+  /**
+   * @var {?HTMLElement}
+   */
   svgNode: ?HTMLElement;
 
-  props: {
-    fonts: Array,
-    image: ?HTMLImageElement,
-    settings: Object,
-    setSvgData: Function
-  };
-
-  state: {
-    font: ?Object,
-    canvas: ?HTMLCanvasElement
-  } = {};
-
-  shouldComponentUpdate({ image }): boolean {
-    return !!image;
+  /**
+   * @inheritDoc
+   */
+  shouldComponentUpdate(props: Props): boolean {
+    return !!props.image;
   }
 
-  componentWillReceiveProps(nextProps) {
+  /**
+   * @inheritDoc
+   */
+  componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.image) {
       return;
     }
 
     this.setState({
-      canvas: this.getCanvas(nextProps),
-      font: this.getFont(nextProps)
+      canvas: PixelList.getCanvas(nextProps),
+      font: PixelList.getFont(nextProps)
     });
   }
 
+  /**
+   * @inheritDoc
+   */
   render() {
     if (!this.props.image) {
       return null;
@@ -89,6 +107,9 @@ export class PixelList extends Component {
     );
   }
 
+  /**
+   * @inheritDoc
+   */
   componentDidUpdate() {
     const data = this.svgNode.outerHTML
       .replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"')
@@ -101,7 +122,12 @@ export class PixelList extends Component {
     );
   }
 
-  getCanvas({ image, settings }): HTMLCanvasElement {
+  /**
+   * @param {Object} props
+   * @return {HTMLCanvasElement}
+   */
+  static getCanvas(props: { image: Image, settings: Object }): HTMLCanvasElement {
+    const { image, settings } = props;
     const { maxSize } = settings;
     const { naturalWidth, naturalHeight } = image;
     const imageRatio = naturalWidth / naturalHeight;
@@ -127,7 +153,12 @@ export class PixelList extends Component {
     return canvas;
   }
 
-  getFont({ fonts, settings }): Object {
+  /**
+   * @param {Object} props
+   * @return {Object}
+   */
+  static getFont(props: { fonts: Object, settings: Object }): Object {
+    const { fonts, settings } = props;
     const { fontName, fontSize } = settings;
     const { dx, dy, width, height, family } = fonts[fontName];
 
@@ -141,14 +172,20 @@ export class PixelList extends Component {
     };
   }
 
-  drawBackground() {
+  /**
+   * @return {*}
+   */
+  drawBackground(): any {
     const { backgroundAlpha } = this.props.settings;
     const { canvas } = this.state;
 
     return <BackgroundImage canvas={canvas} opacity={backgroundAlpha} />;
   }
 
-  drawBackgroundColor() {
+  /**
+   * @return {*}
+   */
+  drawBackgroundColor(): any {
     const { backgroundColor, backgroundColorAlpha } = this.props.settings;
 
     return (
@@ -156,7 +193,10 @@ export class PixelList extends Component {
     );
   }
 
-  drawPixels(): Array {
+  /**
+   * @return {Array}
+   */
+  drawPixels(): Array<?Pixel> {
     const { settings } = this.props;
     const { canvas, font } = this.state;
     const { width, height } = canvas;

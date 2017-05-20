@@ -7,7 +7,7 @@ import ConnectedFontSizeCalculator, { FontSizeCalculator } from "../../src/compo
 
 beforeAll(() => {
   HTMLUnknownElement.prototype.getBBox = () => {
-    return { x: -5, y: -5, width: 800, height: 600 };
+    return { x: -5, y: -5, width: 600, height: 800 };
   };
 });
 
@@ -29,20 +29,19 @@ describe("render", () => {
     );
   });
   
-  test("should be a svg", () => {
+  it("should be a 'svg' node", () => {
+    const props = {
+      fonts: {
+        Arial: {family: "Arial"},
+        Helvetica: {family: "Helvetica"}
+      }
+    };
+    
     const wrapper = shallow(
-      <FontSizeCalculator />
+      <FontSizeCalculator {...props} />
     );
     
     expect(wrapper.name()).toBe("svg");
-  });
-  
-  test("should has class", () => {
-    const wrapper = shallow(
-      <FontSizeCalculator />
-    );
-
-    expect(wrapper.hasClass("hb-font-size-calculator")).toBe(true);
   });
   
   test("should contains Fonts", () => {
@@ -80,5 +79,27 @@ describe("shouldComponentUpdate", () => {
 });
 
 describe("setFont", () => {
-  
+  test("should call the props.setFont function", () => {
+    const props = {
+      fonts: {
+        Arial: {family: "Arial, monospace"},
+        Helvetica: {family: "Helvetica, monospace"}
+      },
+      setFont: jest.fn()
+    };
+    
+    mount(
+      <FontSizeCalculator {...props} />
+    );
+    
+    const fontProps = { dx: 0.01, dy: 0.01, width: 1.2, height: 1.58 };
+    const calls = props.setFont.mock.calls;
+    const expected = _.map(props.fonts, (font, name) => [ 
+      name, { ...fontProps, family: font.family }
+    ]);
+    
+    expect(calls).toEqual(
+      expect.arrayContaining(expected)
+    );
+  });
 });

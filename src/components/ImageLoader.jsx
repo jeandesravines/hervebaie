@@ -1,32 +1,34 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setImage } from "../actions/image";
+import styles from "../styles/ImageLoader";
 
+/**
+ * @const {Object.<string, Function>}
+ */
 const mapDispatchToProps = {
   setImage
 };
 
 export class ImageLoader extends Component {
+  /**
+   * @type {Object}
+   */
   props: {
-    setImage: Function
+    setImage: (HTMLImageElement) => Object
   };
 
-  shouldComponentUpdate() {
+  /**
+   * @return {boolean}
+   */
+  shouldComponentUpdate(): boolean {
     return false;
   }
 
-  onClick(e) {
-    e.preventDefault();
-
-    const input = document.createElement("input");
-
-    input.type = "file";
-    input.accept = "image/*";
-    input.addEventListener("change", this.onChange.bind(this));
-    input.click();
-  }
-
-  onChange(e: Event) {
+  /**
+   * @param {Event} e
+   */
+  onChange (e: Event) {
     const file = e.target.files[0];
     const image = new Image();
 
@@ -38,13 +40,22 @@ export class ImageLoader extends Component {
     image.src = URL.createObjectURL(file);
   }
 
-  render() {
+  /**
+   * @inheritDoc
+   */
+  render(): any {
     return (
       <div>
-        Select an image:
-        <button type="button" onClick={e => this.onClick(e)}>
-          Select
-        </button>
+        <label htmlFor="hb-image-loader__input">
+          Select an image
+        </label>
+        <input 
+          style={styles.input}
+          type="file" 
+          accept="image/*" 
+          id="hb-image-loader__input"
+          className="hb-image-loader__input"
+          onChange={e => this.onChange(e)} />
       </div>
     );
   }

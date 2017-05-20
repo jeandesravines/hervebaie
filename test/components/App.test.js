@@ -11,14 +11,6 @@ describe("render", () => {
       <App />
     );
   });
-  
-  test("is a .app", () => {
-    const wrapper = shallow(
-      <App />
-    );
-
-    expect(wrapper.hasClass("hb-app")).toBe(true);
-  });
 });
   
 describe("Router", () => {

@@ -1,6 +1,9 @@
 import React, { PureComponent } from "react";
 
 export default class Pixel extends PureComponent {
+  /**
+   * @const {Object}
+   */
   props: {
     x: number,
     y: number,
@@ -13,6 +16,9 @@ export default class Pixel extends PureComponent {
     }
   };
 
+  /**
+   * @return {*}
+   */
   render() {
     const { x, y, font: { width, height, dx, dy } } = this.props;
     const lineHeight = height + dy;
@@ -38,6 +44,9 @@ export default class Pixel extends PureComponent {
     return <g key={`${x}-${y}`}>{lines}</g>;
   }
 
+  /**
+   * @return {Array}
+   */
   getPixelData(): Array<{ text: string, color: string }> {
     const { data } = this.props;
     const pixelData = new Array(3);
@@ -53,6 +62,10 @@ export default class Pixel extends PureComponent {
     return pixelData;
   }
 
+  /**
+   * @param {Array} data
+   * @return {string}
+   */
   static getColorFromData(data: Array<number>): string {
     const colorComponents = data.slice(0, 3);
     const alpha = data[3];
@@ -68,6 +81,10 @@ export default class Pixel extends PureComponent {
     return `rgba(${rgba})`;
   }
 
+  /**
+   * @param {number} component
+   * @return {string}
+   */
   static getTextFromComponent(component: number): string {
     const value = component.toString();
 
@@ -76,10 +93,18 @@ export default class Pixel extends PureComponent {
       .concat(value);
   }
 
+  /**
+   * @param {number} number
+   * @return {number}
+   */
   static round(value: number): number {
     return Math.round(value * 100) / 100;
   }
 
+  /**
+   * @param {Array} components
+   * @return {string}
+   */
   static rgbToHexadecimal(components: Array<number>): string {
     return components.reduce((hex, n) => {
       return hex + (n < 16 ? "0" : "") + n.toString(16);
