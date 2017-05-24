@@ -335,6 +335,13 @@ describe("render", () => {
         })
       });
   });
+
+  test("renders connected component", () => {
+    const store = createStore({
+    });
+    
+    mount(<ConnectedPixelList store={store} />);
+  });
   
   test("renders without crashing", () => {
     const props = {
