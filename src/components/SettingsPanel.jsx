@@ -124,10 +124,10 @@ export class SettingsPanel extends Component<void, Props, State> {
           min="0"
           max="1"
           step="0.05"
-          name="backgroundAlpha"
-          label="Background alpha"
+          name="backgroundImageAlpha"
+          label="Background image alpha"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundAlpha}
+          value={this.state.settings.backgroundImageAlpha}
         />
         <InputSettings
           type="checkbox"

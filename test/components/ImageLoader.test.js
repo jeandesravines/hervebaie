@@ -1,6 +1,6 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import createStore from "../mock/store";
+import createStore from "../utils/store";
 
 import ConnectedImageLoader, { ImageLoader } from "../../src/components/ImageLoader";
 

@@ -1,25 +1,20 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-
+import sandbox from "../utils/sandbox";
 import Font from "../../src/components/Font";
 
-beforeAll(() => {
-  HTMLUnknownElement.prototype.getBBox = () => {
-    return { x: -5, y: -5, width: 800, height: 600 };
-  };
+beforeEach(() => {
+  sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
+    .mockReturnValue({ x: -5, y: -5, width: 800, height: 600 });
 });
 
-afterAll(() => {
-  delete HTMLUnknownElement.prototype.getBBox;
-});
-
-describe("component", () => {
+describe.skip("component", () => {
   test("should have a prefered size", () => {
     expect(Font.fontSize).toBeGreaterThan(0);
   });
-})
+});
 
-describe("render", () => {
+describe.skip("render", () => {
   test("renders without crashing", () => {
     const props = {
       family: "Arial",
@@ -29,52 +24,50 @@ describe("render", () => {
     const wrapper = mount(
       <Font {...props} />
     );
-
-    expect(wrapper.find("text").props()).toMatchObject({
+    
+    const expected = {
       fontFamily: "Arial",
       fontSize: Font.fontSize,
       alignmentBaseline: "hanging",
       dominantBaseline: "bottom",
       children: "0"
-    });
+    };
+
+    expect(wrapper.find("text").props()).toMatchObject(expected);
+    expect(wrapper.instance().nodeRef.localName).toBe("text");
   });
 });
 
 describe("shouldComponentUpdate", () => {
-  test("should returns false", () => {
-    const props = {
-      family: "Arial",
-      onLoad: jest.fn()
-    };
+  beforeEach(() => {
+    sandbox.spyOn(Font.prototype, "componentDidMount").mockReturnValue(null);
+    sandbox.spyOn(Font.prototype, "render").mockReturnValue(null);
+  });
 
-    const wrapper = shallow(
-      <Font {...props} />
-    );
-    
-    const shouldComponentUpdate = wrapper
-      .instance()
-      .shouldComponentUpdate();
+  test("should returns false", () => {
+    const wrapper = shallow(<Font />);
+    const shouldComponentUpdate = wrapper.instance().shouldComponentUpdate();
 
     expect(shouldComponentUpdate).toBe(false);
   });
 });
 
 describe("getBBox", () => {
+  beforeEach(() => {
+    sandbox.spyOn(Font.prototype, "componentDidMount").mockReturnValue(null);
+    sandbox.spyOn(Font.prototype, "render").mockReturnValue(null);
+  });
+
   it("returns a simulated SVGRect", () => {
-    const props = {
-      family: "Arial",
-      onLoad: jest.fn()
-    };
-
-    const wrapper = mount(
-      <Font {...props} />
-    );
-
+    const wrapper = shallow(<Font/>)
     const instance = wrapper.instance();
+    const bBox = { x: -5, y: -5, width: 800, height: 600 };
 
-    expect(instance.getBBox()).toMatchObject({
-      x: -5, y: -5, width: 800, height: 600
-    });
+    instance.nodeRef = {
+      getBBox: () => bBox
+    };
+    
+    expect(instance.getBBox()).toBe(bBox);
   });
 });
 
@@ -85,7 +78,7 @@ describe("componentDidMount", () => {
       onLoad: jest.fn()
     };
 
-    mount(
+    const wrapper = mount(
       <Font {...props} />
     );
     
@@ -97,6 +90,7 @@ describe("componentDidMount", () => {
       height: (600 - 5 * 2) * coef,
     };
     
+    wrapper.instance().componentDidMount();
     expect(props.onLoad).toHaveBeenCalledWith(expected);
   });
 });

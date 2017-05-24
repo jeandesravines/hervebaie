@@ -18,19 +18,13 @@ describe("Router", () => {
     const wrapper = shallow(
       <App />
     );
-
-    expect(wrapper.find("BrowserRouter")).toHaveLength(1);
-  });
-  
-  test("contains all routes", () => {
-    const wrapper = shallow(
-      <App />
-    );
       
     const router = wrapper.find("BrowserRouter");
     const routes = {
       "/draw": DrawScene 
     };
+
+    expect(wrapper.find("BrowserRouter")).toHaveLength(1);
     
     _.forEach(routes, (component, route) => {
       const element = router.find(`Route[path="${route}"]`);

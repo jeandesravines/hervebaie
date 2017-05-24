@@ -1,16 +1,22 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
+import createStore from "../utils/store";
+import sandbox from "../utils/sandbox";
+import RgbPixel from "../../src/components/RgbPixel";
+import Pixel from "../../src/components/Pixel";
+import BackgroundColor from "../../src/components/BackgroundColor";
+import BackgroundImage from "../../src/components/BackgroundImage";
 import ConnectedPixelList, { PixelList } from "../../src/components/PixelList";
 
 beforeEach(() => {
-  jest.spyOn(HTMLCanvasElement.prototype, "getContext")
+  sandbox.spyOn(HTMLCanvasElement.prototype, "getContext")
     .mockReturnValue({
       drawImage: jest.fn()
     });
 });
 
 describe("getFont", () => {
-  it("returns the associated font", () => {
+  test("returns the associated font", () => {
     const font = PixelList.getFont({
       fonts: {
         Helvetica: {
@@ -39,7 +45,7 @@ describe("getFont", () => {
 });
 
 describe("getCanvas", () => {
-  it("returns the associated font", () => {
+  test("returns a canvas for a portrait picture", () => {
     const font = PixelList.getCanvas({
       image: {
         naturalWidth: 800,
@@ -57,11 +63,140 @@ describe("getCanvas", () => {
       })
     );
   });
+
+  test("returns a canvas for a landscape picture", () => {
+    const font = PixelList.getCanvas({
+      image: {
+        naturalWidth: 600,
+        naturalHeight: 800
+      },
+      settings: {
+        maxSize: 1080
+      }
+    });
+
+    expect(font).toMatchObject(
+      expect.objectContaining({
+        height: 1080,
+        width: 810
+      })
+    );
+  });
+});
+
+describe("getBackgroundColor", () => {
+  test("returns a BackgroundColor", () => {
+    const props = {
+      settings: { backgroundColorAlpha: 0.5, backgroundColor: "#FF0000" }
+    };
+
+    const backgroundColor = PixelList.getBackgroundColor(props);
+    
+    expect(backgroundColor).toMatchObject(
+      <BackgroundColor color="#FF0000" opacity={0.5} />
+    );
+  });
+});
+
+describe("getBackgroundImage", () => {
+  test("returns a BackgroundImage", () => {
+    const props = {
+      settings: { backgroundImageAlpha: 0.5 }
+    };
+
+    const state = { canvas: {} };
+    const backgroundImage = PixelList.getBackgroundImage(props, state);
+    
+    expect(backgroundImage).toMatchObject(
+      <BackgroundImage canvas={{}} opacity={0.5} />
+    );
+  });
+});
+
+describe("getPixels", () => {
+  test("returns a array of Pixel", () => {
+    const props = {
+      settings: { rgb: false }
+    };
+    
+    const canvas = {
+      width: 80,
+      height: 60,
+      getContext: () => ({
+        getImageData: () => ({
+          data: [ 255, 255, 255, 255 ]
+        })
+      })
+    };
+
+    const state = {
+      canvas,
+      font: { width: 4.8, height: 6.4 }
+    };
+    
+    const pixels = PixelList.getPixels(props, state)
+      .reverse();
+    
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 6; x++) {
+        const index = x + y * (1 + 5);
+        const pixel = pixels[index];
+        
+        expect(pixel.type).toBe(Pixel);
+        expect(pixel.props).toMatchObject({
+          x,
+          y,
+          font: { width: 4.8, height: 6.4 },
+          data: [ 255, 255, 255, 255 ]
+        });
+      }
+    }
+  });
+  
+  test("returns a array of RgbPixel", () => {
+    const props = {
+      settings: { rgb: true, contrast: 0.5 }
+    };
+    
+    const canvas = {
+      width: 80,
+      height: 60,
+      getContext: () => ({
+        getImageData: () => ({
+          data: [ 255, 255, 255, 255 ]
+        })
+      })
+    };
+
+    const state = {
+      canvas,
+      font: { width: 4.8, height: 6.4 }
+    };
+    
+    const pixels = PixelList.getPixels(props, state)
+      .reverse();
+    
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 6; x++) {
+        const index = x + y * (1 + 5);
+        const pixel = pixels[index];
+        
+        expect(pixel.type).toBe(RgbPixel);
+        expect(pixel.props).toMatchObject({
+          x,
+          y,
+          font: { width: 4.8, height: 6.4 },
+          contrast: 0.5,
+          data: [ 255, 255, 255, 255 ]
+        });
+      }
+    }
+  });
 });
 
 describe("shouldComponentUpdate", () => {
   beforeEach(() => {    
-    jest.spyOn(PixelList.prototype, "render")
+    sandbox.spyOn(PixelList.prototype, "render")
       .mockReturnValue();
   });
 
@@ -93,9 +228,11 @@ describe("shouldComponentUpdate", () => {
 });
 
 describe("componentWillReceiveProps", () => {
-  beforeEach(() => {    
-    jest.spyOn(PixelList.prototype, "render")
-      .mockReturnValue(null);
+  beforeEach(() => {
+    sandbox.spyOn(PixelList.prototype, "render")
+      .mockReturnValue();
+    sandbox.spyOn(PixelList.prototype, "componentDidMount")
+      .mockReturnValue();
   });
   
   test("should do nothing - no props.image", () => {
@@ -112,9 +249,14 @@ describe("componentWillReceiveProps", () => {
   });
   
   test("should calls setState", () => {
-    const spySetState = jest.spyOn(PixelList.prototype, "setState");
-    const spyGetCanvas = jest.spyOn(PixelList, "getCanvas").mockReturnValue();
-    const spyGetFont = jest.spyOn(PixelList, "getFont").mockReturnValue();
+    const spySetState = sandbox
+      .spyOn(PixelList.prototype, "setState")
+      .mockReturnValue();
+
+    sandbox.spyOn(PixelList, "getCanvas")
+      .mockReturnValue();
+    sandbox.spyOn(PixelList, "getFont")
+      .mockReturnValue();
     
     const props = { image: new Image() };
     const wrapper = shallow(
@@ -133,8 +275,8 @@ describe("componentWillReceiveProps", () => {
 
 describe("componentDidUpdate", () => {
   beforeEach(() => {    
-    jest.spyOn(PixelList.prototype, "render")
-      .mockReturnValue();
+    sandbox.spyOn(PixelList.prototype, "render")
+      .mockReturnValue(null);
   });
   
   test("should calls props.setSvgData", () => {
@@ -142,7 +284,7 @@ describe("componentDidUpdate", () => {
     const wrapper = shallow(
       <PixelList {...props} />
     );
-
+ 
     const instance = wrapper.instance();
     const data = "<svg " +
       "xmlns=\"http://www.w3.org/2000/svg\" " + 
@@ -150,7 +292,7 @@ describe("componentDidUpdate", () => {
       "<text>Hello</text>" +
       "</svg>";
     
-    instance.svgNode = {
+    instance.nodeRef = {
       outerHTML: "<svg><text>Hello</text></svg>"
     };
     
@@ -164,3 +306,83 @@ describe("componentDidUpdate", () => {
   });
 });
 
+describe("render", () => {
+  beforeEach(() => {
+    sandbox
+      .spyOn(PixelList.prototype, "componentDidUpdate")
+      .mockReturnValue();
+    
+    sandbox
+      .spyOn(PixelList, "getFont")
+      .mockReturnValue({
+        dx: -1,
+        dy: -1,
+        fontFamily: "Arial,monospace",
+        height: 6.4,
+        width: 4.8
+      });
+    
+    sandbox
+      .spyOn(PixelList, "getCanvas")
+      .mockReturnValue({
+        width: 80,
+        height: 60,
+        toDataURL: () => '',
+        getContext: () => ({
+          getImageData: () => ({
+            data: [ 255, 255, 255, 255 ]
+          })
+        })
+      });
+  });
+  
+  test("renders without crashing", () => {
+    const props = {
+      image: { naturalWidth: 80, naturalHeight: 60 },
+      settings: {
+        backgroundColor: "#FF0000",
+        backgroundColorAlpha: 0.3,
+        backgroundImageAlpha: 0.5,
+        contrast: 0.5,
+        fontSize: 20
+      }
+    };
+    
+    const wrapper = mount(
+      <PixelList {...props} />
+    );
+    
+    wrapper.update();
+    
+    expect(wrapper.find("svg").props()).toMatchObject({
+      fontFamily: "Arial,monospace",
+      fontSize: 20,
+      width: 80,
+      height: 60,
+      preserveAspectRatio: "none",
+      viewBox: "0 0 80 85"
+    });
+    
+    expect(wrapper.find("BackgroundImage").props()).toMatchObject({
+      opacity: 0.5,
+      canvas: expect.objectContaining({
+        width: 80,
+        height: 60
+      })
+    });
+    
+    expect(wrapper.find("BackgroundColor").props()).toMatchObject({
+      opacity: 0.3,
+      color: "#FF0000"
+    });
+    
+    expect(wrapper.find("Pixel")).toHaveLength(30);
+  });
+
+  test("returns null - no props.image", () => {
+    const props = { image: null };
+    const wrapper = shallow(<PixelList {...props} />);
+    
+    expect(wrapper.getNode()).toBe(null);   
+  });
+});

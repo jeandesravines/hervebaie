@@ -16,7 +16,7 @@ export default class Font extends Component<void, Props> {
    * The text node
    * @type {?HTMLElement}
    */
-  textNode: ?HTMLElement;
+  nodeRef: ?HTMLElement;
 
   /**
    * @inheritDoc
@@ -30,7 +30,7 @@ export default class Font extends Component<void, Props> {
    * @return {Object}
    */
   getBBox(): { x: number, y: number, height: number, width: number } {
-    return this.textNode.getBBox();
+    return this.nodeRef.getBBox();
   }
 
   /**
@@ -40,13 +40,12 @@ export default class Font extends Component<void, Props> {
     const { height, width, x, y } = this.getBBox();
     const coef = 1 / Font.fontSize;
     const fontHeight = height + y * 2;
-    const fontWidth = width;
 
     this.props.onLoad({
       dx: -x * coef,
       dy: -y * coef,
       height: fontHeight * coef,
-      width: fontWidth * coef
+      width: width * coef
     });
   }
 
@@ -56,7 +55,7 @@ export default class Font extends Component<void, Props> {
   render() {
     return (
       <text
-        ref={n => this.textNode = n}
+        ref={n => this.nodeRef = n}
         fontFamily={this.props.family}
         alignmentBaseline="hanging"
         dominantBaseline="bottom"

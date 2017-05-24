@@ -48,7 +48,7 @@ export class PixelList extends Component<void, Props, State> {
   /**
    * @var {?HTMLElement}
    */
-  svgNode: ?HTMLElement;
+  nodeRef: ?HTMLElement;
 
   /**
    * @inheritDoc
@@ -74,14 +74,18 @@ export class PixelList extends Component<void, Props, State> {
   /**
    * @inheritDoc
    */
-  render() {
+  render() {    
     if (!this.props.image) {
       return null;
     }
 
-    const { fontSize } = this.props.settings;
+    if (!this.state) {
+      return null;
+    }
+
+    const {fontSize} = this.props.settings;
     const {
-      canvas: { width, height },
+      canvas: {width, height},
       font: {
         dx,
         dy,
@@ -94,7 +98,7 @@ export class PixelList extends Component<void, Props, State> {
     const pixelW = (fontWidth + dx) * 3;
     const pixelH = (fontHeight + dy) * 3;
     const pixelRatio = pixelW / pixelH;
-    
+
     const viewBoxH = Math.round(height / pixelRatio);
     const viewBox = `0 0 ${width} ${viewBoxH}`;
 
@@ -108,10 +112,10 @@ export class PixelList extends Component<void, Props, State> {
     };
 
     return (
-      <svg {...svgProps} ref={n => this.svgNode = n}>
-        {this.drawBackgroundColor()}
-        {this.drawBackground()}
-        {this.drawPixels()}
+      <svg {...svgProps} ref={n => this.nodeRef = n}>
+        {PixelList.getBackgroundColor(this.props)}
+        {PixelList.getBackgroundImage(this.props, this.state)}
+        {PixelList.getPixels(this.props, this.state)}
       </svg>
     );
   }
@@ -120,10 +124,10 @@ export class PixelList extends Component<void, Props, State> {
    * @inheritDoc
    */
   componentDidUpdate() {
-    const data = this.svgNode.outerHTML
+    const data = this.nodeRef.outerHTML
       .replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"')
       .replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-    
+
     this.props.setSvgData(
       new Blob([data], {
         type: "image/svg+xml;charset=utf-8"
@@ -136,15 +140,15 @@ export class PixelList extends Component<void, Props, State> {
    * @return {HTMLCanvasElement}
    */
   static getCanvas(props: Props): HTMLCanvasElement {
-    const { image, settings } = props;
-    const { maxSize } = settings;
-    const { naturalWidth, naturalHeight } = image;
+    const {image, settings} = props;
+    const {maxSize} = settings;
+    const {naturalWidth, naturalHeight} = image;
     const imageRatio = naturalWidth / naturalHeight;
 
     let width;
     let height;
-
-    if (imageRatio > 0) {
+    
+    if (imageRatio > 1) {
       width = maxSize;
       height = maxSize / imageRatio;
     } else {
@@ -155,7 +159,7 @@ export class PixelList extends Component<void, Props, State> {
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
-    
+
     const context = canvas.getContext("2d");
     context.drawImage(image, 0, 0, width, height);
 
@@ -163,13 +167,16 @@ export class PixelList extends Component<void, Props, State> {
   }
 
   /**
-   * @param {Object} props
+   * @param {{
+   *   fonts: Object,
+   *   settings: Object
+   * }} props
    * @return {Object}
    */
   static getFont(props: Props): Object {
-    const { fonts, settings } = props;
-    const { fontName, fontSize } = settings;
-    const { dx, dy, width, height, family } = fonts[fontName];
+    const {fonts, settings} = props;
+    const {fontName, fontSize} = settings;
+    const {dx, dy, width, height, family} = fonts[fontName];
 
     return {
       fontSize,
@@ -182,49 +189,62 @@ export class PixelList extends Component<void, Props, State> {
   }
 
   /**
+   * @param {{
+   *   settings: Object
+   * }} props
+   * @param {{
+   *   canvas: HTMLCanvasElement
+   * }} state
    * @return {*}
    */
-  drawBackground() {
-    const { backgroundAlpha } = this.props.settings;
-    const { canvas } = this.state;
+  static getBackgroundImage(props: Props, state: State) {
+    const {backgroundImageAlpha} = props.settings;
+    const {canvas} = state;
 
-    return <BackgroundImage canvas={canvas} opacity={backgroundAlpha} />;
+    return <BackgroundImage canvas={canvas} opacity={backgroundImageAlpha}/>;
   }
 
   /**
    * @return {*}
    */
-  drawBackgroundColor() {
-    const { backgroundColor, backgroundColorAlpha } = this.props.settings;
+  static getBackgroundColor(props: Props) {
+    const {backgroundColor, backgroundColorAlpha} = props.settings;
 
     return (
-      <BackgroundColor color={backgroundColor} opacity={backgroundColorAlpha} />
+      <BackgroundColor color={backgroundColor} opacity={backgroundColorAlpha}/>
     );
   }
 
   /**
+   * @param {{
+   *   settings: Object
+   * }} props
+   * @param {{
+   *   canvas: HTMLCanvasElement,
+   *   font: Object
+   * }} state
    * @return {Array}
    */
-  drawPixels(): Array {
-    const { settings } = this.props;
-    const { canvas, font } = this.state;
-    const { width, height } = canvas;
+  static getPixels(props: Props, state: State): Array {
+    const {settings} = props;
+    const {canvas, font} = state;
+    const {rgb, contrast} = settings;
+    const {width, height} = canvas;
     const sizeW = font.width * 3;
     const sizeH = font.width * 3;
     const countW = Math.ceil(width / sizeW);
     const countH = Math.ceil(height / sizeH);
 
-    const { rgb, contrast } = settings;
     const PixelComponent = rgb ? RgbPixel : Pixel;
     const canvasContext = canvas.getContext("2d");
 
-    const pixelProps = { contrast, font };
-    const pixels = new Array(countW * countH);
+    const pixelProps = {contrast, font};
+    const pixels = [];
 
-    for (let y = countH; y--; ) {
+    for (let y = countH; y--;) {
       const dataY = Math.floor(y * sizeH);
 
-      for (let x = countW; x--; ) {
+      for (let x = countW; x--;) {
         const dataX = Math.floor(x * sizeW);
         const data = Array.from(
           canvasContext.getImageData(dataX, dataY, 1, 1).data
@@ -236,7 +256,7 @@ export class PixelList extends Component<void, Props, State> {
             key={`${x}-${y}`}
             x={x}
             y={y}
-            data={data} />
+            data={data}/>
         );
       }
     }

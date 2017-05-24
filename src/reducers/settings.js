@@ -4,7 +4,7 @@ import { SETTINGS_SET } from "../actions/settings";
  * @const {Object}
  */
 const _state = {
-  backgroundAlpha: 0.05,
+  backgroundImageAlpha: 0.05,
   backgroundColor: "#FFFFFF",
   backgroundColorAlpha: 0.0,
   fontName: "Arial",
