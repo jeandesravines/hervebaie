@@ -1,30 +1,41 @@
-import reduce from "../../src/reducers/image";
-import { IMAGE_SET } from "../../src/actions/image";
+import reduce from "../../src/reducers/settings";
+import { SETTINGS_SET } from "../../src/actions/settings";
 
 describe("reduce", () => {
-  test("return the default state", () => {
+  test("returns the default state", () => {
     const action = {
       type: 'unknown'
     };
     
-    expect(reduce(undefined, action)).toBe(null);
+    expect(reduce(undefined, action)).toMatchObject({
+      backgroundImageAlpha: expect.any(Number),
+      backgroundColor: expect.any(String),
+      backgroundColorAlpha: expect.any(Number),
+      fontName: expect.any(String),
+      fontSize: expect.any(Number),
+      maxSize: expect.any(Number),
+      rgb: expect.any(Boolean),
+      contrast: expect.any(Number)
+    });
   });
+});
 
-  test("return a state", () => {
+describe("SETTINGS_SET", () => {
+  test("returns a state", () => {
     const action = {
-      type: IMAGE_SET,
-      payload: new Image(800, 600)
+      type: SETTINGS_SET,
+      payload: {
+        backgroundImageAlpha: 0.7,
+        backgroundColor: "#FF0000",
+        backgroundColorAlpha: 0.5,
+        fontName: "Arial",
+        fontSize: 22,
+        maxSize: 1080,
+        rgb: true,
+        contrast: 0.7
+      }
     };
     
-    const state = reduce(undefined, action);
-    
-    expect(state.localName).toBe('img');
-    expect(state).not.toBe(action.payload);
-    expect(state).toMatchObject(
-      expect.objectContaining({
-        width: 800,
-        height: 600
-      })
-    );
+    expect(reduce(undefined, action)).toMatchObject(action.payload);
   });
 });

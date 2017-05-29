@@ -7,16 +7,7 @@ describe("reduce", () => {
       type: 'unknown'
     };
     
-    expect(reduce(undefined, action)).toMatchObject({
-      backgroundImageAlpha: expect.any(Number),
-      backgroundColor: expect.any(String),
-      backgroundColorAlpha: expect.any(Number),
-      fontName: expect.any(String),
-      fontSize: expect.any(Number),
-      maxSize: expect.any(Number),
-      rgb: expect.any(Boolean),
-      contrast: expect.any(Number)
-    });
+    expect(reduce(undefined, action)).toBe(null);
   });
 
   test("return a state", () => {
