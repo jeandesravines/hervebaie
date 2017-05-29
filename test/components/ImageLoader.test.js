@@ -43,7 +43,6 @@ describe("render", () => {
     
     expect(input.props()).toMatchObject({
       id: `${className}__input`,
-      className: `${className}__input`,
       type: "file" ,
       accept: "image/*",
       onChange: expect.any(Function)

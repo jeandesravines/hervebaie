@@ -8,13 +8,13 @@ beforeEach(() => {
     .mockReturnValue({ x: -5, y: -5, width: 800, height: 600 });
 });
 
-describe.skip("component", () => {
+describe("component", () => {
   test("should have a prefered size", () => {
     expect(Font.fontSize).toBeGreaterThan(0);
   });
 });
 
-describe.skip("render", () => {
+describe("render", () => {
   test("renders without crashing", () => {
     const props = {
       family: "Arial",
@@ -34,7 +34,6 @@ describe.skip("render", () => {
     };
 
     expect(wrapper.find("text").props()).toMatchObject(expected);
-    expect(wrapper.instance().nodeRef.localName).toBe("text");
   });
 });
 

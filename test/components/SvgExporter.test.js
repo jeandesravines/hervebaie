@@ -50,7 +50,7 @@ describe("render", () => {
 
     expect(wrapper.props()).toMatchObject({
       target: "_blank",
-      download: "Hello.svg",
+      download: "HerveBaie - Hello.svg",
       rel: "noopener noreferrer",
       href: "data:image/png;base64,",
       children: "Download as SVG"

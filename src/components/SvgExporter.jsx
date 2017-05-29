@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import configuration from '../configuration/configuration';
 
 /**
  * @const {Function(Object): Object}
@@ -25,8 +26,9 @@ export class SvgExporter extends Component<void, Props> {
       return null;
     }
     
+    const prefix = configuration.exporter.prefix;
     const url = URL.createObjectURL(data);
-    const title = `${image.alt}.svg`;
+    const title = `${prefix}${image.alt}.svg`;
     
     return (
       <a 

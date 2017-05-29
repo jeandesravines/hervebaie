@@ -1,5 +1,5 @@
 export default {
-  export: {
+  exporter: {
     prefix: "HerveBaie - "
   },
   fonts: {

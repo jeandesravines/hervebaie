@@ -24,6 +24,7 @@
     "lodash": "^4.17.4",
     "material-components-web": "^0.10.0",
     "node-sass": "^4.5.2",
+    "pre-git": "^3.14.0",
     "react": "^15.5.4",
     "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.4",
@@ -48,7 +49,8 @@
     "lint": "eslint --ext .js,.jsx --fix public src test",
     "start": "webpack-dev-server",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "commit": "commit-wizard"
   },
   "jest": {
     "clearMocks": true,
@@ -116,5 +118,16 @@
     "iconv-lite": "0.4.17",
     "mime": "1.3.6",
     "postcss": "5.2.17"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": "simple",
+      "pre-commit": [
+        "yarn lint"
+      ],
+      "pre-push": [
+        "yarn test"
+      ]
+    }
   }
 }
