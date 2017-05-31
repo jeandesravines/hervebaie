@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 type Props = {
-  onLoad: Function,
-  family: string
+  +onLoad: Function,
+  +family: string
 };
 
 export default class Font extends Component<void, Props> {
@@ -15,6 +15,7 @@ export default class Font extends Component<void, Props> {
   /**
    * The text node
    * @type {?HTMLElement}
+   * @readonly
    */
   nodeRef: ?HTMLElement;
 

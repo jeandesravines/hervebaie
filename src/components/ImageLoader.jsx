@@ -10,10 +10,12 @@ const mapDispatchToProps = {
 };
 
 type Props = {
-  setImage: (HTMLImageElement) => Object
+  +setImage: (HTMLImageElement) => Object
 };
 
 export class ImageLoader extends Component<void, Props> {
+  defaultProps: Props;
+
   /**
    * @return {boolean}
    */

@@ -21,16 +21,23 @@ const mapDispatchToProps = {
 };
 
 type State = {
-  settings: Object
+  +settings: Object<string | number | boolean>
 };
 
 type Props = {
-  fonts: Array<Object>,
-  settings: Object,
-  setSettings: Function
+  +fonts: Array<Object>,
+  +settings: Object<string | number | boolean>,
+  +setSettings: (Object) => Object
 };
 
 export class SettingsPanel extends Component<void, Props, State> {
+  /**
+   * @var {Object}
+   */
+  state: State = {
+    settings: this.props.settings
+  };
+
   /**
    * @param {Object}
    */
@@ -68,11 +75,6 @@ export class SettingsPanel extends Component<void, Props, State> {
    */
   render() {
     const { settings } = this.state;
-
-    if (!settings) {
-      return null;
-    }
-
     const fonts = _.mapValues(this.props.fonts, (_font, key: string) => key);
 
     return (
@@ -83,7 +85,7 @@ export class SettingsPanel extends Component<void, Props, State> {
           name="maxSize"
           label="Max size"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.maxSize}
+          value={settings.maxSize}
         />
         <InputSettings
           type="select"
@@ -91,7 +93,7 @@ export class SettingsPanel extends Component<void, Props, State> {
           name="fontFamily"
           label="Font"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.fontFamily}
+          value={settings.fontFamily}
         />
         <InputSettings
           type="number"
@@ -100,7 +102,7 @@ export class SettingsPanel extends Component<void, Props, State> {
           name="fontSize"
           label="Font size"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.fontSize}
+          value={settings.fontSize}
         />
         <InputSettings
           type="number"
@@ -110,14 +112,14 @@ export class SettingsPanel extends Component<void, Props, State> {
           name="backgroundColorAlpha"
           label="Background color alpha"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundColorAlpha}
+          value={settings.backgroundColorAlpha}
         />
         <InputSettings
           type="color"
           name="backgroundColor"
           label="Background color"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundColor}
+          value={settings.backgroundColor}
         />
         <InputSettings
           type="number"
@@ -127,7 +129,7 @@ export class SettingsPanel extends Component<void, Props, State> {
           name="backgroundImageAlpha"
           label="Background image alpha"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.backgroundImageAlpha}
+          value={settings.backgroundImageAlpha}
         />
         <InputSettings
           type="checkbox"
@@ -138,14 +140,14 @@ export class SettingsPanel extends Component<void, Props, State> {
         />
         <InputSettings
           type="number"
-          hide={!this.state.settings.rgb}
+          hide={!settings.rgb}
           min="-1"
           max="1"
           step="0.05"
           name="rgb"
           label="RGB contrast"
           onChange={e => this.setValue(e)}
-          value={this.state.settings.contrast}
+          value={settings.contrast}
         />
 
         <div>

@@ -1,8 +1,8 @@
 import React from "react";
 
 type Props = {
-  canvas: HTMLCanvasElement,
-  opacity: ?number
+  +canvas: HTMLCanvasElement,
+  +opacity: ?number
 };
 
 /**

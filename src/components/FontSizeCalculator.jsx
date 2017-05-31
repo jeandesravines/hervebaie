@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
+import map from "lodash/map";
 import Font from "./Font";
 import { setFont } from "../actions/fonts";
 
@@ -19,8 +19,8 @@ const mapDispatchToProps = {
 };
 
 type Props = {
-  fonts: Object,
-  setFont: Function
+  +fonts: Object,
+  +setFont: Function
 };
 
 export class FontSizeCalculator extends Component<void, Props> {
@@ -35,7 +35,7 @@ export class FontSizeCalculator extends Component<void, Props> {
    * @inheritDoc
    */
   render() {
-    const fonts = _.map(this.props.fonts, (font, name) => (
+    const fonts = map(this.props.fonts, (font, name) => (
       <Font
         key={name}
         family={font.family}

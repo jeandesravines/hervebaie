@@ -11,8 +11,8 @@ const mapStateToProps = (state) => ({
 });
 
 type Props = {
-  data: Blob,
-  image: Image
+  +data: Blob,
+  +image: Image
 };
 
 export class SvgExporter extends Component<void, Props> {

@@ -11,11 +11,11 @@ describe("render", () => {
         toDataURL: () => "data:image/png;base64,"
       }
     };
-   
+
     const wrapper = mount(
       <BackgroundImage {...props} />
     );
-                          
+
     expect(wrapper.getNode()).not.toBe(null);
     expect(wrapper.find("image").props()).toMatchObject({
       href: "data:image/png;base64,",
@@ -31,7 +31,7 @@ describe("render", () => {
     const wrapper = shallow(
       <BackgroundImage {...props} />
     );
-                          
+
     expect(wrapper.getNode()).toBe(null);
   });
 });

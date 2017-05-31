@@ -2,8 +2,19 @@
 
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 
-const plugins = [];
+const plugins = [
+  new LodashModuleReplacementPlugin({
+    collections: true
+  }),
+  new PrepackWebpackPlugin({
+    trace: true,
+    logModules: true
+  })
+];
+
 const buildPath = __dirname + '/build';
 const publicPath = __dirname + '/public';
 

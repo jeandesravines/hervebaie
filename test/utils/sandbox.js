@@ -9,7 +9,7 @@ export default class Sandbox {
    * @param {string} methodName
    * @return {Function}
    */
-  static spyOn(object: Object, methodName: string): Function {
+  static spyOn(object: any, methodName: string): Function {
     if (!object[methodName]) {
       object[methodName] = () => null;
     }

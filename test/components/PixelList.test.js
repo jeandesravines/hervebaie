@@ -201,7 +201,12 @@ describe("shouldComponentUpdate", () => {
   });
 
   test("should returns false", () => {
-    const props = { image: null };
+    const props = {
+      image: null,
+      setSvgData: jest.fn(),
+      settings: {}
+    };
+    
     const wrapper = shallow(
       <PixelList {...props} />
     );
@@ -214,7 +219,12 @@ describe("shouldComponentUpdate", () => {
   });
 
   test("should returns true", () => {
-    const props = { image: new Image() };
+    const props = {
+      image: new Image(),
+      setSvgData: jest.fn(),
+      settings: {}
+    };
+    
     const wrapper = shallow(
       <PixelList {...props} />
     );
@@ -231,13 +241,19 @@ describe("componentWillReceiveProps", () => {
   beforeEach(() => {
     sandbox.spyOn(PixelList.prototype, "render")
       .mockReturnValue();
+
     sandbox.spyOn(PixelList.prototype, "componentDidMount")
       .mockReturnValue();
   });
   
   test("should do nothing - no props.image", () => {
     const spySetState = jest.spyOn(PixelList.prototype, "setState");
-    const props = { image: null };
+    const props = {
+      image: null,
+      setSvgData: jest.fn(),
+      settings: {}
+    };
+    
     const wrapper = shallow(
       <PixelList {...props} />
     );
@@ -255,10 +271,16 @@ describe("componentWillReceiveProps", () => {
 
     sandbox.spyOn(PixelList, "getCanvas")
       .mockReturnValue();
+
     sandbox.spyOn(PixelList, "getFont")
       .mockReturnValue();
     
-    const props = { image: new Image() };
+    const props = {
+      image: new Image(),
+      setSvgData: jest.fn(),
+      settings: {}
+    };
+    
     const wrapper = shallow(
       <PixelList {...props} />
     );
@@ -280,17 +302,24 @@ describe("componentDidUpdate", () => {
   });
   
   test("should calls props.setSvgData", () => {
-    const props = { setSvgData: jest.fn() };
+    const props = {
+      image: null,
+      setSvgData: jest.fn(),
+      settings: {}
+    };
+
     const wrapper = shallow(
       <PixelList {...props} />
     );
  
     const instance = wrapper.instance();
-    const data = "<svg " +
+    const data = (
+      "<svg " +
       "xmlns=\"http://www.w3.org/2000/svg\" " + 
       "xmlns:xlink=\"http://www.w3.org/1999/xlink\">" + 
       "<text>Hello</text>" +
-      "</svg>";
+      "</svg>"
+    );
     
     instance.nodeRef = {
       outerHTML: "<svg><text>Hello</text></svg>"
@@ -338,6 +367,7 @@ describe("render", () => {
 
   test("renders connected component", () => {
     const store = createStore({
+      settings: {}
     });
     
     mount(<ConnectedPixelList store={store} />);
@@ -345,7 +375,11 @@ describe("render", () => {
   
   test("renders without crashing", () => {
     const props = {
-      image: { naturalWidth: 80, naturalHeight: 60 },
+      image: Object.assign(new Image(), {
+        naturalWidth: 80, 
+        naturalHeight: 60
+      }),
+      setSvgData: jest.fn(),
       settings: {
         backgroundColor: "#FF0000",
         backgroundColorAlpha: 0.3,
@@ -387,7 +421,12 @@ describe("render", () => {
   });
 
   test("returns null - no props.image", () => {
-    const props = { image: null };
+    const props = {
+      image: null,
+      setSvgData: jest.fn(),
+      settings: {}
+    };
+
     const wrapper = shallow(<PixelList {...props} />);
     
     expect(wrapper.getNode()).toBe(null);   

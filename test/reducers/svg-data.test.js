@@ -9,7 +9,9 @@ describe("reduce", () => {
     
     expect(reduce(undefined, action)).toBe(null);
   });
+});
 
+describe("DATA_SET", () => {
   test("return a state", () => {
     const action = {
       type: DATA_SET,

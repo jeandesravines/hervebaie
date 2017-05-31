@@ -4,10 +4,10 @@ import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { Provider } from "react-redux";
 
-import reducer from "./reducers";
+import reducers from "./reducers";
 import App from "./components/App";
 
-export const store = createStore(reducer, applyMiddleware(reduxPromise));
+export const store = createStore(reducers, applyMiddleware(reduxPromise));
 export const component = (
   <Provider store={store}>
     <App />

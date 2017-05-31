@@ -12,7 +12,7 @@ const _state: ?Image = null;
  * @param {*} action.payload
  * @return {Object}
  */
-export default (state = _state, action): Object => {
+export default (state = _state, action): ?Image => {
   switch (action.type) {
     case IMAGE_SET:
       return action.payload.cloneNode();

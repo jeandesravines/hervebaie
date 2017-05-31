@@ -17,15 +17,15 @@ type Font = {
 };
 
 type Props = {
-  fonts: Object<Font>,
-  image: ?HTMLImageElement,
-  setSvgData: (Object) => Object,
-  settings: Object<string | number | boolean>
+  +fonts: ?Object<Font>,
+  +image: ?HTMLImageElement,
+  +setSvgData: (Object) => Object,
+  +settings: Object<string | number | boolean>
 };
 
 type State = {
-  canvas: ?HTMLCanvasElement,
-  font: ?Object
+  +canvas: ?HTMLCanvasElement,
+  +font: ?Object
 };
 
 /**
@@ -46,6 +46,11 @@ const mapDispatchToProps = {
 
 export class PixelList extends Component<void, Props, State> {
   /**
+   * @var {Object}
+   */
+  state: State = {};
+
+  /**
    * @var {?HTMLElement}
    */
   nodeRef: ?HTMLElement;
@@ -54,7 +59,7 @@ export class PixelList extends Component<void, Props, State> {
    * @inheritDoc
    */
   shouldComponentUpdate(props: Props): boolean {
-    return !!props.image;
+    return props.image ? true : false;
   }
 
   /**
@@ -79,7 +84,7 @@ export class PixelList extends Component<void, Props, State> {
       return null;
     }
 
-    if (!this.state) {
+    if (!this.state.canvas) {
       return null;
     }
 

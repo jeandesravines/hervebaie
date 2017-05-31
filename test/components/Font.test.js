@@ -17,7 +17,7 @@ describe("component", () => {
 describe("render", () => {
   test("renders without crashing", () => {
     const props = {
-      family: "Arial",
+      family: "Arial,monospace",
       onLoad: jest.fn()
     };
 
@@ -26,7 +26,7 @@ describe("render", () => {
     );
     
     const expected = {
-      fontFamily: "Arial",
+      fontFamily: "Arial,monospace",
       fontSize: Font.fontSize,
       alignmentBaseline: "hanging",
       dominantBaseline: "bottom",
@@ -73,7 +73,7 @@ describe("getBBox", () => {
 describe("componentDidMount", () => {
   test("should call onLoad prop", () => {
     const props = {
-      family: "Arial",
+      family: "Arial,monospace",
       onLoad: jest.fn()
     };
 
