@@ -12,11 +12,15 @@ import FontSizeCalculator from "./FontSizeCalculator";
 export default function DrawScene() {
   return (
     <div>
-      <FontSizeCalculator />
-      <ImageLoader />
-      <SettingsPanel />
-      <SvgExporter />
-      <PixelList />
+      <div>
+        <FontSizeCalculator />
+        <ImageLoader />
+        <SettingsPanel />
+        <SvgExporter />
+      </div>
+      <div>
+        <PixelList />
+      </div>
     </div>
   );
 }

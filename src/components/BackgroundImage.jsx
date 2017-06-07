@@ -9,8 +9,8 @@ type Props = {
  * @param {Object} props
  * @return {*}
  */
-export default function BackgroundImage(props: Props) {
-  const { opacity, canvas } = props; 
+export default function BackgroundImage({opacity, canvas}: Props) {
+ // const { opacity, canvas } = props; 
   
   if (!opacity) {
     return null;

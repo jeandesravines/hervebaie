@@ -1,8 +1,10 @@
 {
-  "plugins": ["lodash", ["typecheck", {
-    "disable": {
-      "production": true
-    }
-  }]],
+  "plugins": [
+    "lodash", ["typecheck", {
+      "disable": {
+        "production": true
+      }
+    }]
+  ],
   "presets": ["es2015", "stage-0", "react"]
 }

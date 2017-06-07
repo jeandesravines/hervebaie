@@ -1,5 +1,8 @@
 import { FONTS_SET } from "../actions/fonts";
 
+/**
+ * @const {Array.<string>}
+ */
 const fonts = [
   "Andale Mono",
   "Arial",
@@ -11,7 +14,7 @@ const fonts = [
 ];
 
 /**
- * @const {Object.<string, Object>}
+ * @const {Object.<Object>}
  */
 const _state = fonts.reduce((state, name) => ({
   ...state,
@@ -24,7 +27,7 @@ const _state = fonts.reduce((state, name) => ({
  * @param {Object} [state]
  * @param {Object} action
  * @param {string} action.type
- * @param {*} action.payload
+ * @param {Object} action.payload
  * @return {Object}
  */
 export default (state = _state, action: Object): Object => {

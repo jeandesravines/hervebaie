@@ -26,7 +26,7 @@ export class ImageLoader extends Component<void, Props> {
   /**
    * @param {Event} e
    */
-  onChange (e: Event) {
+  onChange (e: Object) {
     const file = e.target.files[0];
     const image = new Image();
 

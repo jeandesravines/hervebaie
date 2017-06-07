@@ -25,7 +25,7 @@ type State = {
 };
 
 type Props = {
-  +fonts: Array<Object>,
+  +fonts: Object<Object>,
   +settings: Object<string | number | boolean>,
   +setSettings: (Object) => Object
 };
@@ -50,22 +50,22 @@ export class SettingsPanel extends Component<void, Props, State> {
   /**
    * @param {Event} e
    */
-  applySettings(e: Event) {
+  applySettings(e) {
     e.preventDefault();
 
     this.props.setSettings(this.state.settings);
   }
 
   /**
-   * @param {Event} e
+   * @param {string} name
+   * @param {string | number | boolean} vallue
    */
-  setValue(e: Event) {
-    const { target } = e;
-
+  setValue(name: string, value: any) {
+    console.log(name, value);
     this.setState({
       settings: {
         ...this.state.settings,
-        [target.name]: target.value
+        [name]: value
       }
     });
   }
@@ -75,81 +75,83 @@ export class SettingsPanel extends Component<void, Props, State> {
    */
   render() {
     const { settings } = this.state;
+    const onChange = this.setValue.bind(this);
     const fonts = _.mapValues(this.props.fonts, (_font, key: string) => key);
+    const toPercent = (value) => `${parseInt(value * 100)}%`;
+    const toPixels = (value) => `${value}px`;
 
     return (
       <form onSubmit={e => this.applySettings(e)}>
-        <InputSettings
-          type="number"
-          step="10"
-          name="maxSize"
-          label="Max size"
-          onChange={e => this.setValue(e)}
-          value={settings.maxSize}
-        />
-        <InputSettings
-          type="select"
-          options={fonts}
-          name="fontFamily"
-          label="Font"
-          onChange={e => this.setValue(e)}
-          value={settings.fontFamily}
-        />
-        <InputSettings
-          type="number"
-          min="1"
-          step="1"
-          name="fontSize"
-          label="Font size"
-          onChange={e => this.setValue(e)}
-          value={settings.fontSize}
-        />
-        <InputSettings
-          type="number"
-          min="0"
-          max="1"
-          step="0.05"
-          name="backgroundColorAlpha"
-          label="Background color alpha"
-          onChange={e => this.setValue(e)}
-          value={settings.backgroundColorAlpha}
-        />
-        <InputSettings
-          type="color"
-          name="backgroundColor"
-          label="Background color"
-          onChange={e => this.setValue(e)}
-          value={settings.backgroundColor}
-        />
-        <InputSettings
-          type="number"
-          min="0"
-          max="1"
-          step="0.05"
-          name="backgroundImageAlpha"
-          label="Background image alpha"
-          onChange={e => this.setValue(e)}
-          value={settings.backgroundImageAlpha}
-        />
-        <InputSettings
-          type="checkbox"
-          name="rgb"
-          label="Draw as RGB"
-          onChange={e => this.setValue(e)}
-          value={this.state.settings.rvb}
-        />
-        <InputSettings
-          type="number"
-          hide={!settings.rgb}
-          min="-1"
-          max="1"
-          step="0.05"
-          name="rgb"
-          label="RGB contrast"
-          onChange={e => this.setValue(e)}
-          value={settings.contrast}
-        />
-
+        <div>
+          <InputSettings
+            type="slider"
+            label="Max size"
+            max={4096}
+            onChange={value => onChange("maxSize", value)}
+            toString={toPixels}
+            value={settings.maxSize} />
+        </div>
+        <div>
+          <InputSettings
+            type="select"
+            options={fonts}
+            label="Font"
+            onChange={value => onChange("fontName", value)}
+            value={settings.fontName} />
+        </div>
+        <div>
+          <InputSettings
+            type="slider"
+            label="Font size"
+            min={1}
+            max={50}
+            onChange={value => onChange("fontSize", value)}
+            toString={toPixels}
+            value={settings.fontSize} />
+        </div>
+        <div>
+          <InputSettings
+            type="slider"
+            label="Background color alpha"
+            max={1}
+            onChange={value => onChange("backgroundColorAlpha", value)}
+            toString={toPercent}
+            value={settings.backgroundColorAlpha} />
+        </div>
+        <div>
+          <InputSettings
+            type="color"
+            label="Background color"
+            onChange={value => onChange("backgroundColor", value)}
+            value={settings.backgroundColor} />
+        </div>
+        <div>
+          <InputSettings
+            type="slider"
+            label="Background image alpha"
+            max={1}
+            onChange={value => onChange("backgroundImageAlpha", value)}
+            toString={toPercent}
+            value={settings.backgroundImageAlpha} />
+        </div>
+        <div>
+          <InputSettings
+            type="checkbox"
+            label="Draw as RGB"
+            onChange={value => onChange("rgb", value)}
+            checked={settings.rgb} />
+        </div>
+        <div>
+          <InputSettings
+            type="slider"
+            label="RGB contrast"
+            hide={!settings.rgb}
+            min={-1}
+            max={1}
+            onChange={value => onChange("contrast", value)}
+            toString={toPercent}
+            value={settings.contrast} />
+        </div>
         <div>
           <button type="submit">Draw</button>
         </div>

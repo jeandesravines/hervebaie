@@ -4,13 +4,13 @@
 export const IMAGE_SET = "IMAGE_SET";
 
 /**
- * @param {Image} image
+ * @param {HTMLImageElement} image
  * @return {{
  *   type: string,
  *   payload: Image
  * }}
  */
-export const setImage = (image: Image) => ({
+export const setImage = (image: HTMLImageElement) => ({
   type: IMAGE_SET,
   payload: image
 });

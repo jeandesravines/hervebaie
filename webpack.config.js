@@ -10,8 +10,12 @@ const plugins = [
     collections: true
   }),
   new PrepackWebpackPlugin({
-    trace: true,
-    logModules: true
+    test: /src/,
+    prepack: {
+      logStatistics: true,
+      logModules: true,
+      trace: true
+    }
   })
 ];
 

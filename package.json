@@ -22,10 +22,10 @@
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-plugin-react": "^7.0.0",
+    "immutable": "^3.8.1",
     "jest": "^20.0.0",
     "lodash": "^4.17.4",
     "lodash-webpack-plugin": "^0.11.4",
-    "material-components-web": "^0.10.0",
     "node-sass": "^4.5.2",
     "pre-git": "^3.14.0",
     "prepack-webpack-plugin": "^1.1.0",
@@ -140,7 +140,8 @@
     "lazy-ass": "1.5.0",
     "word-wrap": "1.2.1",
     "chdir-promise": "0.4.0",
-    "spots": "0.4.0"
+    "spots": "0.4.0",
+    "@material/base": "0.2.0"
   },
   "config": {
     "pre-git": {
