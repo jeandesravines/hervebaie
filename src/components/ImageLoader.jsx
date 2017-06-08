@@ -14,7 +14,10 @@ type Props = {
 };
 
 export class ImageLoader extends Component<void, Props> {
-  defaultProps: Props;
+  /**
+   * @const {Object}
+   */
+  props: Props;
 
   /**
    * @return {boolean}

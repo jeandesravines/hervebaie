@@ -7,9 +7,7 @@ describe("render", () => {
   test("renders without crashing", () => {
     const props = {
       opacity: 0.5,
-      canvas: {
-        toDataURL: () => "data:image/png;base64,"
-      }
+      canvas: document.createElement('canvas')
     };
 
     const wrapper = mount(
@@ -18,7 +16,7 @@ describe("render", () => {
 
     expect(wrapper.getNode()).not.toBe(null);
     expect(wrapper.find("image").props()).toMatchObject({
-      href: "data:image/png;base64,",
+      href: props.canvas.toDataURL(),
       opacity: 0.5,
       preserveAspectRatio: "none",
       width: "100%",
@@ -27,7 +25,11 @@ describe("render", () => {
   });
 
   test("should returns null", () => {
-    const props = { opacity: 0 };
+    const props = {
+      opacity: 0,
+      canvas: document.createElement('canvas')
+    };
+    
     const wrapper = shallow(
       <BackgroundImage {...props} />
     );

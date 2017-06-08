@@ -46,7 +46,7 @@ const mapDispatchToProps = {
 
 export class PixelList extends Component<void, Props, State> {
   /**
-   * @var {Object}
+   * @const {Object}
    */
   state: State = {};
 
@@ -141,14 +141,19 @@ export class PixelList extends Component<void, Props, State> {
   }
 
   /**
-   * @param {Object} props
+   * @param {{
+   *   image: HTMLImageElement,
+   *   settings: Object
+   * }} props
    * @return {HTMLCanvasElement}
    */
   static getCanvas(props: Props): HTMLCanvasElement {
     const {image, settings} = props;
     const {maxSize} = settings;
-    const {naturalWidth, naturalHeight} = image;
-    const imageRatio = naturalWidth / naturalHeight;
+    
+    const imageWidth = image.naturalWidth || image.width;
+    const imageHeight = image.naturalHeight || image.height;
+    const imageRatio = imageHeight / imageWidth;
 
     let width;
     let height;
@@ -210,6 +215,9 @@ export class PixelList extends Component<void, Props, State> {
   }
 
   /**
+   * @param {{
+   *   settings: Object
+   * }} props
    * @return {*}
    */
   static getBackgroundColor(props: Props) {

@@ -6,7 +6,10 @@ type Props = {
 };
 
 /**
- * @param {Object} props
+ * @param {{
+ *   color: string,
+ *   opacity: ?number
+ * }} props
  * @return {*}
  */
 export default function BackgroundColor(props: Props) {

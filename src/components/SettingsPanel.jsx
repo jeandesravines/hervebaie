@@ -32,7 +32,12 @@ type Props = {
 
 export class SettingsPanel extends Component<void, Props, State> {
   /**
-   * @var {Object}
+   * @const {Object}
+   */
+  props: Props;
+
+  /**
+   * @const {Object}
    */
   state: State = {
     settings: this.props.settings

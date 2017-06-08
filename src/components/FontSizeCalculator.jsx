@@ -25,6 +25,11 @@ type Props = {
 
 export class FontSizeCalculator extends Component<void, Props> {
   /**
+   * @const {Object}
+   */
+  props: Props;
+
+  /**
    * @inheritDoc
    */
   shouldComponentUpdate(): bool {

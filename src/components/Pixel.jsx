@@ -14,6 +14,11 @@ type Props = {
 
 export default class Pixel extends PureComponent<void, Props> {
   /**
+   * @const {Object}
+   */
+  props: Props;
+
+  /**
    * @return {*}
    */
   render() {

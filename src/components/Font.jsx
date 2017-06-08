@@ -7,6 +7,11 @@ type Props = {
 
 export default class Font extends Component<void, Props> {
   /**
+   * @const {Object}
+   */
+  props: Props;
+
+  /**
    * @static
    * @const {number}
    */

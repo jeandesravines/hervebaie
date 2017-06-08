@@ -30,7 +30,8 @@ describe("getFont", () => {
       settings: {
         fontName: "Helvetica",
         fontSize: 20
-      }
+      },
+      setSvgData: jest.fn()
     });
     
     expect(font).toMatchObject({
@@ -47,10 +48,8 @@ describe("getFont", () => {
 describe("getCanvas", () => {
   test("returns a canvas for a portrait picture", () => {
     const font = PixelList.getCanvas({
-      image: {
-        naturalWidth: 800,
-        naturalHeight: 600
-      },
+      image: new Image(600, 800),
+      setSvgData: jest.fn(),
       settings: {
         maxSize: 1080
       }
@@ -66,10 +65,8 @@ describe("getCanvas", () => {
 
   test("returns a canvas for a landscape picture", () => {
     const font = PixelList.getCanvas({
-      image: {
-        naturalWidth: 600,
-        naturalHeight: 800
-      },
+      image: new Image(800, 600),
+      setSvgData: jest.fn(),
       settings: {
         maxSize: 1080
       }
@@ -87,7 +84,11 @@ describe("getCanvas", () => {
 describe("getBackgroundColor", () => {
   test("returns a BackgroundColor", () => {
     const props = {
-      settings: { backgroundColorAlpha: 0.5, backgroundColor: "#FF0000" }
+      setSvgData: jest.fn(),
+      settings: {
+        backgroundColorAlpha: 0.5,
+        backgroundColor: "#FF0000"
+      }
     };
 
     const backgroundColor = PixelList.getBackgroundColor(props);
@@ -101,10 +102,11 @@ describe("getBackgroundColor", () => {
 describe("getBackgroundImage", () => {
   test("returns a BackgroundImage", () => {
     const props = {
+      setSvgData: jest.fn(),
       settings: { backgroundImageAlpha: 0.5 }
     };
 
-    const state = { canvas: {} };
+    const state = { canvas: document.createElement('canvas') };
     const backgroundImage = PixelList.getBackgroundImage(props, state);
     
     expect(backgroundImage).toMatchObject(
@@ -116,18 +118,20 @@ describe("getBackgroundImage", () => {
 describe("getPixels", () => {
   test("returns a array of Pixel", () => {
     const props = {
+      setSvgData: jest.fn(),
       settings: { rgb: false }
     };
     
-    const canvas = {
-      width: 80,
-      height: 60,
-      getContext: () => ({
-        getImageData: () => ({
+    const canvas = document.createElement('canvas');
+    canvas.width = 80;
+    canvas.height = 60;
+    
+    sandbox.spyOn(canvas, "getContext")
+      .mockReturnValue({
+         getImageData: () => ({
           data: [ 255, 255, 255, 255 ]
         })
-      })
-    };
+      });
 
     const state = {
       canvas,
@@ -155,18 +159,20 @@ describe("getPixels", () => {
   
   test("returns a array of RgbPixel", () => {
     const props = {
+      setSvgData: jest.fn(),
       settings: { rgb: true, contrast: 0.5 }
     };
     
-    const canvas = {
-      width: 80,
-      height: 60,
-      getContext: () => ({
-        getImageData: () => ({
+    const canvas = document.createElement('canvas');
+    canvas.width = 80;
+    canvas.height = 60;
+    
+    sandbox.spyOn(canvas, "getContext")
+      .mockReturnValue({
+         getImageData: () => ({
           data: [ 255, 255, 255, 255 ]
         })
-      })
-    };
+      });
 
     const state = {
       canvas,
@@ -353,15 +359,22 @@ describe("render", () => {
     
     sandbox
       .spyOn(PixelList, "getCanvas")
-      .mockReturnValue({
-        width: 80,
-        height: 60,
-        toDataURL: () => '',
-        getContext: () => ({
-          getImageData: () => ({
-            data: [ 255, 255, 255, 255 ]
-          })
-        })
+      .mockImplementation(() => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 80;
+        canvas.height = 60;
+
+        sandbox.spyOn(canvas, "getContext")
+          .mockReturnValue({
+             getImageData: () => ({
+              data: [ 255, 255, 255, 255 ]
+            })
+          });
+      
+        sandbox.spyOn(canvas, "toDataURL")
+          .mockReturnValue("");
+      
+        return canvas;
       });
   });
 
@@ -375,10 +388,7 @@ describe("render", () => {
   
   test("renders without crashing", () => {
     const props = {
-      image: Object.assign(new Image(), {
-        naturalWidth: 80, 
-        naturalHeight: 60
-      }),
+      image: new Image(80, 60),
       setSvgData: jest.fn(),
       settings: {
         backgroundColor: "#FF0000",

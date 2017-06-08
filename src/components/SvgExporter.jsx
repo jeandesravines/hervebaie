@@ -17,6 +17,11 @@ type Props = {
 
 export class SvgExporter extends Component<void, Props> {
   /**
+   * @const {Object}
+   */
+  props: Props;
+
+  /**
    * @inheritDoc
    */
   render() {

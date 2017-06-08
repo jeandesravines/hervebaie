@@ -24,7 +24,7 @@ describe("render", () => {
   });
 
   test("should returns null", () => {
-    const props = { opacity: 0 }; 
+    const props = { opacity: 0, color: "#FF0000" }; 
     const wrapper = shallow(
       <BackgroundColor {...props} />
     );

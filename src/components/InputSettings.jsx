@@ -101,6 +101,7 @@ export default class InputSettings extends PureComponent<void, Props> {
     if (min < 0 || max - min <= 1) {
       min *= 100;
       max *= 100;
+      step *= 100;
       intValue = Number.parseInt(value * 100, 10);
     }
 
@@ -108,6 +109,7 @@ export default class InputSettings extends PureComponent<void, Props> {
       value: intValue,
       min,
       max,
+      step,
       onChange: e => onChange(e.target.value / 100),
       type: "range"
     };
