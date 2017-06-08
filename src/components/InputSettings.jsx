@@ -18,7 +18,7 @@ type Props = {
 export default class InputSettings extends PureComponent<void, Props> {
   props: Props;
 
-  static getCheckboxElement(props: Object) {
+  static getCheckboxElement(props: Props) {
     const { checked, onChange, label } = props;
     const inputProps = {
       checked,
@@ -34,7 +34,7 @@ export default class InputSettings extends PureComponent<void, Props> {
     );
   }
   
-  static getSelectElement(props: Object) {
+  static getSelectElement(props: Props) {
     const { label, value, onChange } = props;
     const inputProps = {
       value,
@@ -55,7 +55,7 @@ export default class InputSettings extends PureComponent<void, Props> {
     );
   }
   
-  static getTextFieldElement(props: Object) {
+  static getTextFieldElement(props: Props) {
     const {
       type,
       value,
@@ -92,7 +92,7 @@ export default class InputSettings extends PureComponent<void, Props> {
     );
   }
 
-  static getSliderElement(props: Object) {
+  static getSliderElement(props: Props) {
     const { onChange, label, value, toString } = props;
     let { min = 0, max, step } = props;
     let textValue = toString ? toString(value) : value;
