@@ -6,7 +6,7 @@ describe("reduce", () => {
     const action = {
       type: 'unknown'
     };
-    
+
     expect(reduce(undefined, action)).toBe(null);
   });
 });
@@ -17,9 +17,9 @@ describe("DATA_SET", () => {
       type: DATA_SET,
       payload: "data:"
     };
-    
+
     const state = reduce(undefined, action);
-    
+
     expect(state).toBe(action.payload);
   });
 });

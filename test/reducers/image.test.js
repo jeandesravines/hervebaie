@@ -6,7 +6,7 @@ describe("reduce", () => {
     const action = {
       type: 'unknown'
     };
-    
+
     expect(reduce(undefined, action)).toBe(null);
   });
 });
@@ -17,9 +17,9 @@ describe("IMAGE_SET", () => {
       type: IMAGE_SET,
       payload: new Image(800, 600)
     };
-    
+
     const state = reduce(undefined, action);
-    
+
     expect(state.localName).toBe('img');
     expect(state).not.toBe(action.payload);
     expect(state).toMatchObject(

@@ -9,12 +9,12 @@ import App from "./components/App";
 
 export const store = createStore(reducers, applyMiddleware(reduxPromise));
 export const component = (
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
 
 ReactDOM.render(
-  component, 
+  component,
   document.getElementById("root")
 );

@@ -36,7 +36,7 @@ describe("render", () => {
     const wrapper = shallow(
       <FontSizeCalculator {...props} />
     );
-    
+
     _.forEach(props.fonts, (font) => {
       expect(
         wrapper.find(`svg Font[family="${font.family}"]`)
@@ -50,7 +50,7 @@ describe("shouldComponentUpdate", () => {
     const wrapper = shallow(
       <FontSizeCalculator />
     );
-    
+
     const shouldComponentUpdate = wrapper
       .instance()
       .shouldComponentUpdate();
@@ -68,17 +68,17 @@ describe("setFont", () => {
       },
       setFont: jest.fn()
     };
-    
+
     mount(
       <FontSizeCalculator {...props} />
     );
-    
+
     const fontProps = { dx: 0.01, dy: 0.01, width: 1.2, height: 1.58 };
     const calls = props.setFont.mock.calls;
-    const expected = _.map(props.fonts, (font, name) => [ 
+    const expected = _.map(props.fonts, (font, name) => [
       name, { ...fontProps, family: font.family }
     ]);
-    
+
     expect(calls).toEqual(
       expect.arrayContaining(expected)
     );

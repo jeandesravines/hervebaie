@@ -8,7 +8,7 @@ describe("setValue", () => {
         foo: "bar"
       }
     };
-    
+
     expect(actions.setValue("foo", "bar")).toMatchObject(expected);
   });
 });
@@ -27,7 +27,7 @@ describe("setSettings", () => {
         baz: "yaz"
       }
     };
-    
+
     expect(actions.setSettings(settings)).toMatchObject(expected);
   });
 });

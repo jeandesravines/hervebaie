@@ -3,7 +3,7 @@ export default class Sandbox {
    * @const {Array.<Function>}
    */
   static spies: Array<Function> = [];
-  
+
   /**
    * @param {Object} object
    * @param {string} methodName
@@ -15,7 +15,7 @@ export default class Sandbox {
     }
 
     const spy = jest.spyOn(object, methodName);
-    
+
     this.spies.push(spy);
 
     return spy;

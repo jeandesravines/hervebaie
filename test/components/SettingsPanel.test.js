@@ -19,7 +19,7 @@ describe("componentWillReceiveProps", () => {
     };
 
     const wrapper = shallow(
-      <SettingsPanel {...props} />
+        <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -43,7 +43,7 @@ describe("onApplySettings", () => {
 
     const event = { preventDefault: jest.fn() };
     const wrapper = shallow(
-      <SettingsPanel {...props} />
+        <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -59,7 +59,7 @@ describe("setValue", () => {
   test("should calls setState", () => {
     const spySetState = sandbox
       .spyOn(SettingsPanel.prototype, "setState");
-    
+
     const props = {
       fonts: {},
       setSettings: jest.fn(),
@@ -67,9 +67,9 @@ describe("setValue", () => {
         contrast: 0.5
       }
     };
-    
+
     const wrapper = shallow(
-      <SettingsPanel {...props} />
+        <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -92,9 +92,9 @@ describe("setValue", () => {
         liveReload: true
       }
     };
-    
+
     const wrapper = shallow(
-      <SettingsPanel {...props} />
+        <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -126,9 +126,9 @@ describe.skip("render", () => {
         rgb: true
       }
     });
-    
+
     const wrapper = mount(
-      <ConnectedSettingsPanel store={store} />
+        <ConnectedSettingsPanel store={store} />
     );
   });
 });

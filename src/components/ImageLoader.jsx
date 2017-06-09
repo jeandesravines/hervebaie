@@ -10,7 +10,7 @@ const mapDispatchToProps = {
 };
 
 type Props = {
-  +setImage: (HTMLImageElement) => Object
+  setImage: (HTMLImageElement) => Object
 };
 
 export class ImageLoader extends Component<void, Props> {
@@ -18,13 +18,6 @@ export class ImageLoader extends Component<void, Props> {
    * @const {Object}
    */
   props: Props;
-
-  /**
-   * @return {boolean}
-   */
-  shouldComponentUpdate(): boolean {
-    return false;
-  }
 
   /**
    * @param {Event} e
@@ -42,19 +35,28 @@ export class ImageLoader extends Component<void, Props> {
   }
 
   /**
+   * @return {boolean}
+   */
+  shouldComponentUpdate(): boolean {
+    return false;
+  }
+
+  /**
    * @inheritDoc
    */
   render() {
+    const onChange = (e) => this.onChange(e);
+
     return (
       <div>
         <label htmlFor="hb-image-loader__input">
           Select an image
         </label>
         <input
-          type="file" 
-          accept="image/*" 
+          accept="image/*"
           id="hb-image-loader__input"
-          onChange={e => this.onChange(e)} />
+          onChange={onChange}
+          type="file" />
       </div>
     );
   }

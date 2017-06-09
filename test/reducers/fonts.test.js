@@ -6,7 +6,7 @@ describe("reduce", () => {
     const action = {
       type: 'unknown'
     };
-    
+
     expect(reduce(undefined, action)).toMatchObject({
       monospace: {
         family: "monospace,monospace"
@@ -26,7 +26,7 @@ describe("FONTS_SET", () => {
         }
       }
     };
-    
+
     expect(reduce(undefined, action)).toMatchObject(action.payload);
   });
 });

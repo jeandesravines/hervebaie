@@ -1,31 +1,27 @@
 import React from "react";
 
 type Props = {
-  +canvas: HTMLCanvasElement,
-  +opacity: ?number
+  canvas: HTMLCanvasElement,
+  opacity: ?number
 };
 
 /**
- * @param {{
- *   canvas: HTMLCanvasElement,
- *   opacity: ?number
- * }} props
+ * @param {Object} props
  * @return {*}
  */
 export default function BackgroundImage(props: Props) {
-  const { opacity, canvas } = props; 
-  
+  const { opacity, canvas } = props;
+
   if (!opacity) {
     return null;
   }
 
   return (
     <image
+      height="100%"
       href={canvas.toDataURL()}
       opacity={opacity}
       preserveAspectRatio="none"
-      width="100%"
-      height="100%"
-    />
+      width="100%" />
   );
 }

@@ -7,7 +7,7 @@ describe("setSvgData", () => {
       type: actions.DATA_SET,
       payload: data
     };
-    
+
     expect(actions.setSvgData(data)).toMatchObject(expected);
   });
 });

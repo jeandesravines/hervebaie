@@ -20,20 +20,20 @@ describe("render", () => {
     });
 
     const wrapper = mount(
-      <ConnectedSvgExporter store={store} />
+        <ConnectedSvgExporter store={store} />
     );
-    
+
     expect(wrapper).toHaveLength(1);
   });
-  
+
   test("returns null", () => {
     const wrapper = shallow(
-      <SvgExporter />
+        <SvgExporter />
     );
 
     expect(wrapper.getNode()).toBe(null);
   });
-  
+
   test("have props", () => {
     const props = {
       data: "data:image/png;base64,",
@@ -43,7 +43,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-      <SvgExporter {...props} />
+        <SvgExporter {...props} />
     );
 
     expect(wrapper.props()).toMatchObject({

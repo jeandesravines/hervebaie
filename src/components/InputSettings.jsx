@@ -2,20 +2,23 @@ import React, { PureComponent } from "react";
 import _ from "lodash";
 
 type Props = {
-  +hide: ?boolean,
-  +label: string,
-  +pattern: ?string,
-  +onChange: Function,
-  +options: ?Object,
-  +type: string,
-  +min: ?number,
-  +max: ?number,
-  +step: ?number,
-  +value: number | string | boolean,
-  +toString: ?(value: any) => string
+  hide: ?boolean,
+  label: string,
+  pattern: ?string,
+  onChange: Function,
+  options: ?Object,
+  type: string,
+  min: ?number,
+  max: ?number,
+  step: ?number,
+  value: number | string | boolean,
+  toString: ?(value: any) => string
 };
 
 export default class InputSettings extends PureComponent<void, Props> {
+  /**
+   * @const {Object}
+   */
   props: Props;
 
   static getCheckboxElement(props: Props) {
@@ -25,7 +28,7 @@ export default class InputSettings extends PureComponent<void, Props> {
       onChange: e => onChange(e.target.checked),
       type: "checkbox"
     };
-    
+
     return (
       <div>
         <label>{label}</label>
@@ -33,7 +36,7 @@ export default class InputSettings extends PureComponent<void, Props> {
       </div>
     );
   }
-  
+
   static getSelectElement(props: Props) {
     const { label, value, onChange } = props;
     const inputProps = {
@@ -42,9 +45,13 @@ export default class InputSettings extends PureComponent<void, Props> {
     };
 
     const options = _.map(props.options, (label: string, key: string) => (
-      <option key={key} value={key}>{label}</option>
+      <option
+        key={key}
+        value={key}>
+        {label}
+      </option>
     ));
-    
+
     return (
       <div>
         <label>{label}</label>
@@ -54,7 +61,7 @@ export default class InputSettings extends PureComponent<void, Props> {
       </div>
     );
   }
-  
+
   static getTextFieldElement(props: Props) {
     const {
       type,
@@ -83,7 +90,7 @@ export default class InputSettings extends PureComponent<void, Props> {
       step,
       type
     };
-    
+
     return (
       <div>
         <label>{label}</label>
@@ -113,7 +120,7 @@ export default class InputSettings extends PureComponent<void, Props> {
       onChange: e => onChange(e.target.value / 100),
       type: "range"
     };
-    
+
     return (
       <div>
         <label>{label}</label>
@@ -122,21 +129,21 @@ export default class InputSettings extends PureComponent<void, Props> {
       </div>
     );
   }
-  
+
   render() {
     if (this.props.hide) {
       return null;
     }
 
     switch (this.props.type) {
-      case "checkbox":
-        return InputSettings.getCheckboxElement(this.props);
-      case "slider":
-        return InputSettings.getSliderElement(this.props);
-      case "select":
-        return InputSettings.getSelectElement(this.props);
-      default:
-        return InputSettings.getTextFieldElement(this.props);
+    case "checkbox":
+      return InputSettings.getCheckboxElement(this.props);
+    case "slider":
+      return InputSettings.getSliderElement(this.props);
+    case "select":
+      return InputSettings.getSelectElement(this.props);
+    default:
+      return InputSettings.getTextFieldElement(this.props);
     }
   }
 }

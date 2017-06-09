@@ -11,9 +11,9 @@ import SvgExporter from "../../src/components/SvgExporter";
 describe("render", () => {
   test("renders without crashin", () => {
     const wrapper = shallow(
-      <DrawScene />
+        <DrawScene />
     );
-    
+
     const components = [
       FontSizeCalculator,
       ImageLoader,
@@ -21,7 +21,7 @@ describe("render", () => {
       SettingsPanel,
       SvgExporter
     ];
-    
+
     components.forEach((component) => {
       expect(wrapper.find(component)).toHaveLength(1);
     });

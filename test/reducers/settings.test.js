@@ -6,7 +6,7 @@ describe("reduce", () => {
     const action = {
       type: 'unknown'
     };
-    
+
     expect(reduce(undefined, action)).toMatchObject({
       backgroundImageAlpha: expect.any(Number),
       backgroundColor: expect.any(String),
@@ -35,7 +35,7 @@ describe("SETTINGS_SET", () => {
         contrast: 0.7
       }
     };
-    
+
     expect(reduce(undefined, action)).toMatchObject(action.payload);
   });
 });

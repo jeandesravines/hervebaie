@@ -23,9 +23,9 @@ const _state = {
  */
 export default (state = _state, action): Object => {
   switch (action.type) {
-    case SETTINGS_SET:
-      return { ...state, ...action.payload };
-    default:
-      return state;
+  case SETTINGS_SET:
+    return { ...state, ...action.payload };
+  default:
+    return state;
   }
 };

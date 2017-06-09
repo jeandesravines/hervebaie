@@ -11,9 +11,9 @@ describe("render", () => {
     };
 
     const wrapper = mount(
-      <BackgroundColor {...props}/>
+        <BackgroundColor {...props} />
     );
-                          
+
     expect(wrapper.getNode()).not.toBe(null);
     expect(wrapper.find("rect").props()).toMatchObject({
       opacity: 0.5,
@@ -24,11 +24,11 @@ describe("render", () => {
   });
 
   test("should returns null", () => {
-    const props = { opacity: 0, color: "#FF0000" }; 
+    const props = { opacity: 0, color: "#FF0000" };
     const wrapper = shallow(
-      <BackgroundColor {...props} />
+        <BackgroundColor {...props} />
     );
-                          
+
     expect(wrapper.getNode()).toBe(null);
   });
 });

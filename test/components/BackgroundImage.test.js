@@ -11,7 +11,7 @@ describe("render", () => {
     };
 
     const wrapper = mount(
-      <BackgroundImage {...props} />
+        <BackgroundImage {...props} />
     );
 
     expect(wrapper.getNode()).not.toBe(null);
@@ -29,9 +29,9 @@ describe("render", () => {
       opacity: 0,
       canvas: document.createElement('canvas')
     };
-    
+
     const wrapper = shallow(
-      <BackgroundImage {...props} />
+        <BackgroundImage {...props} />
     );
 
     expect(wrapper.getNode()).toBe(null);

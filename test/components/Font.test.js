@@ -22,9 +22,9 @@ describe("render", () => {
     };
 
     const wrapper = mount(
-      <Font {...props} />
+        <Font {...props} />
     );
-    
+
     const expected = {
       fontFamily: "Arial,monospace",
       fontSize: Font.fontSize,
@@ -58,14 +58,14 @@ describe("getBBox", () => {
   });
 
   it("returns a simulated SVGRect", () => {
-    const wrapper = shallow(<Font/>)
+    const wrapper = shallow(<Font />)
     const instance = wrapper.instance();
     const bBox = { x: -5, y: -5, width: 800, height: 600 };
 
     instance.nodeRef = {
       getBBox: () => bBox
     };
-    
+
     expect(instance.getBBox()).toBe(bBox);
   });
 });
@@ -78,9 +78,9 @@ describe("componentDidMount", () => {
     };
 
     const wrapper = mount(
-      <Font {...props} />
+        <Font {...props} />
     );
-    
+
     const coef = 1 / Font.fontSize;
     const expected = {
       dx: 5 * coef,
@@ -88,7 +88,7 @@ describe("componentDidMount", () => {
       width: 800 * coef,
       height: (600 - 5 * 2) * coef,
     };
-    
+
     wrapper.instance().componentDidMount();
     expect(props.onLoad).toHaveBeenCalledWith(expected);
   });

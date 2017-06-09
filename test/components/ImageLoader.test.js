@@ -15,9 +15,9 @@ describe("render", () => {
     const store = createStore({
       setImage: jest.fn()
     });
-    
+
     mount(
-      <ConnectedImageLoader store={store} />
+        <ConnectedImageLoader store={store} />
     );
   });
 
@@ -25,20 +25,20 @@ describe("render", () => {
     const props = {
       setImage: jest.fn()
     };
-    
+
     const wrapper = shallow(
-      <ImageLoader {...props} />
+        <ImageLoader {...props} />
     );
- 
+
     const className = "hb-image-loader";
     const label = wrapper.find("label");
     const input = wrapper.find("input[type='file']");
-    
+
     expect(label.props()).toMatchObject({
       htmlFor: `${className}__input`,
       children: "Select an image"
     });
-    
+
     expect(input.props()).toMatchObject({
       id: `${className}__input`,
       type: "file" ,
@@ -51,9 +51,9 @@ describe("render", () => {
 describe("shouldComponentUpdate", () => {
   test("should returns false", () => {
     const wrapper = shallow(
-      <ImageLoader />
+        <ImageLoader />
     );
-    
+
     const shouldComponentUpdate = wrapper
       .instance()
       .shouldComponentUpdate();
@@ -67,11 +67,11 @@ describe("onChange", () => {
     const props = {
       setImage: jest.fn()
     };
-    
+
     const wrapper = shallow(
-      <ImageLoader {...props} />
+        <ImageLoader {...props} />
     );
-    
+
     wrapper.find("input")
       .simulate("change", {
         target: {
@@ -81,7 +81,7 @@ describe("onChange", () => {
           }]
         }
       });
-    
+
     expect(props.setImage).toHaveBeenCalledWith(
       expect.objectContaining({
         alt: "hello",

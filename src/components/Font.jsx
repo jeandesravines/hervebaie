@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 type Props = {
-  +onLoad: Function,
-  +family: string
+  onLoad: Function,
+  family: string
 };
 
 export default class Font extends Component<void, Props> {
@@ -16,7 +16,7 @@ export default class Font extends Component<void, Props> {
    * @const {number}
    */
   static fontSize = 500;
-  
+
   /**
    * The text node
    * @type {?HTMLElement}
@@ -24,13 +24,6 @@ export default class Font extends Component<void, Props> {
    */
   nodeRef: ?HTMLElement;
 
-  /**
-   * @inheritDoc
-   */
-  shouldComponentUpdate(): boolean {
-    return false;
-  }
-  
   /**
    * Get an SVGRect of the text node
    * @return {Object}
@@ -58,15 +51,24 @@ export default class Font extends Component<void, Props> {
   /**
    * @inheritDoc
    */
+  shouldComponentUpdate(): boolean {
+    return false;
+  }
+
+  /**
+   * @inheritDoc
+   */
   render() {
+    const ref = node => this.nodeRef = node;
+
     return (
       <text
-        ref={n => this.nodeRef = n}
-        fontFamily={this.props.family}
         alignmentBaseline="hanging"
         dominantBaseline="bottom"
-        fontSize={Font.fontSize}>
-        0
+        fontFamily={this.props.family}
+        fontSize={Font.fontSize}
+        ref={ref}>
+      0
       </text>
     );
   }

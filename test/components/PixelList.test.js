@@ -33,7 +33,7 @@ describe("getFont", () => {
       },
       setSvgData: jest.fn()
     });
-    
+
     expect(font).toMatchObject({
       dx: 0.2,
       dy: 0.2,
@@ -92,9 +92,9 @@ describe("getBackgroundColor", () => {
     };
 
     const backgroundColor = PixelList.getBackgroundColor(props);
-    
+
     expect(backgroundColor).toMatchObject(
-      <BackgroundColor color="#FF0000" opacity={0.5} />
+        <BackgroundColor color="#FF0000" opacity={0.5} />
     );
   });
 });
@@ -108,9 +108,9 @@ describe("getBackgroundImage", () => {
 
     const state = { canvas: document.createElement('canvas') };
     const backgroundImage = PixelList.getBackgroundImage(props, state);
-    
+
     expect(backgroundImage).toMatchObject(
-      <BackgroundImage canvas={{}} opacity={0.5} />
+        <BackgroundImage canvas={{}} opacity={0.5} />
     );
   });
 });
@@ -121,14 +121,14 @@ describe("getPixels", () => {
       setSvgData: jest.fn(),
       settings: { rgb: false }
     };
-    
+
     const canvas = document.createElement('canvas');
     canvas.width = 80;
     canvas.height = 60;
-    
+
     sandbox.spyOn(canvas, "getContext")
       .mockReturnValue({
-         getImageData: () => ({
+        getImageData: () => ({
           data: [ 255, 255, 255, 255 ]
         })
       });
@@ -137,15 +137,15 @@ describe("getPixels", () => {
       canvas,
       font: { width: 4.8, height: 6.4 }
     };
-    
+
     const pixels = PixelList.getPixels(props, state)
       .reverse();
-    
+
     for (let y = 0; y < 5; y++) {
       for (let x = 0; x < 6; x++) {
         const index = x + y * (1 + 5);
         const pixel = pixels[index];
-        
+
         expect(pixel.type).toBe(Pixel);
         expect(pixel.props).toMatchObject({
           x,
@@ -156,20 +156,20 @@ describe("getPixels", () => {
       }
     }
   });
-  
+
   test("returns a array of RgbPixel", () => {
     const props = {
       setSvgData: jest.fn(),
       settings: { rgb: true, contrast: 0.5 }
     };
-    
+
     const canvas = document.createElement('canvas');
     canvas.width = 80;
     canvas.height = 60;
-    
+
     sandbox.spyOn(canvas, "getContext")
       .mockReturnValue({
-         getImageData: () => ({
+        getImageData: () => ({
           data: [ 255, 255, 255, 255 ]
         })
       });
@@ -178,15 +178,15 @@ describe("getPixels", () => {
       canvas,
       font: { width: 4.8, height: 6.4 }
     };
-    
+
     const pixels = PixelList.getPixels(props, state)
       .reverse();
-    
+
     for (let y = 0; y < 5; y++) {
       for (let x = 0; x < 6; x++) {
         const index = x + y * (1 + 5);
         const pixel = pixels[index];
-        
+
         expect(pixel.type).toBe(RgbPixel);
         expect(pixel.props).toMatchObject({
           x,
@@ -201,7 +201,7 @@ describe("getPixels", () => {
 });
 
 describe("shouldComponentUpdate", () => {
-  beforeEach(() => {    
+  beforeEach(() => {
     sandbox.spyOn(PixelList.prototype, "render")
       .mockReturnValue();
   });
@@ -212,11 +212,11 @@ describe("shouldComponentUpdate", () => {
       setSvgData: jest.fn(),
       settings: {}
     };
-    
+
     const wrapper = shallow(
-      <PixelList {...props} />
+        <PixelList {...props} />
     );
-    
+
     const shouldComponentUpdate = wrapper
       .instance()
       .shouldComponentUpdate(props);
@@ -230,11 +230,11 @@ describe("shouldComponentUpdate", () => {
       setSvgData: jest.fn(),
       settings: {}
     };
-    
+
     const wrapper = shallow(
-      <PixelList {...props} />
+        <PixelList {...props} />
     );
-    
+
     const shouldComponentUpdate = wrapper
       .instance()
       .shouldComponentUpdate(props);
@@ -251,7 +251,7 @@ describe("componentWillReceiveProps", () => {
     sandbox.spyOn(PixelList.prototype, "componentDidMount")
       .mockReturnValue();
   });
-  
+
   test("should do nothing - no props.image", () => {
     const spySetState = jest.spyOn(PixelList.prototype, "setState");
     const props = {
@@ -259,17 +259,17 @@ describe("componentWillReceiveProps", () => {
       setSvgData: jest.fn(),
       settings: {}
     };
-    
+
     const wrapper = shallow(
-      <PixelList {...props} />
+        <PixelList {...props} />
     );
-    
+
     wrapper.instance()
       .componentWillReceiveProps(props);
-    
+
     expect(spySetState).not.toHaveBeenCalled();
   });
-  
+
   test("should calls setState", () => {
     const spySetState = sandbox
       .spyOn(PixelList.prototype, "setState")
@@ -280,20 +280,20 @@ describe("componentWillReceiveProps", () => {
 
     sandbox.spyOn(PixelList, "getFont")
       .mockReturnValue();
-    
+
     const props = {
       image: new Image(),
       setSvgData: jest.fn(),
       settings: {}
     };
-    
+
     const wrapper = shallow(
-      <PixelList {...props} />
+        <PixelList {...props} />
     );
-    
+
     wrapper.instance()
       .componentWillReceiveProps(props);
-    
+
     expect(spySetState).toHaveBeenCalledWith({
       canvas: undefined,
       font: undefined
@@ -302,11 +302,11 @@ describe("componentWillReceiveProps", () => {
 });
 
 describe("componentDidUpdate", () => {
-  beforeEach(() => {    
+  beforeEach(() => {
     sandbox.spyOn(PixelList.prototype, "render")
       .mockReturnValue(null);
   });
-  
+
   test("should calls props.setSvgData", () => {
     const props = {
       image: null,
@@ -315,24 +315,24 @@ describe("componentDidUpdate", () => {
     };
 
     const wrapper = shallow(
-      <PixelList {...props} />
+        <PixelList {...props} />
     );
- 
+
     const instance = wrapper.instance();
     const data = (
       "<svg " +
-      "xmlns=\"http://www.w3.org/2000/svg\" " + 
-      "xmlns:xlink=\"http://www.w3.org/1999/xlink\">" + 
+      "xmlns=\"http://www.w3.org/2000/svg\" " +
+      "xmlns:xlink=\"http://www.w3.org/1999/xlink\">" +
       "<text>Hello</text>" +
       "</svg>"
     );
-    
+
     instance.nodeRef = {
       outerHTML: "<svg><text>Hello</text></svg>"
     };
-    
+
     instance.componentDidUpdate();
-    
+
     expect(props.setSvgData).toHaveBeenCalledWith(
       new Blob([data], {
         type: "image/svg+xml;charset=utf-8"
@@ -346,7 +346,7 @@ describe("render", () => {
     sandbox
       .spyOn(PixelList.prototype, "componentDidUpdate")
       .mockReturnValue();
-    
+
     sandbox
       .spyOn(PixelList, "getFont")
       .mockReturnValue({
@@ -356,7 +356,7 @@ describe("render", () => {
         height: 6.4,
         width: 4.8
       });
-    
+
     sandbox
       .spyOn(PixelList, "getCanvas")
       .mockImplementation(() => {
@@ -366,14 +366,14 @@ describe("render", () => {
 
         sandbox.spyOn(canvas, "getContext")
           .mockReturnValue({
-             getImageData: () => ({
+            getImageData: () => ({
               data: [ 255, 255, 255, 255 ]
             })
           });
-      
+
         sandbox.spyOn(canvas, "toDataURL")
           .mockReturnValue("");
-      
+
         return canvas;
       });
   });
@@ -382,10 +382,10 @@ describe("render", () => {
     const store = createStore({
       settings: {}
     });
-    
+
     mount(<ConnectedPixelList store={store} />);
   });
-  
+
   test("renders without crashing", () => {
     const props = {
       image: new Image(80, 60),
@@ -398,13 +398,13 @@ describe("render", () => {
         fontSize: 20
       }
     };
-    
+
     const wrapper = mount(
-      <PixelList {...props} />
+        <PixelList {...props} />
     );
-    
+
     wrapper.update();
-    
+
     expect(wrapper.find("svg").props()).toMatchObject({
       fontFamily: "Arial,monospace",
       fontSize: 20,
@@ -413,7 +413,7 @@ describe("render", () => {
       preserveAspectRatio: "none",
       viewBox: "0 0 80 85"
     });
-    
+
     expect(wrapper.find("BackgroundImage").props()).toMatchObject({
       opacity: 0.5,
       canvas: expect.objectContaining({
@@ -421,12 +421,12 @@ describe("render", () => {
         height: 60
       })
     });
-    
+
     expect(wrapper.find("BackgroundColor").props()).toMatchObject({
       opacity: 0.3,
       color: "#FF0000"
     });
-    
+
     expect(wrapper.find("Pixel")).toHaveLength(30);
   });
 
@@ -438,7 +438,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(<PixelList {...props} />);
-    
-    expect(wrapper.getNode()).toBe(null);   
+
+    expect(wrapper.getNode()).toBe(null);
   });
 });

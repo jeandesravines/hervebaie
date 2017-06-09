@@ -14,9 +14,9 @@ const _state: ?HTMLImageElement = null;
  */
 export default (state = _state, action): ?HTMLImageElement => {
   switch (action.type) {
-    case IMAGE_SET:
-      return action.payload.cloneNode();
-    default:
-      return state;
+  case IMAGE_SET:
+    return action.payload.cloneNode();
+  default:
+    return state;
   }
 };

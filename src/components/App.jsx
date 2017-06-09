@@ -8,7 +8,10 @@ import DrawScene from "./DrawScene";
 export default function App() {
   return (
     <BrowserRouter>
-      <Route exact path="/draw" component={DrawScene} />
+      <Route
+        component={DrawScene}
+        exact
+        path="/draw" />
     </BrowserRouter>
   );
 }

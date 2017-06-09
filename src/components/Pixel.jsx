@@ -1,14 +1,14 @@
 import React, { PureComponent } from "react";
 
 type Props = {
-  +x: number,
-  +y: number,
-  +data: Array<number>,
-  +font: {
-    +width: number,
-    +height: number,
-    +dx: number,
-    +dy: number
+  x: number,
+  y: number,
+  data: Array<number>,
+  font: {
+    width: number,
+    height: number,
+    dx: number,
+    dy: number
   }
 };
 
@@ -43,7 +43,11 @@ export default class Pixel extends PureComponent<void, Props> {
       lines[i] = <text {...textProps}>{text}</text>;
     }
 
-    return <g key={`${x}-${y}`}>{lines}</g>;
+    return (
+      <g key={`${x}-${y}`}>
+        {lines}
+      </g>
+    );
   }
 
   /**

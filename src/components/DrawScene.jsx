@@ -1,5 +1,4 @@
 import React from "react";
-
 import SettingsPanel from "./SettingsPanel";
 import PixelList from "./PixelList";
 import ImageLoader from "./ImageLoader";

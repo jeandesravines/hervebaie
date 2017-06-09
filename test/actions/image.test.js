@@ -7,7 +7,7 @@ describe("setImage", () => {
       type: actions.IMAGE_SET,
       payload: image
     };
-    
+
     expect(actions.setImage(image)).toMatchObject(expected);
   });
 });

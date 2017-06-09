@@ -32,9 +32,9 @@ const _state = fonts.reduce((state, name) => ({
  */
 export default (state = _state, action: Object): Object => {
   switch (action.type) {
-    case FONTS_SET:
-      return { ...state, ...action.payload };
-    default:
-      return state;
+  case FONTS_SET:
+    return { ...state, ...action.payload };
+  default:
+    return state;
   }
 };

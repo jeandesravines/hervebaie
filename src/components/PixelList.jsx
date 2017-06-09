@@ -17,10 +17,10 @@ type Font = {
 };
 
 type Props = {
-  +fonts: ?Object<Font>,
-  +image: ?HTMLImageElement,
-  +setSvgData: (Object) => Object,
-  +settings: Object<string | number | boolean>
+  fonts: ?Object<Font>,
+  image: ?HTMLImageElement,
+  setSvgData: (Object) => Object,
+  settings: Object<string | number | boolean>
 };
 
 type State = {
@@ -79,7 +79,7 @@ export class PixelList extends Component<void, Props, State> {
   /**
    * @inheritDoc
    */
-  render() {    
+  render() {
     if (!this.props.image) {
       return null;
     }
@@ -117,10 +117,12 @@ export class PixelList extends Component<void, Props, State> {
     };
 
     return (
-      <svg {...svgProps} ref={n => this.nodeRef = n}>
-        {PixelList.getBackgroundColor(this.props)}
-        {PixelList.getBackgroundImage(this.props, this.state)}
-        {PixelList.getPixels(this.props, this.state)}
+      <svg
+        {...svgProps}
+        ref={n => this.nodeRef = n}>
+          {PixelList.getBackgroundColor(this.props)}
+          {PixelList.getBackgroundImage(this.props, this.state)}
+          {PixelList.getPixels(this.props, this.state)}
       </svg>
     );
   }
@@ -150,14 +152,14 @@ export class PixelList extends Component<void, Props, State> {
   static getCanvas(props: Props): HTMLCanvasElement {
     const {image, settings} = props;
     const {maxSize} = settings;
-    
+
     const imageWidth = image.naturalWidth || image.width;
     const imageHeight = image.naturalHeight || image.height;
     const imageRatio = imageHeight / imageWidth;
 
     let width;
     let height;
-    
+
     if (imageRatio > 1) {
       width = maxSize;
       height = maxSize / imageRatio;
@@ -211,7 +213,11 @@ export class PixelList extends Component<void, Props, State> {
     const {backgroundImageAlpha} = props.settings;
     const {canvas} = state;
 
-    return <BackgroundImage canvas={canvas} opacity={backgroundImageAlpha}/>;
+    return (
+      <BackgroundImage
+        canvas={canvas}
+        opacity={backgroundImageAlpha} />
+    );
   }
 
   /**
@@ -224,7 +230,9 @@ export class PixelList extends Component<void, Props, State> {
     const {backgroundColor, backgroundColorAlpha} = props.settings;
 
     return (
-      <BackgroundColor color={backgroundColor} opacity={backgroundColorAlpha}/>
+      <BackgroundColor
+        color={backgroundColor}
+        opacity={backgroundColorAlpha} />
     );
   }
 
@@ -269,7 +277,7 @@ export class PixelList extends Component<void, Props, State> {
             key={`${x}-${y}`}
             x={x}
             y={y}
-            data={data}/>
+            data={data} />
         );
       }
     }

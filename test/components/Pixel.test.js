@@ -12,7 +12,7 @@ describe("round", () => {
   it("returns a rounded value", () => {
     expect(Pixel.round(1.12345)).toBe(1.12);
   });
-  
+
   it("returns a rounded up value", () => {
     expect(Pixel.round(1.6789)).toBe(1.68);
   });
@@ -46,12 +46,12 @@ describe("render", () => {
       data: [ 255, 0, 0, 255 ],
       font: { x: 0, y: 0, width: 4.8, height: 6.4 }
     };
-    
+
     mount(
-      <Pixel {...props} />
+        <Pixel {...props} />
     );
   });
-  
+
   it("should be a 'g' element", () => {
     const props = {
       x: 0,
@@ -59,14 +59,14 @@ describe("render", () => {
       data: [ 255, 0, 0, 255 ],
       font: { dx: 0, dy: 0, width: 4.8, height: 6.4 }
     };
-    
+
     const wrapper = shallow(
-      <Pixel {...props} />
+        <Pixel {...props} />
     );
-    
+
     expect(wrapper.name()).toBe("g");
   });
-  
+
   it("should have three 'text' elements", () => {
     const props = {
       x: 5,
@@ -74,16 +74,16 @@ describe("render", () => {
       data: [ 13, 14, 15, 255 ],
       font: { dx: 2, dy: 3, width: 4.8, height: 6.4 }
     };
-    
+
     const wrapper = shallow(
-      <Pixel {...props} />
+        <Pixel {...props} />
     );
-    
+
     const childs = wrapper.find("text");
     const texts = [ "013", "014", "015" ];
-    
+
     expect(childs).toHaveLength(3);
-    
+
     childs.forEach((child, i) => {
       expect(child.props()).toMatchObject({
         x: 104,
@@ -104,14 +104,14 @@ describe("getPixelData", () => {
       data: [ 13, 14, 15, 255 ],
       font: { dx: 2, dy: 3, width: 4.8, height: 6.4 }
     };
-    
+
     const wrapper = shallow(
-      <Pixel {...props} />
+        <Pixel {...props} />
     );
-    
+
     const result = wrapper.instance()
       .getPixelData();
-    
+
     expect(result).toEqual(expect.arrayContaining([
       { color: "#0d0e0f", text: "013" },
       { color: "#0d0e0f", text: "014" },
@@ -126,14 +126,14 @@ describe("getPixelData", () => {
       data: [ 13, 14, 15, 127 ],
       font: { dx: 2, dy: 3, width: 4.8, height: 6.4 }
     };
-    
+
     const wrapper = shallow(
-      <Pixel {...props} />
+        <Pixel {...props} />
     );
-    
+
     const result = wrapper.instance()
       .getPixelData();
-    
+
     expect(result).toEqual(expect.arrayContaining([
       { color: "rgba(13,14,15,0.5)", text: "013" },
       { color: "rgba(13,14,15,0.5)", text: "014" },

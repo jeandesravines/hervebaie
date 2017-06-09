@@ -19,8 +19,8 @@ const mapDispatchToProps = {
 };
 
 type Props = {
-  +fonts: Object,
-  +setFont: Function
+  fonts: Object,
+  setFont: Function
 };
 
 export class FontSizeCalculator extends Component<void, Props> {
@@ -40,18 +40,22 @@ export class FontSizeCalculator extends Component<void, Props> {
    * @inheritDoc
    */
   render() {
-    const fonts = map(this.props.fonts, (font, name) => (
-      <Font
-        key={name}
-        family={font.family}
-        onLoad={props => this.setFont(name, props)} />
-    ));
+    const fonts = map(this.props.fonts, (font, name) => {
+      const onLoad = (props) => this.setFont(name, props);
+
+      return (
+        <Font
+          family={font.family}
+          key={name}
+          onLoad={onLoad} />
+      );
+    });
 
     return (
-      <svg>{fonts}</svg> 
+      <svg>{fonts}</svg>
     );
   }
-  
+
   /**
    * @param {string} name
    * @param {Object} font
@@ -65,6 +69,6 @@ export class FontSizeCalculator extends Component<void, Props> {
 }
 
 export default connect(
-  mapStateToProps, 
+  mapStateToProps,
   mapDispatchToProps
 )(FontSizeCalculator);
