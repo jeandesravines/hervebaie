@@ -55,9 +55,8 @@ export class SettingsPanel extends Component<void, Props, State> {
   /**
    * @param {Event} e
    */
-  applySettings(e) {
+  onApplySettings(e) {
     e.preventDefault();
-
     this.props.setSettings(this.state.settings);
   }
 
@@ -66,13 +65,18 @@ export class SettingsPanel extends Component<void, Props, State> {
    * @param {string | number | boolean} vallue
    */
   setValue(name: string, value: any) {
-    console.log(name, value);
+    const settings = this.state.settings;
+    const row = {
+      [name]: value
+    };
+    
     this.setState({
-      settings: {
-        ...this.state.settings,
-        [name]: value
-      }
+      settings: { ...settings, ...row }
     });
+    
+    if (settings.liveReload) {
+      this.props.setSettings(row);
+    }
   }
 
   /**
@@ -81,19 +85,20 @@ export class SettingsPanel extends Component<void, Props, State> {
   render() {
     const { settings } = this.state;
     const onChange = this.setValue.bind(this);
+
     const fonts = _.mapValues(this.props.fonts, (_font, key: string) => key);
     const toPercent = (value) => `${parseInt(value * 100)}%`;
     const toPixels = (value) => `${value}px`;
 
     return (
-      <form onSubmit={e => this.applySettings(e)}>
+      <form onSubmit={e => this.onApplySettings(e)}>
         <div>
           <InputSettings
-            type="slider"
+            type="number"
             label="Max size"
-            max={4096}
+            min={0}
+            step={90}
             onChange={value => onChange("maxSize", value)}
-            toString={toPixels}
             value={settings.maxSize} />
         </div>
         <div>
@@ -144,7 +149,7 @@ export class SettingsPanel extends Component<void, Props, State> {
             type="checkbox"
             label="Draw as RGB"
             onChange={value => onChange("rgb", value)}
-            checked={settings.rgb} />
+            value={settings.rgb} />
         </div>
         <div>
           <InputSettings
@@ -156,6 +161,13 @@ export class SettingsPanel extends Component<void, Props, State> {
             onChange={value => onChange("contrast", value)}
             toString={toPercent}
             value={settings.contrast} />
+        </div>
+        <div>
+          <InputSettings
+            type="checkbox"
+            label="Live reload"
+            onChange={value => onChange("liveReload", value)}
+            value={settings.liveReload} />
         </div>
         <div>
           <button type="submit">Draw</button>

@@ -50,7 +50,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
-    "lint": "eslint --ext .js,.jsx --fix public src test",
+    "lint": "eslint --cache --ext .js,.jsx public src test",
     "start": "webpack-dev-server",
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -58,6 +58,7 @@
   },
   "jest": {
     "clearMocks": true,
+    "coverageReporters": ["text"],
     "moduleNameMapper": {
       ".s?css": "<rootDir>/test/mock/style.js"
     }

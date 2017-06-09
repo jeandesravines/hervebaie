@@ -1,15 +1,13 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import createStore from "../utils/store";
+import sandbox from "../utils/sandbox";
 
 import ConnectedImageLoader, { ImageLoader } from "../../src/components/ImageLoader";
 
-beforeAll(() => {
-  URL.createObjectURL = (file) => file.data;
-});
-
-afterAll(() => {
-  delete URL.createObjectURL;
+beforeEach(() => {
+  sandbox.spyOn(URL, "createObjectURL")
+    .mockImplementation(file => file.data);
 });
 
 describe("render", () => {

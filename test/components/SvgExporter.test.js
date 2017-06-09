@@ -1,15 +1,13 @@
 import React from "react";
 import { mount, shallow } from 'enzyme';
 import createStore from '../utils/store';
+import sandbox from "../utils/sandbox";
 
 import ConnectedSvgExporter, { SvgExporter } from "../../src/components/SvgExporter";
 
-beforeAll(() => {
-  URL.createObjectURL = (data) => data;
-});
-
-afterAll(() => {
-  delete URL.createObjectURL;
+beforeEach(() => {
+  sandbox.spyOn(URL, "createObjectURL")
+    .mockImplementation(data => data);
 });
 
 describe("render", () => {

@@ -2,17 +2,13 @@ import React from "react";
 import { mount, shallow } from 'enzyme';
 import _ from "lodash";
 import createStore from '../utils/store';
+import sandbox from "../utils/sandbox";
 
 import ConnectedFontSizeCalculator, { FontSizeCalculator } from "../../src/components/FontSizeCalculator";
 
-beforeAll(() => {
-  HTMLUnknownElement.prototype.getBBox = () => {
-    return { x: -5, y: -5, width: 600, height: 800 };
-  };
-});
-
-afterAll(() => {
-  delete HTMLUnknownElement.prototype.getBBox;
+beforeEach(() => {
+  sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
+    .mockReturnValue({ x: -5, y: -5, width: 600, height: 800 });
 });
 
 describe("render", () => {
