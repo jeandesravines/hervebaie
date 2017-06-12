@@ -106,7 +106,7 @@ describe("setValue", () => {
   });
 });
 
-describe.skip("render", () => {
+describe("render", () => {
   test("renders without crashing", () => {
     const store = createStore({
       fonts: {

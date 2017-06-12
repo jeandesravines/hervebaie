@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import configuration from '../configuration/configuration';
 
@@ -15,15 +15,11 @@ type Props = {
   image: Image
 };
 
-export class SvgExporter extends Component<void, Props> {
+export class SvgExporter extends PureComponent<void, Props> {
   /**
    * @const {Object}
    */
   props: Props;
-
-  shouldComponentUpdate() {
-    return false;
-  }
 
   /**
    * @inheritDoc
@@ -44,8 +40,9 @@ export class SvgExporter extends Component<void, Props> {
             target="_blank"
             rel="noopener noreferrer"
             download={title}
-            href={url}
-        >Download as SVG</a>
+            href={url}>
+        Download as SVG
+      </a>
     );
   }
 }
