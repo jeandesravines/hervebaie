@@ -1,7 +1,6 @@
 import React from "react";
 import { mount, shallow } from 'enzyme';
-
-import BackgroundColor from "../../src/components/BackgroundColor";
+import BackgroundColor from "../../lib/components/BackgroundColor";
 
 describe("render", () => {
   test("renders without crashing", () => {

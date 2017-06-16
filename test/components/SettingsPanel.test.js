@@ -1,9 +1,14 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import createStore from "../utils/store";
-import sandbox from "../utils/sandbox";
+import Sandbox from "@jdes/jest-sandbox";
+import ConnectedSettingsPanel, { SettingsPanel } from "../../lib/components/SettingsPanel";
 
-import ConnectedSettingsPanel, { SettingsPanel } from "../../src/components/SettingsPanel";
+const sandbox = new Sandbox();
+
+afterEach(() => {
+  sandbox.restoreAllMocks();
+});
 
 describe("componentWillReceiveProps", () => {
   it("should set state", () => {

@@ -1,5 +1,5 @@
-import reduce from "../../src/reducers/image";
-import { IMAGE_SET } from "../../src/actions/image";
+import reduce from "../../lib/reducers/image";
+import { IMAGE_SET } from "../../lib/actions/image";
 
 describe("reduce", () => {
   test("return the default state", () => {

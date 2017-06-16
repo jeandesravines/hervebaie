@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import Pixel from "../../src/components/Pixel";
+import Pixel from "../../lib/components/Pixel";
 
 describe("rgbToHexadecimal", () => {
   it("returns a prefixed string with '#'", () => {

@@ -1,9 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import { mount, shallow } from 'enzyme';
-
-import App from "../../src/components/App";
-import DrawScene from "../../src/components/DrawScene";
+import App from "../../lib/components/App";
+import DrawScene from "../../lib/components/DrawScene";
 
 describe("render", () => {
   test("renders without crashing", () => {

@@ -1,14 +1,19 @@
 import React from "react";
 import { mount, shallow } from 'enzyme';
 import _ from "lodash";
+import Sandbox from "@jdes/jest-sandbox";
 import createStore from '../utils/store';
-import sandbox from "../utils/sandbox";
+import ConnectedFontSizeCalculator, { FontSizeCalculator } from "../../lib/components/FontSizeCalculator";
 
-import ConnectedFontSizeCalculator, { FontSizeCalculator } from "../../src/components/FontSizeCalculator";
+const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
     .mockReturnValue({ x: -5, y: -5, width: 600, height: 800 });
+});
+
+afterEach(() => {
+  sandbox.restoreAllMocks();
 });
 
 describe("render", () => {

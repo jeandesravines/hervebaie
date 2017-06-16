@@ -85,8 +85,7 @@ export class SettingsPanel extends Component<void, Props, State> {
   render() {
     const { settings } = this.state;
     const onChange = (name, value) => this.setValue(name, value);
-
-    const fonts = _.mapValues(this.props.fonts, (_font, key: string) => key);
+    const fonts = _.mapValues(this.props.fonts, (font, key) => key);
     const toPercent = (value) => `${parseInt(value * 100)}%`;
     const toPixels = (value) => `${value}px`;
 

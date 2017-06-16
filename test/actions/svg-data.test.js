@@ -1,4 +1,4 @@
-import * as actions from "../../src/actions/svg-data";
+import * as actions from "../../lib/actions/svg-data";
 
 describe("setSvgData", () => {
   test("returns a state", () => {

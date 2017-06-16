@@ -1,5 +1,5 @@
-import reduce from "../../src/reducers/settings";
-import { SETTINGS_SET } from "../../src/actions/settings";
+import reduce from "../../lib/reducers/settings";
+import { SETTINGS_SET } from "../../lib/actions/settings";
 
 describe("reduce", () => {
   test("returns the default state", () => {

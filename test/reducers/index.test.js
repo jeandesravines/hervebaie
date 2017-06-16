@@ -1,4 +1,4 @@
-import reduce from "../../src/reducers/index";
+import reduce from "../../lib/reducers/index";
 
 describe("reduce", () => {
   test("should contains all reducers", () => {

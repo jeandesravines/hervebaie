@@ -1,13 +1,18 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
+import Sandbox from "@jdes/jest-sandbox";
 import createStore from "../utils/store";
-import sandbox from "../utils/sandbox";
+import ConnectedImageLoader, { ImageLoader } from "../../lib/components/ImageLoader";
 
-import ConnectedImageLoader, { ImageLoader } from "../../src/components/ImageLoader";
+const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(URL, "createObjectURL")
     .mockImplementation(file => file.data);
+});
+
+afterEach(() => {
+  sandbox.restoreAllMocks();
 });
 
 describe("render", () => {
@@ -17,7 +22,7 @@ describe("render", () => {
     });
 
     mount(
-        <ConnectedImageLoader store={store} />
+      <ConnectedImageLoader store={store} />
     );
   });
 
@@ -27,7 +32,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-        <ImageLoader {...props} />
+      <ImageLoader {...props} />
     );
 
     const className = "hb-image-loader";
@@ -51,7 +56,7 @@ describe("render", () => {
 describe("shouldComponentUpdate", () => {
   test("should returns false", () => {
     const wrapper = shallow(
-        <ImageLoader />
+      <ImageLoader />
     );
 
     const shouldComponentUpdate = wrapper
@@ -69,7 +74,7 @@ describe("onChange", () => {
     };
 
     const wrapper = shallow(
-        <ImageLoader {...props} />
+      <ImageLoader {...props} />
     );
 
     wrapper.find("input")

@@ -1,4 +1,4 @@
-import * as actions from "../../src/actions/fonts";
+import * as actions from "../../lib/actions/fonts";
 
 describe("setFont", () => {
   test("returns a state", () => {

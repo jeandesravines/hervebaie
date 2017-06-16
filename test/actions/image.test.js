@@ -1,4 +1,4 @@
-import * as actions from "../../src/actions/image";
+import * as actions from "../../lib/actions/image";
 
 describe("setImage", () => {
   test("returns a state", () => {

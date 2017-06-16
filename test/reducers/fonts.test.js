@@ -1,5 +1,5 @@
-import reduce from "../../src/reducers/fonts";
-import { FONTS_SET } from "../../src/actions/fonts";
+import reduce from "../../lib/reducers/fonts";
+import { FONTS_SET } from "../../lib/actions/fonts";
 
 describe("reduce", () => {
   test("return the default state", () => {

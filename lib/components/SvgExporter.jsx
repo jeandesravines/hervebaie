@@ -36,11 +36,11 @@ export class SvgExporter extends PureComponent<void, Props> {
     const title = `${prefix}${image.alt}.svg`;
 
     return (
-        <a
-            target="_blank"
-            rel="noopener noreferrer"
-            download={title}
-            href={url}>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        download={title}
+        href={url}>
         Download as SVG
       </a>
     );

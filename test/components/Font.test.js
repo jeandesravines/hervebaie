@@ -1,11 +1,17 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import sandbox from "../utils/sandbox";
-import Font from "../../src/components/Font";
+import Sandbox from "@jdes/jest-sandbox";
+import Font from "../../lib/components/Font";
+
+const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
     .mockReturnValue({ x: -5, y: -5, width: 800, height: 600 });
+});
+
+afterEach(() => {
+  sandbox.restoreAllMocks();
 });
 
 describe("component", () => {

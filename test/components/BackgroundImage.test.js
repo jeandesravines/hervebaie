@@ -1,7 +1,6 @@
 import React from "react";
 import { mount, shallow } from 'enzyme';
-
-import BackgroundImage from "../../src/components/BackgroundImage";
+import BackgroundImage from "../../lib/components/BackgroundImage";
 
 describe("render", () => {
   test("renders without crashing", () => {

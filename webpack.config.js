@@ -10,7 +10,7 @@ const plugins = [
     collections: true
   }),
   new PrepackWebpackPlugin({
-    test: /src/,
+    test: /lib/,
     prepack: {
       logStatistics: true,
       logModules: true,

@@ -1,18 +1,24 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
+import Sandbox from "@jdes/jest-sandbox";
 import createStore from "../utils/store";
-import sandbox from "../utils/sandbox";
-import RgbPixel from "../../src/components/RgbPixel";
-import Pixel from "../../src/components/Pixel";
-import BackgroundColor from "../../src/components/BackgroundColor";
-import BackgroundImage from "../../src/components/BackgroundImage";
-import ConnectedPixelList, { PixelList } from "../../src/components/PixelList";
+import RgbPixel from "../../lib/components/RgbPixel";
+import Pixel from "../../lib/components/Pixel";
+import BackgroundColor from "../../lib/components/BackgroundColor";
+import BackgroundImage from "../../lib/components/BackgroundImage";
+import ConnectedPixelList, { PixelList } from "../../lib/components/PixelList";
+
+const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(HTMLCanvasElement.prototype, "getContext")
     .mockReturnValue({
       drawImage: jest.fn()
     });
+});
+
+afterEach(() => {
+  sandbox.restoreAllMocks();
 });
 
 describe("getFont", () => {
@@ -126,7 +132,7 @@ describe("getPixels", () => {
     canvas.width = 80;
     canvas.height = 60;
 
-    sandbox.spyOn(canvas, "getContext")
+    jest.spyOn(canvas, "getContext")
       .mockReturnValue({
         getImageData: () => ({
           data: [ 255, 255, 255, 255 ]
@@ -167,7 +173,7 @@ describe("getPixels", () => {
     canvas.width = 80;
     canvas.height = 60;
 
-    sandbox.spyOn(canvas, "getContext")
+    jest.spyOn(canvas, "getContext")
       .mockReturnValue({
         getImageData: () => ({
           data: [ 255, 255, 255, 255 ]
@@ -364,14 +370,14 @@ describe("render", () => {
         canvas.width = 80;
         canvas.height = 60;
 
-        sandbox.spyOn(canvas, "getContext")
+        jest.spyOn(canvas, "getContext")
           .mockReturnValue({
             getImageData: () => ({
               data: [ 255, 255, 255, 255 ]
             })
           });
 
-        sandbox.spyOn(canvas, "toDataURL")
+        jest.spyOn(canvas, "toDataURL")
           .mockReturnValue("");
 
         return canvas;

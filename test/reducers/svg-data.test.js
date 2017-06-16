@@ -1,5 +1,5 @@
-import reduce from "../../src/reducers/svg-data";
-import { DATA_SET } from "../../src/actions/svg-data";
+import reduce from "../../lib/reducers/svg-data";
+import { DATA_SET } from "../../lib/actions/svg-data";
 
 describe("reduce", () => {
   test("return the default state", () => {

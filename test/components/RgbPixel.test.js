@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import RgbPixel from "../../src/components/RgbPixel";
+import RgbPixel from "../../lib/components/RgbPixel";
 
 describe("render", () => {
   it("renders without crashing", () => {
@@ -13,7 +13,7 @@ describe("render", () => {
     };
 
     mount(
-        <RgbPixel {...props} />
+      <RgbPixel {...props} />
     );
   });
 
@@ -27,7 +27,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-        <RgbPixel {...props} />
+      <RgbPixel {...props} />
     );
 
     expect(wrapper.name()).toBe("g");
@@ -43,7 +43,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-        <RgbPixel {...props} />
+      <RgbPixel {...props} />
     );
 
     const childs = wrapper.find("text");
@@ -75,7 +75,7 @@ describe("getPixelData", () => {
     };
 
     const wrapper = shallow(
-        <RgbPixel {...props} />
+      <RgbPixel {...props} />
     );
 
     const result = wrapper.instance()
@@ -98,7 +98,7 @@ describe("getPixelData", () => {
     };
 
     const wrapper = shallow(
-        <RgbPixel {...props} />
+      <RgbPixel {...props} />
     );
 
     const result = wrapper.instance()

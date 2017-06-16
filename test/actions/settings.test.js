@@ -1,4 +1,4 @@
-import * as actions from "../../src/actions/settings";
+import * as actions from "../../lib/actions/settings";
 
 describe("setValue", () => {
   test("returns a state", () => {

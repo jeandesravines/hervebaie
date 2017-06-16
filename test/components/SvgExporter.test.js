@@ -1,13 +1,18 @@
 import React from "react";
 import { mount, shallow } from 'enzyme';
+import Sandbox from "@jdes/jest-sandbox";
 import createStore from '../utils/store';
-import sandbox from "../utils/sandbox";
+import ConnectedSvgExporter, { SvgExporter } from "../../lib/components/SvgExporter";
 
-import ConnectedSvgExporter, { SvgExporter } from "../../src/components/SvgExporter";
+const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(URL, "createObjectURL")
     .mockImplementation(data => data);
+});
+
+afterEach(() => {
+  sandbox.restoreAllMocks();
 });
 
 describe("render", () => {
