@@ -1,12 +1,12 @@
 import React from "react";
-import { mount, shallow } from 'enzyme';
+import { mount, shallow } from "enzyme";
 import BackgroundImage from "../../lib/components/BackgroundImage";
 
 describe("render", () => {
   test("renders without crashing", () => {
     const props = {
       opacity: 0.5,
-      canvas: document.createElement('canvas')
+      canvas: document.createElement("canvas")
     };
 
     const wrapper = mount(
@@ -26,7 +26,7 @@ describe("render", () => {
   test("should returns null", () => {
     const props = {
       opacity: 0,
-      canvas: document.createElement('canvas')
+      canvas: document.createElement("canvas")
     };
 
     const wrapper = shallow(

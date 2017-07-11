@@ -36,7 +36,7 @@ describe("componentWillReceiveProps", () => {
   });
 });
 
-describe("onApplySettings", () => {
+describe("applySettings", () => {
   test("should calls setSettings", () => {
     const props = {
       fonts: {},
@@ -46,13 +46,12 @@ describe("onApplySettings", () => {
       }
     };
 
-    const event = { preventDefault: jest.fn() };
     const wrapper = shallow(
         <SettingsPanel {...props} />
     );
 
     wrapper.instance()
-      .onApplySettings(event);
+      .applySettings();
 
     expect(props.setSettings).toHaveBeenCalledWith({
       contrast: 0.5
@@ -106,6 +105,8 @@ describe("setValue", () => {
       .setValue("fontName", "Arial");
 
     expect(props.setSettings).toHaveBeenCalledWith({
+      contrast: 0.5,
+      liveReload: true,
       fontName: "Arial"
     });
   });
@@ -132,8 +133,8 @@ describe("render", () => {
       }
     });
 
-    const wrapper = mount(
-        <ConnectedSettingsPanel store={store} />
+    mount(
+      <ConnectedSettingsPanel store={store} />
     );
   });
 });

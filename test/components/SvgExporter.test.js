@@ -1,10 +1,16 @@
 import React from "react";
-import { mount, shallow } from 'enzyme';
+import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
-import createStore from '../utils/store';
+import injectTapEventPlugin from "react-tap-event-plugin";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import createStore from "../utils/store";
 import ConnectedSvgExporter, { SvgExporter } from "../../lib/components/SvgExporter";
 
 const sandbox = new Sandbox();
+
+beforeAll(() => {
+  injectTapEventPlugin();
+});
 
 beforeEach(() => {
   sandbox.spyOn(URL, "createObjectURL")
@@ -25,18 +31,25 @@ describe("render", () => {
     });
 
     const wrapper = mount(
+      <MuiThemeProvider>
         <ConnectedSvgExporter store={store} />
+      </MuiThemeProvider>
     );
 
     expect(wrapper).toHaveLength(1);
   });
 
-  test("returns null", () => {
+  test("returns disabled button", () => {
     const wrapper = shallow(
-        <SvgExporter />
+      <SvgExporter />
     );
 
-    expect(wrapper.getNode()).toBe(null);
+    expect(wrapper.props()).toMatchObject({
+      className: undefined,
+      label: "Download as SVG",
+      disabled: true,
+      secondary: true,
+    });
   });
 
   test("have props", () => {
@@ -48,15 +61,16 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-        <SvgExporter {...props} />
+      <SvgExporter {...props} />
     );
 
     expect(wrapper.props()).toMatchObject({
-      target: "_blank",
+      className: undefined,
+      disabled: false,
       download: "HerveBaie - Hello.svg",
-      rel: "noopener noreferrer",
+      secondary: true,
       href: "data:image/png;base64,",
-      children: "Download as SVG"
+      label: "Download as SVG"
     });
   });
 });

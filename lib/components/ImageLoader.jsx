@@ -48,16 +48,10 @@ export class ImageLoader extends Component<void, Props> {
     const onChange = (e) => this.onChange(e);
 
     return (
-      <div>
-        <label htmlFor="hb-image-loader__input">
-          Select an image
-        </label>
-        <input
-          accept="image/*"
-          id="hb-image-loader__input"
-          onChange={onChange}
-          type="file" />
-      </div>
+      <input
+        accept="image/*"
+        onChange={onChange}
+        type="file" />
     );
   }
 }

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import map from "lodash/map";
 import Font from "./Font";
 import { setFont } from "../actions/fonts";
+import styles from "../assets/styles/components/FontSizeCalculator.scss";
 
 /**
  * @const {Function(Object): Object}
@@ -41,18 +42,18 @@ export class FontSizeCalculator extends Component<void, Props> {
    */
   render() {
     const fonts = map(this.props.fonts, (font, name) => {
-      const onLoad = (props) => this.setFont(name, props);
-
       return (
         <Font
           family={font.family}
           key={name}
-          onLoad={onLoad} />
+          onLoad={(props) => this.setFont(name, props)} />
       );
     });
 
     return (
-      <svg>{fonts}</svg>
+      <svg className={styles.fontSizeCalculator}>
+        {fonts}
+      </svg>
     );
   }
 

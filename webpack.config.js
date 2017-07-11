@@ -1,28 +1,19 @@
-'use strict';
+"use strict";
 
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
+const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 const plugins = [
   new LodashModuleReplacementPlugin({
     collections: true
-  }),
-  new PrepackWebpackPlugin({
-    test: /lib/,
-    prepack: {
-      logStatistics: true,
-      logModules: true,
-      trace: true
-    }
   })
 ];
 
-const buildPath = __dirname + '/build';
-const publicPath = __dirname + '/public';
+const buildPath = __dirname + "/build";
+const publicPath = __dirname + "/public";
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin(),
@@ -33,30 +24,34 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./lib/index.js",
   output: {
     path: buildPath,
-    filename: 'app.js'
+    filename: "app.js"
   },
   module: {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel-loader',
+      loader: "babel-loader",
     }, {
       test: /\.s?css$/,
-      loaders: ['style-loader', 'css-loader', 'sass-loader']
+      loaders: [
+        "style-loader",
+        "css-loader?modules&importLoaders=1&camelCase=only",
+        "sass-loader"
+      ]
     }]
   },
   plugins: plugins,
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: [".js", ".jsx", ".scss"]
   },
   devServer: {
     compress: true,
     contentBase: publicPath,
     historyApiFallback: true,
     port: 3000,
-    host: '0.0.0.0'
+    host: "0.0.0.0"
   }
 };

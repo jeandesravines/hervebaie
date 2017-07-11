@@ -4,7 +4,7 @@ import { DATA_SET } from "../../lib/actions/svg-data";
 describe("reduce", () => {
   test("return the default state", () => {
     const action = {
-      type: 'unknown'
+      type: "unknown"
     };
 
     expect(reduce(undefined, action)).toBe(null);

@@ -1,8 +1,8 @@
 import React from "react";
-import { mount, shallow } from 'enzyme';
+import { mount, shallow } from "enzyme";
 import _ from "lodash";
 import Sandbox from "@jdes/jest-sandbox";
-import createStore from '../utils/store';
+import createStore from "../utils/store";
 import ConnectedFontSizeCalculator, { FontSizeCalculator } from "../../lib/components/FontSizeCalculator";
 
 const sandbox = new Sandbox();

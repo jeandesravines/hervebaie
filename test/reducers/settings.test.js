@@ -4,7 +4,7 @@ import { SETTINGS_SET } from "../../lib/actions/settings";
 describe("reduce", () => {
   test("returns the default state", () => {
     const action = {
-      type: 'unknown'
+      type: "unknown"
     };
 
     expect(reduce(undefined, action)).toMatchObject({

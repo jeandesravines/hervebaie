@@ -132,8 +132,8 @@ export class PixelList extends Component<void, Props, State> {
    */
   componentDidUpdate() {
     const data = this.nodeRef.outerHTML
-      .replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"')
-      .replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      .replace(/^<svg/, "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\"")
+      .replace(/^<svg/, "<svg xmlns=\"http://www.w3.org/2000/svg\"");
 
     this.props.setSvgData(
       new Blob([data], {
@@ -155,7 +155,7 @@ export class PixelList extends Component<void, Props, State> {
 
     const imageWidth = image.naturalWidth || image.width;
     const imageHeight = image.naturalHeight || image.height;
-    const imageRatio = imageHeight / imageWidth;
+    const imageRatio = imageWidth / imageHeight;
 
     let width;
     let height;

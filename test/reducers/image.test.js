@@ -4,7 +4,7 @@ import { IMAGE_SET } from "../../lib/actions/image";
 describe("reduce", () => {
   test("return the default state", () => {
     const action = {
-      type: 'unknown'
+      type: "unknown"
     };
 
     expect(reduce(undefined, action)).toBe(null);
@@ -20,7 +20,7 @@ describe("IMAGE_SET", () => {
 
     const state = reduce(undefined, action);
 
-    expect(state.localName).toBe('img');
+    expect(state.localName).toBe("img");
     expect(state).not.toBe(action.payload);
     expect(state).toMatchObject(
       expect.objectContaining({

@@ -63,8 +63,8 @@ describe("getCanvas", () => {
 
     expect(font).toMatchObject(
       expect.objectContaining({
-        height: 810,
-        width: 1080
+        width: 810,
+        height: 1080
       })
     );
   });
@@ -80,8 +80,8 @@ describe("getCanvas", () => {
 
     expect(font).toMatchObject(
       expect.objectContaining({
-        height: 1080,
-        width: 810
+        width: 1080,
+        height: 810
       })
     );
   });
@@ -100,7 +100,7 @@ describe("getBackgroundColor", () => {
     const backgroundColor = PixelList.getBackgroundColor(props);
 
     expect(backgroundColor).toMatchObject(
-        <BackgroundColor color="#FF0000" opacity={0.5} />
+      <BackgroundColor color="#FF0000" opacity={0.5} />
     );
   });
 });
@@ -112,11 +112,11 @@ describe("getBackgroundImage", () => {
       settings: { backgroundImageAlpha: 0.5 }
     };
 
-    const state = { canvas: document.createElement('canvas') };
+    const state = { canvas: document.createElement("canvas") };
     const backgroundImage = PixelList.getBackgroundImage(props, state);
 
     expect(backgroundImage).toMatchObject(
-        <BackgroundImage canvas={{}} opacity={0.5} />
+      <BackgroundImage canvas={{}} opacity={0.5} />
     );
   });
 });
@@ -128,7 +128,7 @@ describe("getPixels", () => {
       settings: { rgb: false }
     };
 
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = 80;
     canvas.height = 60;
 
@@ -169,7 +169,7 @@ describe("getPixels", () => {
       settings: { rgb: true, contrast: 0.5 }
     };
 
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = 80;
     canvas.height = 60;
 
@@ -220,7 +220,7 @@ describe("shouldComponentUpdate", () => {
     };
 
     const wrapper = shallow(
-        <PixelList {...props} />
+      <PixelList {...props} />
     );
 
     const shouldComponentUpdate = wrapper
@@ -238,7 +238,7 @@ describe("shouldComponentUpdate", () => {
     };
 
     const wrapper = shallow(
-        <PixelList {...props} />
+      <PixelList {...props} />
     );
 
     const shouldComponentUpdate = wrapper
@@ -267,7 +267,7 @@ describe("componentWillReceiveProps", () => {
     };
 
     const wrapper = shallow(
-        <PixelList {...props} />
+      <PixelList {...props} />
     );
 
     wrapper.instance()
@@ -294,7 +294,7 @@ describe("componentWillReceiveProps", () => {
     };
 
     const wrapper = shallow(
-        <PixelList {...props} />
+      <PixelList {...props} />
     );
 
     wrapper.instance()
@@ -321,7 +321,7 @@ describe("componentDidUpdate", () => {
     };
 
     const wrapper = shallow(
-        <PixelList {...props} />
+      <PixelList {...props} />
     );
 
     const instance = wrapper.instance();
@@ -366,7 +366,7 @@ describe("render", () => {
     sandbox
       .spyOn(PixelList, "getCanvas")
       .mockImplementation(() => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = 80;
         canvas.height = 60;
 
@@ -406,7 +406,7 @@ describe("render", () => {
     };
 
     const wrapper = mount(
-        <PixelList {...props} />
+      <PixelList {...props} />
     );
 
     wrapper.update();

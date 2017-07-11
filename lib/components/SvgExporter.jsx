@@ -1,6 +1,8 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import configuration from '../configuration/configuration';
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import RaisedButton from "material-ui/RaisedButton";
+import configuration from "../configuration/configuration";
+import styles from "../assets/styles/components/SvgExporter.scss";
 
 /**
  * @const {Function(Object): Object}
@@ -26,23 +28,26 @@ export class SvgExporter extends PureComponent<void, Props> {
    */
   render() {
     const { data, image } = this.props;
+    let props = {};
 
-    if (!data) {
-      return null;
+    if (data) {
+      const prefix = configuration.exporter.prefix;
+      const href = URL.createObjectURL(data);
+      const title = `${prefix}${image.alt}.svg`;
+
+      props = {
+        href,
+        title,
+        download: title
+      };
     }
 
-    const prefix = configuration.exporter.prefix;
-    const url = URL.createObjectURL(data);
-    const title = `${prefix}${image.alt}.svg`;
-
     return (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        download={title}
-        href={url}>
-        Download as SVG
-      </a>
+      <RaisedButton {...props}
+        className={styles.button}
+        secondary={true}
+        disabled={!data}
+        label="Download as SVG" />
     );
   }
 }

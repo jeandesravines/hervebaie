@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { mount, shallow } from 'enzyme';
+import { mount, shallow } from "enzyme";
 import App from "../../lib/components/App";
 import DrawScene from "../../lib/components/DrawScene";
 

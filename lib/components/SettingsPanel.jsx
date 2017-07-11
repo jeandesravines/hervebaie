@@ -1,16 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import classNames from "classnames";
 import _ from "lodash";
 
-import InputSettings from "./InputSettings";
+import { Card, CardActions, CardText } from "material-ui/Card";
+import RaisedButton from "material-ui/RaisedButton";
+import Subheader from "material-ui/Subheader";
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import IconDehaze from "material-ui/svg-icons/image/dehaze";
+import IconLeft from "material-ui/svg-icons/image/navigate-before";
+
+import CheckboxField from "./CheckboxField";
+import SelectField from "./SelectField";
+import TextField from "./TextField";
+import SvgExporter from "./SvgExporter";
+import ImageLoader from "./ImageLoader";
+
 import { setSettings } from "../actions/settings";
+import styles from "../assets/styles/components/SettingsPanel.scss";
 
 /**
  * @const {Function(Object): Object}
  */
 const mapStateToProps = state => ({
   settings: state.settings,
-  fonts: state.fonts
+  fonts: state.fonts,
+  image: state.image
 });
 
 /**
@@ -26,6 +41,7 @@ type State = {
 
 type Props = {
   fonts: Object<Object>,
+  image: ?HTMLImageElement,
   settings: Object<string | number | boolean>,
   setSettings: (Object) => Object
 };
@@ -40,7 +56,8 @@ export class SettingsPanel extends Component<void, Props, State> {
    * @const {Object}
    */
   state: State = {
-    settings: this.props.settings
+    settings: this.props.settings,
+    opened: true
   };
 
   /**
@@ -53,11 +70,19 @@ export class SettingsPanel extends Component<void, Props, State> {
   }
 
   /**
-   * @param {Event} e
+   *
    */
-  onApplySettings(e) {
-    e.preventDefault();
+  applySettings() {
     this.props.setSettings(this.state.settings);
+  }
+
+  /**
+   *
+   */
+  toggleOpen() {
+    this.setState({
+      opened: !this.state.opened
+    });
   }
 
   /**
@@ -66,16 +91,14 @@ export class SettingsPanel extends Component<void, Props, State> {
    */
   setValue(name: string, value: any) {
     const settings = this.state.settings;
-    const row = {
-      [name]: value
-    };
+    const nextSettings = { ...settings, [name]: value };
 
     this.setState({
-      settings: { ...settings, ...row }
+      settings: nextSettings
     });
 
-    if (settings.liveReload) {
-      this.props.setSettings(row);
+    if (nextSettings.liveReload) {
+      this.props.setSettings(nextSettings);
     }
   }
 
@@ -89,89 +112,108 @@ export class SettingsPanel extends Component<void, Props, State> {
     const toPercent = (value) => `${parseInt(value * 100)}%`;
     const toPixels = (value) => `${value}px`;
 
+    const classes = classNames(styles.settingsPanel, {
+      [styles.opened]: this.state.opened
+    });
+
+    const floatingIcon = this.state.opened ?
+      <IconLeft /> :
+      <IconDehaze />;
+
     return (
-      <form onSubmit={e => this.onApplySettings(e)}>
-        <div>
-          <InputSettings
-            type="number"
-            label="Max size"
-            min={0}
-            step={90}
-            onChange={value => onChange("maxSize", value)}
-            value={settings.maxSize} />
-        </div>
-        <div>
-          <InputSettings
-            type="select"
-            options={fonts}
-            label="Font"
-            onChange={value => onChange("fontName", value)}
-            value={settings.fontName} />
-        </div>
-        <div>
-          <InputSettings
-            type="slider"
-            label="Font size"
-            min={1}
-            max={50}
-            onChange={value => onChange("fontSize", value)}
-            toString={toPixels}
-            value={settings.fontSize} />
-        </div>
-        <div>
-          <InputSettings
-            type="slider"
-            label="Background color alpha"
-            max={1}
-            onChange={value => onChange("backgroundColorAlpha", value)}
-            toString={toPercent}
-            value={settings.backgroundColorAlpha} />
-        </div>
-        <div>
-          <InputSettings
-            type="color"
-            label="Background color"
-            onChange={value => onChange("backgroundColor", value)}
-            value={settings.backgroundColor} />
-        </div>
-        <div>
-          <InputSettings
-            type="slider"
-            label="Background image alpha"
-            max={1}
-            onChange={value => onChange("backgroundImageAlpha", value)}
-            toString={toPercent}
-            value={settings.backgroundImageAlpha} />
-        </div>
-        <div>
-          <InputSettings
-            type="checkbox"
-            label="Draw as RGB"
-            onChange={value => onChange("rgb", value)}
-            value={settings.rgb} />
-        </div>
-        <div>
-          <InputSettings
-            type="slider"
-            label="RGB contrast"
-            hide={!settings.rgb}
-            min={-1}
-            max={1}
-            onChange={value => onChange("contrast", value)}
-            toString={toPercent}
-            value={settings.contrast} />
-        </div>
-        <div>
-          <InputSettings
-            type="checkbox"
-            label="Live reload"
-            onChange={value => onChange("liveReload", value)}
-            value={settings.liveReload} />
-        </div>
-        <div>
-          <button type="submit">Draw</button>
-        </div>
-      </form>
+      <div className={classes}>
+        <FloatingActionButton
+          mini={!this.state.opened}
+          onTouchTap={() => this.toggleOpen()}
+          className={styles.floatingButton}>
+          {floatingIcon}
+        </FloatingActionButton>
+
+        <Card className={styles.card}>
+          <CardText className={styles.cardText}>
+            <Subheader>Select picture</Subheader>
+            <div>
+              <ImageLoader />
+            </div>
+          </CardText>
+          <CardText className={styles.cardText}>
+            <Subheader>Change settings</Subheader>
+            <div>
+              <TextField
+                type="number"
+                label="Max size"
+                min={100}
+                step={100}
+                onChange={value => onChange("maxSize", value)}
+                value={settings.maxSize} />
+            </div>
+            <div>
+              <SelectField
+                options={fonts}
+                label="Font"
+                onChange={value => onChange("fontName", value)}
+                value={settings.fontName} />
+            </div>
+            <div>
+              <TextField
+                type="number"
+                label="Font size"
+                min={1}
+                max={50}
+                step={1}
+                onChange={value => onChange("fontSize", value)}
+                toString={toPixels}
+                value={settings.fontSize} />
+            </div>
+            <div>
+              <TextField
+                type="number"
+                label="Background image alpha"
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={value => onChange("backgroundImageAlpha", value)}
+                toString={toPercent}
+                value={settings.backgroundImageAlpha} />
+            </div>
+            <div>
+              <CheckboxField
+                label="Draw as RGB"
+                onChange={value => onChange("rgb", value)}
+                checked={settings.rgb} />
+            </div>
+            <div style={{display: settings.rgb ? "" : "none"}}>
+              <TextField
+                type="number"
+                label="RGB contrast"
+                min={-1}
+                max={1}
+                step={0.05}
+                onChange={value => onChange("contrast", value)}
+                toString={toPercent}
+                value={settings.contrast} />
+            </div>
+          </CardText>
+          <CardActions className={styles.cardActions}>
+            <div>
+              <CheckboxField
+                label="Live reload"
+                onChange={value => onChange("liveReload", value)}
+                checked={settings.liveReload} />
+            </div>
+            <div>
+              <RaisedButton
+                primary={true}
+                className={styles.button}
+                disabled={this.state.settings.liveReload}
+                label="Draw"
+                onTouchTap={() => this.applySettings()} />
+
+              <SvgExporter />
+            </div>
+          </CardActions>
+        </Card>
+      </div>
     );
   }
 }

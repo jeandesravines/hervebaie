@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import DrawScene from "./DrawScene";
 
 /**
@@ -7,11 +8,13 @@ import DrawScene from "./DrawScene";
  */
 export default function App() {
   return (
-    <BrowserRouter>
-      <Route
-        component={DrawScene}
-        exact
-        path="/draw" />
-    </BrowserRouter>
+    <MuiThemeProvider>
+      <BrowserRouter>
+        <Route
+          component={DrawScene}
+          exact
+          path="/draw" />
+      </BrowserRouter>
+    </MuiThemeProvider>
   );
 }

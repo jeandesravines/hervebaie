@@ -1,5 +1,5 @@
 import React from "react";
-import { mount, shallow } from 'enzyme';
+import { mount, shallow } from "enzyme";
 import BackgroundColor from "../../lib/components/BackgroundColor";
 
 describe("render", () => {

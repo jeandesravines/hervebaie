@@ -4,7 +4,7 @@ import { FONTS_SET } from "../../lib/actions/fonts";
 describe("reduce", () => {
   test("return the default state", () => {
     const action = {
-      type: 'unknown'
+      type: "unknown"
     };
 
     expect(reduce(undefined, action)).toMatchObject({

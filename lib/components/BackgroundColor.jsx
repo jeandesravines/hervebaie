@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   color: string,
-  opacity: ?number
+  opacity?: number
 };
 
 /**

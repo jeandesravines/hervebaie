@@ -35,17 +35,9 @@ describe("render", () => {
       <ImageLoader {...props} />
     );
 
-    const className = "hb-image-loader";
-    const label = wrapper.find("label");
     const input = wrapper.find("input[type='file']");
 
-    expect(label.props()).toMatchObject({
-      htmlFor: `${className}__input`,
-      children: "Select an image"
-    });
-
     expect(input.props()).toMatchObject({
-      id: `${className}__input`,
       type: "file" ,
       accept: "image/*",
       onChange: expect.any(Function)

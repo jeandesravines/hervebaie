@@ -1,8 +1,6 @@
 import React from "react";
 import SettingsPanel from "./SettingsPanel";
 import PixelList from "./PixelList";
-import ImageLoader from "./ImageLoader";
-import SvgExporter from "./SvgExporter";
 import FontSizeCalculator from "./FontSizeCalculator";
 
 /**
@@ -13,9 +11,7 @@ export default function DrawScene() {
     <div>
       <div>
         <FontSizeCalculator />
-        <ImageLoader />
         <SettingsPanel />
-        <SvgExporter />
       </div>
       <div>
         <PixelList />

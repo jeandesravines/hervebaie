@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   canvas: HTMLCanvasElement,
-  opacity: ?number
+  opacity?: number
 };
 
 /**
