@@ -1,5 +1,7 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { mount, shallow } from "enzyme";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import createStore from "../utils/store";
 import Sandbox from "@jdes/jest-sandbox";
 import ConnectedSettingsPanel, { SettingsPanel } from "../../lib/components/SettingsPanel";
@@ -24,7 +26,7 @@ describe("componentWillReceiveProps", () => {
     };
 
     const wrapper = shallow(
-        <SettingsPanel {...props} />
+      <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -47,7 +49,7 @@ describe("applySettings", () => {
     };
 
     const wrapper = shallow(
-        <SettingsPanel {...props} />
+      <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -73,7 +75,7 @@ describe("setValue", () => {
     };
 
     const wrapper = shallow(
-        <SettingsPanel {...props} />
+      <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -98,7 +100,7 @@ describe("setValue", () => {
     };
 
     const wrapper = shallow(
-        <SettingsPanel {...props} />
+      <SettingsPanel {...props} />
     );
 
     wrapper.instance()
@@ -109,6 +111,31 @@ describe("setValue", () => {
       liveReload: true,
       fontName: "Arial"
     });
+  });
+});
+
+describe("toggle", () => {
+  test("should toggle opened", () => {
+    const spySetState = sandbox
+      .spyOn(SettingsPanel.prototype, "setState");
+
+    const props = {
+      fonts: {},
+      setSettings: () => void 0,
+      settings: {}
+    };
+
+    const wrapper = shallow(
+      <SettingsPanel {...props} />
+    );
+
+    wrapper.instance().toggle();
+    wrapper.instance().toggle();
+
+    expect(spySetState.mock.calls).toEqual(expect.arrayContaining([
+      [{ opened: false }],
+      [{ opened: true }]
+    ]));
   });
 });
 
@@ -134,7 +161,11 @@ describe("render", () => {
     });
 
     mount(
-      <ConnectedSettingsPanel store={store} />
+      <MuiThemeProvider>
+        <Provider store={store}>
+          <ConnectedSettingsPanel />
+        </Provider>
+      </MuiThemeProvider>
     );
   });
 });
