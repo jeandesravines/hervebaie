@@ -1,16 +1,11 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
-import injectTapEventPlugin from "react-tap-event-plugin";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import createStore from "../utils/store";
 import ConnectedSvgExporter, { SvgExporter } from "../../lib/components/SvgExporter";
 
 const sandbox = new Sandbox();
-
-beforeAll(() => {
-  injectTapEventPlugin();
-});
 
 beforeEach(() => {
   sandbox.spyOn(URL, "createObjectURL")
@@ -46,9 +41,8 @@ describe("render", () => {
 
     expect(wrapper.props()).toMatchObject({
       className: undefined,
-      label: "Download as SVG",
-      disabled: true,
-      secondary: true,
+      children: "Download as SVG",
+      disabled: true
     });
   });
 
@@ -68,9 +62,8 @@ describe("render", () => {
       className: undefined,
       disabled: false,
       download: "HerveBaie - Hello.svg",
-      secondary: true,
       href: "data:image/png;base64,",
-      label: "Download as SVG"
+      children: "Download as SVG"
     });
   });
 });
