@@ -79,8 +79,14 @@ describe("setValue", () => {
     );
 
     wrapper.instance()
-      .setValue("fontName", "Arial");
-
+      .setValue({
+        target: {
+          name: "fontName",
+          value: "Arial"
+        }
+      });
+    
+    expect(props.setSettings).not.toHaveBeenCalled();
     expect(spySetState).toHaveBeenCalledWith({
       settings: {
         contrast: 0.5,
@@ -90,6 +96,9 @@ describe("setValue", () => {
   });
 
   test("should calls setSettings", () => {
+    const spySetState = sandbox
+      .spyOn(SettingsPanel.prototype, "setState");
+
     const props = {
       fonts: {},
       setSettings: jest.fn(),
@@ -104,12 +113,86 @@ describe("setValue", () => {
     );
 
     wrapper.instance()
-      .setValue("fontName", "Arial");
+      .setValue({
+        target: {
+          name: "fontName",
+          value: "Arial"
+        }
+      });
+    
+    expect(spySetState).toHaveBeenCalledWith({
+      settings: {
+        contrast: 0.5,
+        liveReload: true,
+        fontName: "Arial"
+      }
+    });
 
     expect(props.setSettings).toHaveBeenCalledWith({
       contrast: 0.5,
       liveReload: true,
       fontName: "Arial"
+    });
+  });
+
+  test("should convert value to Number", () => {
+    const spySetState = sandbox
+      .spyOn(SettingsPanel.prototype, "setState");
+
+    const props = {
+      fonts: {},
+      setSettings: () => void 0,
+      settings: {}
+    };
+
+    const wrapper = shallow(
+      <SettingsPanel {...props} />
+    );
+
+    wrapper.instance()
+      .setValue({
+        target: {
+          name: "contrast",
+          type: "number",
+          value: "0.05"
+        }
+      });
+
+    expect(spySetState).toHaveBeenCalledWith({
+      settings: {
+        contrast: 0.05
+      }
+    });
+  });
+
+  test("should use 'checked' instead of 'value'", () => {
+    const spySetState = sandbox
+      .spyOn(SettingsPanel.prototype, "setState");
+
+    const props = {
+      fonts: {},
+      setSettings: () => void 0,
+      settings: {}
+    };
+
+    const wrapper = shallow(
+      <SettingsPanel {...props} />
+    );
+
+    wrapper.instance()
+      .setValue({
+        target: {
+          name: "rgb",
+          type: "checkbox",
+          value: "on",
+          checked: true
+        }
+      });
+
+    expect(spySetState).toHaveBeenCalledWith({
+      settings: {
+        rgb: true
+      }
     });
   });
 });
