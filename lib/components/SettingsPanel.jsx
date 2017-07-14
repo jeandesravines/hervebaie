@@ -3,16 +3,15 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import _ from "lodash";
 
-import { Card, CardActions, CardText } from "material-ui/Card";
-import RaisedButton from "material-ui/RaisedButton";
-import Subheader from "material-ui/Subheader";
-import FloatingActionButton from "material-ui/FloatingActionButton";
-import IconDehaze from "material-ui/svg-icons/image/dehaze";
-import IconLeft from "material-ui/svg-icons/image/navigate-before";
+import Card, { CardActions, CardContent } from "material-ui/Card"
+import Button from "material-ui/Button";
+import { LabelSwitch } from "material-ui/Switch";
+import TextField from "material-ui/TextField";
+import IconDehaze from "material-ui-icons/Dehaze";
+import IconNavigateBefore from "material-ui-icons/NavigateBefore";
+import Typography from "material-ui/Typography";
 
-import CheckboxField from "./CheckboxField";
 import SelectField from "./SelectField";
-import TextField from "./TextField";
 import SvgExporter from "./SvgExporter";
 import ImageLoader from "./ImageLoader";
 
@@ -36,7 +35,9 @@ const mapDispatchToProps = {
 };
 
 type State = {
-  +settings: Object<string | number | boolean>
+  settings: Object<string | number | boolean>,
+  opened: boolean,
+  fontsRef: ?HTMLElement
 };
 
 type Props = {
@@ -57,7 +58,8 @@ export class SettingsPanel extends Component<void, Props, State> {
    */
   state: State = {
     settings: this.props.settings,
-    opened: true
+    opened: true,
+    fontsRef: null,
   };
 
   /**
@@ -79,7 +81,7 @@ export class SettingsPanel extends Component<void, Props, State> {
   /**
    *
    */
-  toggleOpen() {
+  toggle() {
     this.setState({
       opened: !this.state.opened
     });
@@ -89,8 +91,20 @@ export class SettingsPanel extends Component<void, Props, State> {
    * @param {string} name
    * @param {string | number | boolean} vallue
    */
-  setValue(name: string, value: any) {
+  setValue(e) {
     const settings = this.state.settings;
+    const { checked, name, type } = e.target;
+    let { value } = e.target;
+
+    switch (type) {
+    case "number":
+      value = Number(value);
+      break;
+    case "checkbox":
+      value = checked;
+      break;
+    }
+
     const nextSettings = { ...settings, [name]: value };
 
     this.setState({
@@ -103,115 +117,167 @@ export class SettingsPanel extends Component<void, Props, State> {
   }
 
   /**
-   * @inheritDoc
+   * @return {Element}
    */
-  render() {
-    const { settings } = this.state;
-    const onChange = (name, value) => this.setValue(name, value);
-    const fonts = _.mapValues(this.props.fonts, (font, key) => key);
-    const toPercent = (value) => `${parseInt(value * 100)}%`;
-    const toPixels = (value) => `${value}px`;
-
-    const classes = classNames(styles.settingsPanel, {
-      [styles.opened]: this.state.opened
-    });
-
-    const floatingIcon = this.state.opened ?
-      <IconLeft /> :
+  renderFloatingButton() {
+    const { opened } = this.state;
+    const toggle = this.toggle.bind(this);
+    const color = opened ? "accent" : "default";
+    const floatingIcon = opened ?
+      <IconNavigateBefore /> :
       <IconDehaze />;
 
     return (
-      <div className={classes}>
-        <FloatingActionButton
-          mini={!this.state.opened}
-          onTouchTap={() => this.toggleOpen()}
-          className={styles.floatingButton}>
-          {floatingIcon}
-        </FloatingActionButton>
+      <Button
+        fab
+        color={color}
+        onClick={toggle}
+        className={styles.floatingButton}>
+        {floatingIcon}
+      </Button>
+    );
+  }
+
+  /**
+   * @return {Element}
+   */
+  renderImageLoader() {
+    return (
+      <CardContent>
+        <Typography type="headline" gutterBottom>
+          Select picture
+        </Typography>
+        <div>
+          <ImageLoader />
+        </div>
+      </CardContent>
+    );
+  }
+
+  /**
+   * @return {Element}
+   */
+  renderSettings() {
+    const { settings } = this.state;
+    const setValue = this.setValue.bind(this);
+    const fonts = _.mapValues(this.props.fonts, (font, key) => key);
+
+    return (
+      <CardContent>
+        <Typography type="headline" gutterBottom>
+          Change settings
+        </Typography>
+        <div>
+          <TextField
+            fullWidth
+            marginForm
+            name="maxSize"
+            type="number"
+            label="Max size"
+            inputProps={{min: 100, step: 100}}
+            onChange={setValue}
+            value={settings.maxSize} />
+        </div>
+        <div>
+          <SelectField
+            floatingTextLabel="Font"
+            name="fontName"
+            label={settings.fontName}
+            onChange={setValue}
+            value={settings.fontName}
+            options={fonts} />
+        </div>
+        <div>
+          <TextField
+            fullWidth
+            marginForm
+            type="number"
+            name="fontSize"
+            label="Font size"
+            inputProps={{min: 1, max: 50}}
+            onChange={setValue}
+            value={settings.fontSize} />
+        </div>
+        <div>
+          <TextField
+            fullWidth
+            marginForm
+            type="number"
+            name="backgroundImageAlpha"
+            label="Background image alpha"
+            inputProps={{min: 0, max: 1, step: 0.05}}
+            onChange={setValue}
+            value={settings.backgroundImageAlpha} />
+        </div>
+        <div>
+          <LabelSwitch
+            label="Draw as RGB"
+            name="rgb"
+            onChange={setValue}
+            checked={settings.rgb} />
+        </div>
+        <div style={{display: settings.rgb ? "" : "none"}}>
+          <TextField
+            fullWidth
+            marginForm
+            type="number"
+            name="contrast"
+            label="RGB contrast"
+            inputProps={{min: -1, max: 1, step: 0.05}}
+            onChange={setValue}
+            value={settings.contrast} />
+        </div>
+      </CardContent>
+    );
+  }
+
+  renderActions() {
+    const { settings } = this.state;
+    const setValue = this.setValue.bind(this);
+    const applySettings = this.applySettings.bind(this);
+
+    return (
+      <div>
+        <CardActions className={styles.cardActions}>
+          <LabelSwitch
+            label="Live reload"
+            name="liveReload"
+            onChange={setValue}
+            checked={settings.liveReload} />
+        </CardActions>
+        <CardActions className={styles.cardActions}>
+          <Button
+            raised
+            color="primary"
+            className={styles.button}
+            disabled={settings.liveReload}
+            onClick={applySettings}>
+            Draw
+          </Button>
+
+          <SvgExporter />
+        </CardActions>
+      </div>
+    );
+  }
+
+  /**
+   * @inheritDoc
+   */
+  render() {
+    const { opened } = this.state;
+    const className = classNames(styles.settingsPanel, {
+      [styles.opened]: opened
+    });
+
+    return (
+      <div className={className}>
+        {this.renderFloatingButton()}
 
         <Card className={styles.card}>
-          <CardText className={styles.cardText}>
-            <Subheader>Select picture</Subheader>
-            <div>
-              <ImageLoader />
-            </div>
-          </CardText>
-          <CardText className={styles.cardText}>
-            <Subheader>Change settings</Subheader>
-            <div>
-              <TextField
-                type="number"
-                label="Max size"
-                min={100}
-                step={100}
-                onChange={value => onChange("maxSize", value)}
-                value={settings.maxSize} />
-            </div>
-            <div>
-              <SelectField
-                options={fonts}
-                label="Font"
-                onChange={value => onChange("fontName", value)}
-                value={settings.fontName} />
-            </div>
-            <div>
-              <TextField
-                type="number"
-                label="Font size"
-                min={1}
-                max={50}
-                step={1}
-                onChange={value => onChange("fontSize", value)}
-                toString={toPixels}
-                value={settings.fontSize} />
-            </div>
-            <div>
-              <TextField
-                type="number"
-                label="Background image alpha"
-                min={0}
-                max={1}
-                step={0.05}
-                onChange={value => onChange("backgroundImageAlpha", value)}
-                toString={toPercent}
-                value={settings.backgroundImageAlpha} />
-            </div>
-            <div>
-              <CheckboxField
-                label="Draw as RGB"
-                onChange={value => onChange("rgb", value)}
-                checked={settings.rgb} />
-            </div>
-            <div style={{display: settings.rgb ? "" : "none"}}>
-              <TextField
-                type="number"
-                label="RGB contrast"
-                min={-1}
-                max={1}
-                step={0.05}
-                onChange={value => onChange("contrast", value)}
-                toString={toPercent}
-                value={settings.contrast} />
-            </div>
-          </CardText>
-          <CardActions className={styles.cardActions}>
-            <div>
-              <CheckboxField
-                label="Live reload"
-                onChange={value => onChange("liveReload", value)}
-                checked={settings.liveReload} />
-            </div>
-            <div>
-              <RaisedButton
-                primary={true}
-                className={styles.button}
-                disabled={this.state.settings.liveReload}
-                label="Draw"
-                onTouchTap={() => this.applySettings()} />
-
-              <SvgExporter />
-            </div>
-          </CardActions>
+          {this.renderImageLoader()}
+          {this.renderSettings()}
+          {this.renderActions()}
         </Card>
       </div>
     );

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import RaisedButton from "material-ui/RaisedButton";
+import Button from "material-ui/Button";
 import configuration from "../configuration/configuration";
 import styles from "../assets/styles/components/SvgExporter.scss";
 
@@ -43,11 +43,13 @@ export class SvgExporter extends PureComponent<void, Props> {
     }
 
     return (
-      <RaisedButton {...props}
+      <Button {...props}
+        raised
         className={styles.button}
-        secondary={true}
-        disabled={!data}
-        label="Download as SVG" />
+        color="accent"
+        disabled={!data}>
+        Download as SVG
+      </Button>
     );
   }
 }
