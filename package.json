@@ -20,6 +20,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.0.1",
+    "coveralls": "^2.13.1",
     "css-loader": "^0.28.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",

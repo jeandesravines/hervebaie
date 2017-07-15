@@ -7,7 +7,7 @@ import DrawScene from "../../lib/components/DrawScene";
 describe("render", () => {
   test("renders without crashing", () => {
     mount(
-        <App />
+      <App />
     );
   });
 });
@@ -15,12 +15,12 @@ describe("render", () => {
 describe("Router", () => {
   test("should have a BrowserRouter", () => {
     const wrapper = shallow(
-        <App />
+      <App />
     );
 
     const router = wrapper.find("BrowserRouter");
     const routes = {
-      "/draw": DrawScene
+      "/": DrawScene
     };
 
     expect(wrapper.find("BrowserRouter")).toHaveLength(1);
