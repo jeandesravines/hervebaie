@@ -85,7 +85,7 @@ describe("setValue", () => {
           value: "Arial"
         }
       });
-    
+
     expect(props.setSettings).not.toHaveBeenCalled();
     expect(spySetState).toHaveBeenCalledWith({
       settings: {
@@ -119,7 +119,7 @@ describe("setValue", () => {
           value: "Arial"
         }
       });
-    
+
     expect(spySetState).toHaveBeenCalledWith({
       settings: {
         contrast: 0.5,
