@@ -4,7 +4,7 @@ node_js:
   - "8"
 
 before_script:
-  - yarn add global codecov
+  - yarn global add codecov
 
 script:
   - yarn lint
@@ -14,7 +14,7 @@ after_success:
   - codecov
 
 before_deploy:
-  - npm -g install firebase-tools
+  - yarn global add firebase-tools
   - yarn build
 
 deploy:
