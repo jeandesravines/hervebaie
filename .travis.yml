@@ -1,17 +1,18 @@
 language: node_js
+cache: yarn
 node_js:
   - "8"
-
-before_script:
-  - yarn add global codecov
-  - yarn add global firebase-tools
 
 script:
   - yarn lint
   - yarn test -- --bail --coverage
 
-after_success: 
+after_success:
+  - yarn add global codecov
   - codecov
+
+before_deploy:
+  - npm -g install firebase-tools
 
 deploy:
   provider: script
