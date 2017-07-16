@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
 import createStore from "../utils/store";
 import RgbPixel from "../../lib/components/RgbPixel";
@@ -100,7 +100,7 @@ describe("getBackgroundColor", () => {
     const backgroundColor = PixelList.getBackgroundColor(props);
 
     expect(backgroundColor).toMatchObject(
-      <BackgroundColor color="#FF0000" opacity={0.5} />
+      <BackgroundColor color="#FF0000" opacity={0.5}/>
     );
   });
 });
@@ -109,14 +109,14 @@ describe("getBackgroundImage", () => {
   test("returns a BackgroundImage", () => {
     const props = {
       setSvgData: jest.fn(),
-      settings: { backgroundImageAlpha: 0.5 }
+      settings: {backgroundImageAlpha: 0.5}
     };
 
-    const state = { canvas: document.createElement("canvas") };
+    const state = {canvas: document.createElement("canvas")};
     const backgroundImage = PixelList.getBackgroundImage(props, state);
 
     expect(backgroundImage).toMatchObject(
-      <BackgroundImage canvas={{}} opacity={0.5} />
+      <BackgroundImage canvas={{}} opacity={0.5}/>
     );
   });
 });
@@ -125,7 +125,7 @@ describe("getPixels", () => {
   test("returns a array of Pixel", () => {
     const props = {
       setSvgData: jest.fn(),
-      settings: { rgb: false }
+      settings: {rgb: false}
     };
 
     const canvas = document.createElement("canvas");
@@ -135,13 +135,13 @@ describe("getPixels", () => {
     jest.spyOn(canvas, "getContext")
       .mockReturnValue({
         getImageData: () => ({
-          data: [ 255, 255, 255, 255 ]
+          data: [255, 255, 255, 255]
         })
       });
 
     const state = {
       canvas,
-      font: { width: 4.8, height: 6.4 }
+      font: {width: 4.8, height: 6.4}
     };
 
     const pixels = PixelList.getPixels(props, state)
@@ -156,8 +156,8 @@ describe("getPixels", () => {
         expect(pixel.props).toMatchObject({
           x,
           y,
-          font: { width: 4.8, height: 6.4 },
-          data: [ 255, 255, 255, 255 ]
+          font: {width: 4.8, height: 6.4},
+          data: [255, 255, 255, 255]
         });
       }
     }
@@ -166,7 +166,7 @@ describe("getPixels", () => {
   test("returns a array of RgbPixel", () => {
     const props = {
       setSvgData: jest.fn(),
-      settings: { rgb: true, contrast: 0.5 }
+      settings: {rgb: true, contrast: 0.5}
     };
 
     const canvas = document.createElement("canvas");
@@ -176,13 +176,13 @@ describe("getPixels", () => {
     jest.spyOn(canvas, "getContext")
       .mockReturnValue({
         getImageData: () => ({
-          data: [ 255, 255, 255, 255 ]
+          data: [255, 255, 255, 255]
         })
       });
 
     const state = {
       canvas,
-      font: { width: 4.8, height: 6.4 }
+      font: {width: 4.8, height: 6.4}
     };
 
     const pixels = PixelList.getPixels(props, state)
@@ -197,9 +197,9 @@ describe("getPixels", () => {
         expect(pixel.props).toMatchObject({
           x,
           y,
-          font: { width: 4.8, height: 6.4 },
+          font: {width: 4.8, height: 6.4},
           contrast: 0.5,
-          data: [ 255, 255, 255, 255 ]
+          data: [255, 255, 255, 255]
         });
       }
     }
@@ -373,7 +373,7 @@ describe("render", () => {
         jest.spyOn(canvas, "getContext")
           .mockReturnValue({
             getImageData: () => ({
-              data: [ 255, 255, 255, 255 ]
+              data: [255, 255, 255, 255]
             })
           });
 
@@ -389,7 +389,7 @@ describe("render", () => {
       settings: {}
     });
 
-    mount(<ConnectedPixelList store={store} />);
+    mount(<ConnectedPixelList store={store}/>);
   });
 
   test("renders without crashing", () => {

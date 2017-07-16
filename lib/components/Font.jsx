@@ -7,16 +7,14 @@ type Props = {
 
 export default class Font extends Component<void, Props> {
   /**
-   * @const {Object}
-   */
-  props: Props;
-
-  /**
    * @static
    * @const {number}
    */
   static fontSize = 500;
-
+  /**
+   * @const {Object}
+   */
+  props: Props;
   /**
    * The text node
    * @type {?HTMLElement}
@@ -36,7 +34,7 @@ export default class Font extends Component<void, Props> {
    * @inheritDoc
    */
   componentDidMount() {
-    const { height, width, x, y } = this.getBBox();
+    const {height, width, x, y} = this.getBBox();
     const coef = 1 / Font.fontSize;
     const fontHeight = height + y * 2;
 
@@ -68,7 +66,7 @@ export default class Font extends Component<void, Props> {
         fontFamily={this.props.family}
         fontSize={Font.fontSize}
         ref={ref}>
-      0
+        0
       </text>
     );
   }

@@ -22,7 +22,7 @@ export class ImageLoader extends Component<void, Props> {
   /**
    * @param {Event} e
    */
-  onChange (e: Object) {
+  onChange(e: Object) {
     const file = e.target.files[0];
     const image = new Image();
 
@@ -51,7 +51,7 @@ export class ImageLoader extends Component<void, Props> {
       <input
         accept="image/*"
         onChange={onChange}
-        type="file" />
+        type="file"/>
     );
   }
 }

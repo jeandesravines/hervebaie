@@ -7,7 +7,7 @@ import SettingsPanel from "../../lib/components/SettingsPanel";
 describe("render", () => {
   test("renders without crashin", () => {
     const wrapper = shallow(
-      <DrawScene />
+      <DrawScene/>
     );
 
     const components = [

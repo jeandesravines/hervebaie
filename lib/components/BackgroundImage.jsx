@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   canvas: HTMLCanvasElement,
-  opacity?: number
+  opacity: ?number
 };
 
 /**
@@ -10,7 +10,7 @@ type Props = {
  * @return {*}
  */
 export default function BackgroundImage(props: Props) {
-  const { opacity, canvas } = props;
+  const {opacity, canvas} = props;
 
   if (!opacity) {
     return null;
@@ -22,6 +22,6 @@ export default function BackgroundImage(props: Props) {
       href={canvas.toDataURL()}
       opacity={opacity}
       preserveAspectRatio="none"
-      width="100%" />
+      width="100%"/>
   );
 }

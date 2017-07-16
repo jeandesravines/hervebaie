@@ -9,7 +9,7 @@ const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
-    .mockReturnValue({ x: -5, y: -5, width: 600, height: 800 });
+    .mockReturnValue({x: -5, y: -5, width: 600, height: 800});
 });
 
 afterEach(() => {
@@ -26,7 +26,7 @@ describe("render", () => {
     });
 
     mount(
-      <ConnectedFontSizeCalculator store={store} />
+      <ConnectedFontSizeCalculator store={store}/>
     );
   });
 
@@ -53,7 +53,7 @@ describe("render", () => {
 describe("shouldComponentUpdate", () => {
   test("should returns false", () => {
     const wrapper = shallow(
-      <FontSizeCalculator />
+      <FontSizeCalculator/>
     );
 
     const shouldComponentUpdate = wrapper
@@ -78,10 +78,10 @@ describe("setFont", () => {
       <FontSizeCalculator {...props} />
     );
 
-    const fontProps = { dx: 0.01, dy: 0.01, width: 1.2, height: 1.58 };
+    const fontProps = {dx: 0.01, dy: 0.01, width: 1.2, height: 1.58};
     const calls = props.setFont.mock.calls;
     const expected = _.map(props.fonts, (font, name) => [
-      name, { ...fontProps, family: font.family }
+      name, {...fontProps, family: font.family}
     ]);
 
     expect(calls).toEqual(

@@ -5,6 +5,6 @@ install:
   - yarn add codecov
 script:
   - yarn lint
-  - yarn test -- --coverage
+  - yarn test -- --bail --coverage
 after_success: 
   - yarn codecov

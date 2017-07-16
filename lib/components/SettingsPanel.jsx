@@ -88,24 +88,23 @@ export class SettingsPanel extends Component<void, Props, State> {
   }
 
   /**
-   * @param {string} name
-   * @param {string | number | boolean} vallue
+   * @param {Event | Object} e
    */
   setValue(e) {
     const settings = this.state.settings;
-    const { checked, name, type } = e.target;
-    let { value } = e.target;
+    const {checked, name, type} = e.target;
+    let {value} = e.target;
 
     switch (type) {
-    case "number":
-      value = Number(value);
-      break;
-    case "checkbox":
-      value = checked;
-      break;
+      case "number":
+        value = Number(value);
+        break;
+      case "checkbox":
+        value = checked;
+        break;
     }
 
-    const nextSettings = { ...settings, [name]: value };
+    const nextSettings = {...settings, [name]: value};
 
     this.setState({
       settings: nextSettings
@@ -120,12 +119,12 @@ export class SettingsPanel extends Component<void, Props, State> {
    * @return {Element}
    */
   renderFloatingButton() {
-    const { opened } = this.state;
+    const {opened} = this.state;
     const toggle = this.toggle.bind(this);
     const color = opened ? "accent" : "default";
     const floatingIcon = opened ?
-      <IconNavigateBefore /> :
-      <IconDehaze />;
+      <IconNavigateBefore/> :
+      <IconDehaze/>;
 
     return (
       <Button
@@ -148,7 +147,7 @@ export class SettingsPanel extends Component<void, Props, State> {
           Select picture
         </Typography>
         <div>
-          <ImageLoader />
+          <ImageLoader/>
         </div>
       </CardContent>
     );
@@ -158,7 +157,7 @@ export class SettingsPanel extends Component<void, Props, State> {
    * @return {Element}
    */
   renderSettings() {
-    const { settings } = this.state;
+    const {settings} = this.state;
     const setValue = this.setValue.bind(this);
     const fonts = _.mapValues(this.props.fonts, (font, key) => key);
 
@@ -176,7 +175,7 @@ export class SettingsPanel extends Component<void, Props, State> {
             label="Max size"
             inputProps={{min: 100, step: 100}}
             onChange={setValue}
-            value={settings.maxSize} />
+            value={settings.maxSize}/>
         </div>
         <div>
           <SelectField
@@ -185,7 +184,7 @@ export class SettingsPanel extends Component<void, Props, State> {
             label={settings.fontName}
             onChange={setValue}
             value={settings.fontName}
-            options={fonts} />
+            options={fonts}/>
         </div>
         <div>
           <TextField
@@ -196,7 +195,7 @@ export class SettingsPanel extends Component<void, Props, State> {
             label="Font size"
             inputProps={{min: 1, max: 50}}
             onChange={setValue}
-            value={settings.fontSize} />
+            value={settings.fontSize}/>
         </div>
         <div>
           <TextField
@@ -207,14 +206,14 @@ export class SettingsPanel extends Component<void, Props, State> {
             label="Background image alpha"
             inputProps={{min: 0, max: 1, step: 0.05}}
             onChange={setValue}
-            value={settings.backgroundImageAlpha} />
+            value={settings.backgroundImageAlpha}/>
         </div>
         <div>
           <LabelSwitch
             label="Draw as RGB"
             name="rgb"
             onChange={setValue}
-            checked={settings.rgb} />
+            checked={settings.rgb}/>
         </div>
         <div style={{display: settings.rgb ? "" : "none"}}>
           <TextField
@@ -225,14 +224,14 @@ export class SettingsPanel extends Component<void, Props, State> {
             label="RGB contrast"
             inputProps={{min: -1, max: 1, step: 0.05}}
             onChange={setValue}
-            value={settings.contrast} />
+            value={settings.contrast}/>
         </div>
       </CardContent>
     );
   }
 
   renderActions() {
-    const { settings } = this.state;
+    const {settings} = this.state;
     const setValue = this.setValue.bind(this);
     const applySettings = this.applySettings.bind(this);
 
@@ -243,7 +242,7 @@ export class SettingsPanel extends Component<void, Props, State> {
             label="Live reload"
             name="liveReload"
             onChange={setValue}
-            checked={settings.liveReload} />
+            checked={settings.liveReload}/>
         </CardActions>
         <CardActions className={styles.cardActions}>
           <Button
@@ -255,7 +254,7 @@ export class SettingsPanel extends Component<void, Props, State> {
             Draw
           </Button>
 
-          <SvgExporter />
+          <SvgExporter/>
         </CardActions>
       </div>
     );
@@ -265,7 +264,7 @@ export class SettingsPanel extends Component<void, Props, State> {
    * @inheritDoc
    */
   render() {
-    const { opened } = this.state;
+    const {opened} = this.state;
     const className = classNames(styles.settingsPanel, {
       [styles.opened]: opened
     });

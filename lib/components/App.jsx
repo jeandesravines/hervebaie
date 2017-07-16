@@ -13,7 +13,7 @@ export default function App() {
         <Route
           component={DrawScene}
           exact
-          path="/" />
+          path="/"/>
       </BrowserRouter>
     </MuiThemeProvider>
   );

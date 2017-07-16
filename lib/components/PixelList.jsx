@@ -56,6 +56,149 @@ export class PixelList extends Component<void, Props, State> {
   nodeRef: ?HTMLElement;
 
   /**
+   * @param {{
+   *   image: HTMLImageElement,
+   *   settings: Object
+   * }} props
+   * @return {HTMLCanvasElement}
+   */
+  static getCanvas(props: Props): HTMLCanvasElement {
+    const {image, settings} = props;
+    const {maxSize} = settings;
+
+    const imageWidth = image.naturalWidth || image.width;
+    const imageHeight = image.naturalHeight || image.height;
+    const imageRatio = imageWidth / imageHeight;
+
+    let width;
+    let height;
+
+    if (imageRatio > 1) {
+      width = maxSize;
+      height = maxSize / imageRatio;
+    } else {
+      width = maxSize * imageRatio;
+      height = maxSize;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d");
+    context.drawImage(image, 0, 0, width, height);
+
+    return canvas;
+  }
+
+  /**
+   * @param {{
+   *   fonts: Object,
+   *   settings: Object
+   * }} props
+   * @return {Object}
+   */
+  static getFont(props: Props): Object {
+    const {fonts, settings} = props;
+    const {fontName, fontSize} = settings;
+    const {dx, dy, width, height, family} = fonts[fontName];
+
+    return {
+      fontSize,
+      fontFamily: family,
+      dx: dx * fontSize,
+      dy: dy * fontSize,
+      height: height * fontSize,
+      width: width * fontSize
+    };
+  }
+
+  /**
+   * @param {{
+   *   settings: Object
+   * }} props
+   * @param {{
+   *   canvas: HTMLCanvasElement
+   * }} state
+   * @return {*}
+   */
+  static getBackgroundImage(props: Props, state: State) {
+    const {backgroundImageAlpha} = props.settings;
+    const {canvas} = state;
+
+    return (
+      <BackgroundImage
+        canvas={canvas}
+        opacity={backgroundImageAlpha}/>
+    );
+  }
+
+  /**
+   * @param {{
+   *   settings: Object
+   * }} props
+   * @return {*}
+   */
+  static getBackgroundColor(props: Props) {
+    const {backgroundColor, backgroundColorAlpha} = props.settings;
+
+    return (
+      <BackgroundColor
+        color={backgroundColor}
+        opacity={backgroundColorAlpha}/>
+    );
+  }
+
+  /**
+   * @param {{
+   *   settings: Object
+   * }} props
+   * @param {{
+   *   canvas: HTMLCanvasElement,
+   *   font: Object
+   * }} state
+   * @return {Array}
+   */
+  static getPixels(props: Props, state: State): Array {
+    const {settings} = props;
+    const {canvas, font} = state;
+    const {rgb, contrast} = settings;
+    const {width, height} = canvas;
+    const sizeW = font.width * 3;
+    const sizeH = font.width * 3;
+    const countW = Math.ceil(width / sizeW);
+    const countH = Math.ceil(height / sizeH);
+
+    const PixelComponent = rgb ? RgbPixel : Pixel;
+    const canvasContext = canvas.getContext("2d");
+
+    const pixelProps = {contrast, font};
+    const pixels = [];
+
+    for (let y = countH; y--;) {
+      const dataY = Math.floor(y * sizeH);
+
+      for (let x = countW; x--;) {
+        const dataX = Math.floor(x * sizeW);
+        const data = Array.from(
+          canvasContext.getImageData(dataX, dataY, 1, 1).data
+        );
+
+        pixels.push(
+          <PixelComponent
+            {...pixelProps}
+            key={`${x}-${y}`}
+            x={x}
+            y={y}
+            data={data}/>
+        );
+      }
+    }
+
+    return pixels;
+  }
+
+  /**
    * @inheritDoc
    */
   shouldComponentUpdate(props: Props): boolean {
@@ -140,149 +283,6 @@ export class PixelList extends Component<void, Props, State> {
         type: "image/svg+xml;charset=utf-8"
       })
     );
-  }
-
-  /**
-   * @param {{
-   *   image: HTMLImageElement,
-   *   settings: Object
-   * }} props
-   * @return {HTMLCanvasElement}
-   */
-  static getCanvas(props: Props): HTMLCanvasElement {
-    const {image, settings} = props;
-    const {maxSize} = settings;
-
-    const imageWidth = image.naturalWidth || image.width;
-    const imageHeight = image.naturalHeight || image.height;
-    const imageRatio = imageWidth / imageHeight;
-
-    let width;
-    let height;
-
-    if (imageRatio > 1) {
-      width = maxSize;
-      height = maxSize / imageRatio;
-    } else {
-      width = maxSize * imageRatio;
-      height = maxSize;
-    }
-
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-
-    const context = canvas.getContext("2d");
-    context.drawImage(image, 0, 0, width, height);
-
-    return canvas;
-  }
-
-  /**
-   * @param {{
-   *   fonts: Object,
-   *   settings: Object
-   * }} props
-   * @return {Object}
-   */
-  static getFont(props: Props): Object {
-    const {fonts, settings} = props;
-    const {fontName, fontSize} = settings;
-    const {dx, dy, width, height, family} = fonts[fontName];
-
-    return {
-      fontSize,
-      fontFamily: family,
-      dx: dx * fontSize,
-      dy: dy * fontSize,
-      height: height * fontSize,
-      width: width * fontSize
-    };
-  }
-
-  /**
-   * @param {{
-   *   settings: Object
-   * }} props
-   * @param {{
-   *   canvas: HTMLCanvasElement
-   * }} state
-   * @return {*}
-   */
-  static getBackgroundImage(props: Props, state: State) {
-    const {backgroundImageAlpha} = props.settings;
-    const {canvas} = state;
-
-    return (
-      <BackgroundImage
-        canvas={canvas}
-        opacity={backgroundImageAlpha} />
-    );
-  }
-
-  /**
-   * @param {{
-   *   settings: Object
-   * }} props
-   * @return {*}
-   */
-  static getBackgroundColor(props: Props) {
-    const {backgroundColor, backgroundColorAlpha} = props.settings;
-
-    return (
-      <BackgroundColor
-        color={backgroundColor}
-        opacity={backgroundColorAlpha} />
-    );
-  }
-
-  /**
-   * @param {{
-   *   settings: Object
-   * }} props
-   * @param {{
-   *   canvas: HTMLCanvasElement,
-   *   font: Object
-   * }} state
-   * @return {Array}
-   */
-  static getPixels(props: Props, state: State): Array {
-    const {settings} = props;
-    const {canvas, font} = state;
-    const {rgb, contrast} = settings;
-    const {width, height} = canvas;
-    const sizeW = font.width * 3;
-    const sizeH = font.width * 3;
-    const countW = Math.ceil(width / sizeW);
-    const countH = Math.ceil(height / sizeH);
-
-    const PixelComponent = rgb ? RgbPixel : Pixel;
-    const canvasContext = canvas.getContext("2d");
-
-    const pixelProps = {contrast, font};
-    const pixels = [];
-
-    for (let y = countH; y--;) {
-      const dataY = Math.floor(y * sizeH);
-
-      for (let x = countW; x--;) {
-        const dataX = Math.floor(x * sizeW);
-        const data = Array.from(
-          canvasContext.getImageData(dataX, dataY, 1, 1).data
-        );
-
-        pixels.push(
-          <PixelComponent
-            {...pixelProps}
-            key={`${x}-${y}`}
-            x={x}
-            y={y}
-            data={data} />
-        );
-      }
-    }
-
-    return pixels;
   }
 }
 

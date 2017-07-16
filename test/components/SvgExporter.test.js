@@ -27,7 +27,7 @@ describe("render", () => {
 
     const wrapper = mount(
       <MuiThemeProvider>
-        <ConnectedSvgExporter store={store} />
+        <ConnectedSvgExporter store={store}/>
       </MuiThemeProvider>
     );
 
@@ -36,7 +36,7 @@ describe("render", () => {
 
   test("returns disabled button", () => {
     const wrapper = shallow(
-      <SvgExporter />
+      <SvgExporter/>
     );
 
     expect(wrapper.props()).toMatchObject({
