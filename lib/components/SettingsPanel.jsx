@@ -96,12 +96,12 @@ export class SettingsPanel extends Component<void, Props, State> {
     let {value} = e.target;
 
     switch (type) {
-      case "number":
-        value = Number(value);
-        break;
-      case "checkbox":
-        value = checked;
-        break;
+    case "number":
+      value = Number(value);
+      break;
+    case "checkbox":
+      value = checked;
+      break;
     }
 
     const nextSettings = {...settings, [name]: value};
