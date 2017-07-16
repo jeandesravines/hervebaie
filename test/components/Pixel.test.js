@@ -48,7 +48,7 @@ describe("render", () => {
     };
 
     mount(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
   });
 
@@ -61,7 +61,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     expect(wrapper.name()).toBe("g");
@@ -76,7 +76,7 @@ describe("render", () => {
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     const childs = wrapper.find("text");
@@ -106,7 +106,7 @@ describe("getPixelData", () => {
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     const result = wrapper.instance()
@@ -128,7 +128,7 @@ describe("getPixelData", () => {
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     const result = wrapper.instance()

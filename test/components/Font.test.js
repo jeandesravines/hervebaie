@@ -28,7 +28,7 @@ describe("render", () => {
     };
 
     const wrapper = mount(
-        <Font {...props} />
+      <Font {...props} />
     );
 
     const expected = {
@@ -84,7 +84,7 @@ describe("componentDidMount", () => {
     };
 
     const wrapper = mount(
-        <Font {...props} />
+      <Font {...props} />
     );
 
     const coef = 1 / Font.fontSize;

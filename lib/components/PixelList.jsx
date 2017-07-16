@@ -120,9 +120,9 @@ export class PixelList extends Component<void, Props, State> {
       <svg
         {...svgProps}
         ref={n => this.nodeRef = n}>
-          {PixelList.getBackgroundColor(this.props)}
-          {PixelList.getBackgroundImage(this.props, this.state)}
-          {PixelList.getPixels(this.props, this.state)}
+        {PixelList.getBackgroundColor(this.props)}
+        {PixelList.getBackgroundImage(this.props, this.state)}
+        {PixelList.getPixels(this.props, this.state)}
       </svg>
     );
   }
