@@ -216,8 +216,8 @@ describe("toggle", () => {
     wrapper.instance().toggle();
 
     expect(spySetState.mock.calls).toEqual(expect.arrayContaining([
-      [{ opened: false }],
-      [{ opened: true }]
+      [{opened: false}],
+      [{opened: true}]
     ]));
   });
 });
@@ -226,8 +226,8 @@ describe("render", () => {
   test("renders without crashing", () => {
     const store = createStore({
       fonts: {
-        Arial: { family: "Arial,monospace" },
-        Helvetica: { family: "Helvetica,monospace" }
+        Arial: {family: "Arial,monospace"},
+        Helvetica: {family: "Helvetica,monospace"}
       },
       setSettings: jest.fn(),
       settings: {
@@ -246,7 +246,7 @@ describe("render", () => {
     mount(
       <MuiThemeProvider>
         <Provider store={store}>
-          <ConnectedSettingsPanel />
+          <ConnectedSettingsPanel/>
         </Provider>
       </MuiThemeProvider>
     );

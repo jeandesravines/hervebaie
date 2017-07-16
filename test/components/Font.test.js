@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
 import Font from "../../lib/components/Font";
 
@@ -7,7 +7,7 @@ const sandbox = new Sandbox();
 
 beforeEach(() => {
   sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
-    .mockReturnValue({ x: -5, y: -5, width: 800, height: 600 });
+    .mockReturnValue({x: -5, y: -5, width: 800, height: 600});
 });
 
 afterEach(() => {
@@ -28,7 +28,7 @@ describe("render", () => {
     };
 
     const wrapper = mount(
-        <Font {...props} />
+      <Font {...props} />
     );
 
     const expected = {
@@ -50,7 +50,7 @@ describe("shouldComponentUpdate", () => {
   });
 
   test("should returns false", () => {
-    const wrapper = shallow(<Font />);
+    const wrapper = shallow(<Font/>);
     const shouldComponentUpdate = wrapper.instance().shouldComponentUpdate();
 
     expect(shouldComponentUpdate).toBe(false);
@@ -64,9 +64,9 @@ describe("getBBox", () => {
   });
 
   it("returns a simulated SVGRect", () => {
-    const wrapper = shallow(<Font />)
+    const wrapper = shallow(<Font/>)
     const instance = wrapper.instance();
-    const bBox = { x: -5, y: -5, width: 800, height: 600 };
+    const bBox = {x: -5, y: -5, width: 800, height: 600};
 
     instance.nodeRef = {
       getBBox: () => bBox
@@ -84,7 +84,7 @@ describe("componentDidMount", () => {
     };
 
     const wrapper = mount(
-        <Font {...props} />
+      <Font {...props} />
     );
 
     const coef = 1 / Font.fontSize;

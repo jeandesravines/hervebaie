@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import Pixel from "../../lib/components/Pixel";
 
 describe("rgbToHexadecimal", () => {
@@ -43,12 +43,12 @@ describe("render", () => {
     const props = {
       x: 0,
       y: 0,
-      data: [ 255, 0, 0, 255 ],
-      font: { x: 0, y: 0, width: 4.8, height: 6.4 }
+      data: [255, 0, 0, 255],
+      font: {x: 0, y: 0, width: 4.8, height: 6.4}
     };
 
     mount(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
   });
 
@@ -56,12 +56,12 @@ describe("render", () => {
     const props = {
       x: 0,
       y: 0,
-      data: [ 255, 0, 0, 255 ],
-      font: { dx: 0, dy: 0, width: 4.8, height: 6.4 }
+      data: [255, 0, 0, 255],
+      font: {dx: 0, dy: 0, width: 4.8, height: 6.4}
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     expect(wrapper.name()).toBe("g");
@@ -71,16 +71,16 @@ describe("render", () => {
     const props = {
       x: 5,
       y: 10,
-      data: [ 13, 14, 15, 255 ],
-      font: { dx: 2, dy: 3, width: 4.8, height: 6.4 }
+      data: [13, 14, 15, 255],
+      font: {dx: 2, dy: 3, width: 4.8, height: 6.4}
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     const childs = wrapper.find("text");
-    const texts = [ "013", "014", "015" ];
+    const texts = ["013", "014", "015"];
 
     expect(childs).toHaveLength(3);
 
@@ -101,21 +101,21 @@ describe("getPixelData", () => {
     const props = {
       x: 5,
       y: 10,
-      data: [ 13, 14, 15, 255 ],
-      font: { dx: 2, dy: 3, width: 4.8, height: 6.4 }
+      data: [13, 14, 15, 255],
+      font: {dx: 2, dy: 3, width: 4.8, height: 6.4}
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     const result = wrapper.instance()
       .getPixelData();
 
     expect(result).toEqual(expect.arrayContaining([
-      { color: "#0d0e0f", text: "013" },
-      { color: "#0d0e0f", text: "014" },
-      { color: "#0d0e0f", text: "015" }
+      {color: "#0d0e0f", text: "013"},
+      {color: "#0d0e0f", text: "014"},
+      {color: "#0d0e0f", text: "015"}
     ]));
   });
 
@@ -123,21 +123,21 @@ describe("getPixelData", () => {
     const props = {
       x: 5,
       y: 10,
-      data: [ 13, 14, 15, 127 ],
-      font: { dx: 2, dy: 3, width: 4.8, height: 6.4 }
+      data: [13, 14, 15, 127],
+      font: {dx: 2, dy: 3, width: 4.8, height: 6.4}
     };
 
     const wrapper = shallow(
-        <Pixel {...props} />
+      <Pixel {...props} />
     );
 
     const result = wrapper.instance()
       .getPixelData();
 
     expect(result).toEqual(expect.arrayContaining([
-      { color: "rgba(13,14,15,0.5)", text: "013" },
-      { color: "rgba(13,14,15,0.5)", text: "014" },
-      { color: "rgba(13,14,15,0.5)", text: "015" }
+      {color: "rgba(13,14,15,0.5)", text: "013"},
+      {color: "rgba(13,14,15,0.5)", text: "014"},
+      {color: "rgba(13,14,15,0.5)", text: "015"}
     ]));
   });
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import RgbPixel from "../../lib/components/RgbPixel";
 
 describe("render", () => {
@@ -7,8 +7,8 @@ describe("render", () => {
     const props = {
       x: 0,
       y: 0,
-      data: [ 255, 0, 0, 255 ],
-      font: { x: 0, y: 0, width: 4.8, height: 6.4 },
+      data: [255, 0, 0, 255],
+      font: {x: 0, y: 0, width: 4.8, height: 6.4},
       contrast: 0.4
     };
 
@@ -21,8 +21,8 @@ describe("render", () => {
     const props = {
       x: 0,
       y: 0,
-      data: [ 255, 0, 0, 255 ],
-      font: { dx: 0, dy: 0, width: 4.8, height: 6.4 },
+      data: [255, 0, 0, 255],
+      font: {dx: 0, dy: 0, width: 4.8, height: 6.4},
       contrast: 0.4
     };
 
@@ -37,8 +37,8 @@ describe("render", () => {
     const props = {
       x: 5,
       y: 10,
-      data: [ 255, 255, 255, 255 ],
-      font: { dx: 2, dy: 3, width: 4.8, height: 6.4 },
+      data: [255, 255, 255, 255],
+      font: {dx: 2, dy: 3, width: 4.8, height: 6.4},
       contrast: 0.4
     };
 
@@ -47,7 +47,7 @@ describe("render", () => {
     );
 
     const childs = wrapper.find("text");
-    const colors = [ "#ff0000", "#00ff00", "#0000ff" ];
+    const colors = ["#ff0000", "#00ff00", "#0000ff"];
 
     expect(childs).toHaveLength(3);
 
@@ -69,8 +69,8 @@ describe("getPixelData", () => {
     const props = {
       x: 5,
       y: 10,
-      data: [ 255, 255, 255, 255 ],
-      font: { dx: 2, dy: 3, width: 4.8, height: 6.4 },
+      data: [255, 255, 255, 255],
+      font: {dx: 2, dy: 3, width: 4.8, height: 6.4},
       contrast: 0.4
     };
 
@@ -82,9 +82,9 @@ describe("getPixelData", () => {
       .getPixelData();
 
     expect(result).toEqual(expect.arrayContaining([
-      { color: "#ff0000", text: "255" },
-      { color: "#00ff00", text: "255" },
-      { color: "#0000ff", text: "255" }
+      {color: "#ff0000", text: "255"},
+      {color: "#00ff00", text: "255"},
+      {color: "#0000ff", text: "255"}
     ]));
   });
 
@@ -92,8 +92,8 @@ describe("getPixelData", () => {
     const props = {
       x: 5,
       y: 10,
-      data: [ 13, 14, 15, 127 ],
-      font: { dx: 2, dy: 3, width: 4.8, height: 6.4 },
+      data: [13, 14, 15, 127],
+      font: {dx: 2, dy: 3, width: 4.8, height: 6.4},
       contrast: 0.4
     };
 
@@ -105,9 +105,9 @@ describe("getPixelData", () => {
       .getPixelData();
 
     expect(result).toEqual(expect.arrayContaining([
-      { color: "rgba(109,0,0,0.5)", text: "013" },
-      { color: "rgba(0,110,0,0.5)", text: "014" },
-      { color: "rgba(0,0,111,0.5)", text: "015" }
+      {color: "rgba(109,0,0,0.5)", text: "013"},
+      {color: "rgba(0,110,0,0.5)", text: "014"},
+      {color: "rgba(0,0,111,0.5)", text: "015"}
     ]));
   });
 });

@@ -56,93 +56,6 @@ export class PixelList extends Component<void, Props, State> {
   nodeRef: ?HTMLElement;
 
   /**
-   * @inheritDoc
-   */
-  shouldComponentUpdate(props: Props): boolean {
-    return props.image ? true : false;
-  }
-
-  /**
-   * @inheritDoc
-   */
-  componentWillReceiveProps(nextProps: Props) {
-    if (!nextProps.image) {
-      return;
-    }
-
-    this.setState({
-      canvas: PixelList.getCanvas(nextProps),
-      font: PixelList.getFont(nextProps)
-    });
-  }
-
-  /**
-   * @inheritDoc
-   */
-  render() {
-    if (!this.props.image) {
-      return null;
-    }
-
-    if (!this.state.canvas) {
-      return null;
-    }
-
-    const {fontSize} = this.props.settings;
-    const {
-      canvas: {width, height},
-      font: {
-        dx,
-        dy,
-        fontFamily,
-        height: fontHeight,
-        width: fontWidth
-      }
-    } = this.state;
-
-    const pixelW = (fontWidth + dx) * 3;
-    const pixelH = (fontHeight + dy) * 3;
-    const pixelRatio = pixelW / pixelH;
-
-    const viewBoxH = Math.round(height / pixelRatio);
-    const viewBox = `0 0 ${width} ${viewBoxH}`;
-
-    const svgProps = {
-      preserveAspectRatio: "none",
-      fontFamily,
-      fontSize,
-      width,
-      height,
-      viewBox
-    };
-
-    return (
-      <svg
-        {...svgProps}
-        ref={n => this.nodeRef = n}>
-          {PixelList.getBackgroundColor(this.props)}
-          {PixelList.getBackgroundImage(this.props, this.state)}
-          {PixelList.getPixels(this.props, this.state)}
-      </svg>
-    );
-  }
-
-  /**
-   * @inheritDoc
-   */
-  componentDidUpdate() {
-    const data = this.nodeRef.outerHTML
-      .replace(/^<svg/, "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\"")
-      .replace(/^<svg/, "<svg xmlns=\"http://www.w3.org/2000/svg\"");
-
-    this.props.setSvgData(
-      new Blob([data], {
-        type: "image/svg+xml;charset=utf-8"
-      })
-    );
-  }
-
-  /**
    * @param {{
    *   image: HTMLImageElement,
    *   settings: Object
@@ -216,7 +129,7 @@ export class PixelList extends Component<void, Props, State> {
     return (
       <BackgroundImage
         canvas={canvas}
-        opacity={backgroundImageAlpha} />
+        opacity={backgroundImageAlpha}/>
     );
   }
 
@@ -232,7 +145,7 @@ export class PixelList extends Component<void, Props, State> {
     return (
       <BackgroundColor
         color={backgroundColor}
-        opacity={backgroundColorAlpha} />
+        opacity={backgroundColorAlpha}/>
     );
   }
 
@@ -277,12 +190,99 @@ export class PixelList extends Component<void, Props, State> {
             key={`${x}-${y}`}
             x={x}
             y={y}
-            data={data} />
+            data={data}/>
         );
       }
     }
 
     return pixels;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  shouldComponentUpdate(props: Props): boolean {
+    return props.image ? true : false;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  componentWillReceiveProps(nextProps: Props) {
+    if (!nextProps.image) {
+      return;
+    }
+
+    this.setState({
+      canvas: PixelList.getCanvas(nextProps),
+      font: PixelList.getFont(nextProps)
+    });
+  }
+
+  /**
+   * @inheritDoc
+   */
+  render() {
+    if (!this.props.image) {
+      return null;
+    }
+
+    if (!this.state.canvas) {
+      return null;
+    }
+
+    const {fontSize} = this.props.settings;
+    const {
+      canvas: {width, height},
+      font: {
+        dx,
+        dy,
+        fontFamily,
+        height: fontHeight,
+        width: fontWidth
+      }
+    } = this.state;
+
+    const pixelW = (fontWidth + dx) * 3;
+    const pixelH = (fontHeight + dy) * 3;
+    const pixelRatio = pixelW / pixelH;
+
+    const viewBoxH = Math.round(height / pixelRatio);
+    const viewBox = `0 0 ${width} ${viewBoxH}`;
+
+    const svgProps = {
+      preserveAspectRatio: "none",
+      fontFamily,
+      fontSize,
+      width,
+      height,
+      viewBox
+    };
+
+    return (
+      <svg
+        {...svgProps}
+        ref={n => this.nodeRef = n}>
+        {PixelList.getBackgroundColor(this.props)}
+        {PixelList.getBackgroundImage(this.props, this.state)}
+        {PixelList.getPixels(this.props, this.state)}
+      </svg>
+    );
+  }
+
+  /**
+   * @inheritDoc
+   */
+  componentDidUpdate() {
+    const data = this.nodeRef.outerHTML
+      .replace(/^<svg/, "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\"")
+      .replace(/^<svg/, "<svg xmlns=\"http://www.w3.org/2000/svg\"");
+
+    this.props.setSvgData(
+      new Blob([data], {
+        type: "image/svg+xml;charset=utf-8"
+      })
+    );
   }
 }
 

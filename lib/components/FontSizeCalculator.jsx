@@ -46,7 +46,7 @@ export class FontSizeCalculator extends Component<void, Props> {
         <Font
           family={font.family}
           key={name}
-          onLoad={(props) => this.setFont(name, props)} />
+          onLoad={(props) => this.setFont(name, props)}/>
       );
     });
 

@@ -22,7 +22,7 @@ describe("render", () => {
     });
 
     mount(
-      <ConnectedImageLoader store={store} />
+      <ConnectedImageLoader store={store}/>
     );
   });
 
@@ -38,7 +38,7 @@ describe("render", () => {
     const input = wrapper.find("input[type='file']");
 
     expect(input.props()).toMatchObject({
-      type: "file" ,
+      type: "file",
       accept: "image/*",
       onChange: expect.any(Function)
     });
@@ -48,7 +48,7 @@ describe("render", () => {
 describe("shouldComponentUpdate", () => {
   test("should returns false", () => {
     const wrapper = shallow(
-      <ImageLoader />
+      <ImageLoader/>
     );
 
     const shouldComponentUpdate = wrapper

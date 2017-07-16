@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   color: string,
-  opacity?: number
+  opacity: ?number
 };
 
 /**
@@ -10,7 +10,7 @@ type Props = {
  * @return {*}
  */
 export default function BackgroundColor(props: Props) {
-  const { color, opacity } = props;
+  const {color, opacity} = props;
 
   if (!opacity) {
     return null;
@@ -21,6 +21,6 @@ export default function BackgroundColor(props: Props) {
       fill={color}
       height="100%"
       opacity={opacity}
-      width="100%" />
+      width="100%"/>
   );
 }

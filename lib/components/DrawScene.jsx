@@ -10,11 +10,11 @@ export default function DrawScene() {
   return (
     <div>
       <div>
-        <FontSizeCalculator />
-        <SettingsPanel />
+        <FontSizeCalculator/>
+        <SettingsPanel/>
       </div>
       <div>
-        <PixelList />
+        <PixelList/>
       </div>
     </div>
   );

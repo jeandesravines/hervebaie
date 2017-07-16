@@ -27,7 +27,7 @@ export class SvgExporter extends PureComponent<void, Props> {
    * @inheritDoc
    */
   render() {
-    const { data, image } = this.props;
+    const {data, image} = this.props;
     let props = {};
 
     if (data) {

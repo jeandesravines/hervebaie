@@ -19,56 +19,6 @@ export default class Pixel extends PureComponent<void, Props> {
   props: Props;
 
   /**
-   * @return {*}
-   */
-  render() {
-    const { x, y, font: { width, height, dx, dy } } = this.props;
-    const lineHeight = height + dy;
-    const lineWidth = width + dx;
-    const lineX = x * lineWidth * 3 + dx;
-    const lineY = y * lineHeight * 3 + dy;
-    const pixelData = this.getPixelData();
-    const lines = new Array(3);
-
-    for (let i = 3; i--; ) {
-      const { color, text } = pixelData[i];
-      const textProps = {
-        key: i,
-        x: Pixel.round(lineX),
-        y: Pixel.round(lineY + i * lineHeight),
-        alignmentBaseline: "hanging",
-        fill: color
-      };
-
-      lines[i] = <text {...textProps}>{text}</text>;
-    }
-
-    return (
-      <g key={`${x}-${y}`}>
-        {lines}
-      </g>
-    );
-  }
-
-  /**
-   * @return {Array}
-   */
-  getPixelData(): Array<{ text: string, color: string }> {
-    const { data } = this.props;
-    const pixelData = new Array(3);
-    const color = Pixel.getColorFromData(data);
-
-    for (let i = 3; i--; ) {
-      pixelData[i] = {
-        color,
-        text: Pixel.getTextFromComponent(data[i])
-      };
-    }
-
-    return pixelData;
-  }
-
-  /**
    * @param {Array} data
    * @return {string}
    */
@@ -115,5 +65,55 @@ export default class Pixel extends PureComponent<void, Props> {
     return components.reduce((hex, n) => {
       return hex + (n < 16 ? "0" : "") + n.toString(16);
     }, "#");
+  }
+
+  /**
+   * @return {*}
+   */
+  render() {
+    const {x, y, font: {width, height, dx, dy}} = this.props;
+    const lineHeight = height + dy;
+    const lineWidth = width + dx;
+    const lineX = x * lineWidth * 3 + dx;
+    const lineY = y * lineHeight * 3 + dy;
+    const pixelData = this.getPixelData();
+    const lines = new Array(3);
+
+    for (let i = 3; i--;) {
+      const {color, text} = pixelData[i];
+      const textProps = {
+        key: i,
+        x: Pixel.round(lineX),
+        y: Pixel.round(lineY + i * lineHeight),
+        alignmentBaseline: "hanging",
+        fill: color
+      };
+
+      lines[i] = <text {...textProps}>{text}</text>;
+    }
+
+    return (
+      <g key={`${x}-${y}`}>
+        {lines}
+      </g>
+    );
+  }
+
+  /**
+   * @return {Array}
+   */
+  getPixelData(): Array<{ text: string, color: string }> {
+    const {data} = this.props;
+    const pixelData = new Array(3);
+    const color = Pixel.getColorFromData(data);
+
+    for (let i = 3; i--;) {
+      pixelData[i] = {
+        color,
+        text: Pixel.getTextFromComponent(data[i])
+      };
+    }
+
+    return pixelData;
   }
 }

@@ -4,9 +4,8 @@ import TextField from "material-ui/TextField";
 import _ from "lodash";
 
 type Props = {
-  floatingTextLabel?: string,
   label: string | void,
-  name?: string,
+  name: ?string,
   onChange: Function,
   options: Object | Array,
   value: string | number | void
@@ -14,7 +13,7 @@ type Props = {
 
 type State = {
   opened: boolean,
-  nodeRef?: Element
+  nodeRef: ?Element
 };
 
 /**
@@ -41,7 +40,7 @@ export default class SelectField extends PureComponent<void, Props, State> {
    * @param {string | value} value
    */
   setValue(value) {
-    const { name, onChange } = this.props;
+    const {name, onChange} = this.props;
     const event = {
       target: {
         name,
@@ -50,10 +49,8 @@ export default class SelectField extends PureComponent<void, Props, State> {
       }
     };
 
-    onChange(event, value);
-    this.setState({
-      opened: false
-    });
+    onChange(event);
+    this.hide();
   }
 
   /**
@@ -87,13 +84,13 @@ export default class SelectField extends PureComponent<void, Props, State> {
    * @return {Array.<Element>}
    */
   renderItems() {
-    const { options, value } = this.props;
+    const {options, value} = this.props;
 
     return _.map(options, (text: string, key: string | number) => (
       <MenuItem
         key={key}
         selected={value === key}
-        onClick={() => this.setValue(key)}>
+        onClick={this.setValue.bind(this, key)}>
         {text}
       </MenuItem>
     ));
@@ -103,11 +100,12 @@ export default class SelectField extends PureComponent<void, Props, State> {
    * @inheritDoc
    */
   render() {
-    const { label, floatingTextLabel } = this.props;
+    const {label, options, value} = this.props;
     const show = this.show.bind(this);
     const hide = this.hide.bind(this);
     const setNodeRef = this.setNodeRef.bind(this);
     const items = this.renderItems();
+    const floatingTextLabel = options[value];
 
     return (
       <div>
@@ -117,7 +115,7 @@ export default class SelectField extends PureComponent<void, Props, State> {
           label={floatingTextLabel}
           onClick={show}
           inputRef={setNodeRef}
-          value={label} />
+          value={label}/>
 
         <Menu
           anchorEl={this.state.nodeRef}
