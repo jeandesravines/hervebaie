@@ -15,8 +15,7 @@ after_success:
 
 deploy:
   provider: script
-  script: yarn && \
-    yarn build && \
-    firebase deploy --token $FIREBASE_TOKEN
+  skip_cleanup: true
+  script: yarn build && firebase deploy --token $FIREBASE_TOKEN
   on:
     branch: master
