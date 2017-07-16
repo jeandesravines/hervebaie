@@ -3,20 +3,23 @@ cache: yarn
 node_js:
   - "8"
 
+before_script:
+  - yarn global add codecov
+
 script:
   - yarn lint
   - yarn test -- --bail --coverage
 
 after_success:
-  - yarn add global codecov
   - codecov
 
-#before_deploy:
-#  - npm -g install firebase-tools
+before_deploy:
+  - yarn global add firebase-tools
+  - yarn build
 
-#deploy:
-#  provider: script
-#  skip_cleanup: true
-#  script: yarn build && firebase deploy --token $FIREBASE_TOKEN
-#  on:
-#    branch: master
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: firebase deploy --token $FIREBASE_TOKEN --non-interactive
+  on:
+    branch: master
