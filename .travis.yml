@@ -11,12 +11,12 @@ after_success:
   - yarn add global codecov
   - codecov
 
-before_deploy:
-  - npm -g install firebase-tools
+#before_deploy:
+#  - npm -g install firebase-tools
 
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: yarn build && firebase deploy --token $FIREBASE_TOKEN
-  on:
-    branch: master
+#deploy:
+#  provider: script
+#  skip_cleanup: true
+#  script: yarn build && firebase deploy --token $FIREBASE_TOKEN
+#  on:
+#    branch: master
