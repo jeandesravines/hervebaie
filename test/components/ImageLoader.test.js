@@ -1,10 +1,11 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
-import createStore from "../utils/store";
+import createStore from "redux-mock-store";
 import ConnectedImageLoader, { ImageLoader } from "../../lib/components/ImageLoader";
 
 const sandbox = new Sandbox();
+const mockStore = createStore([]);
 
 beforeEach(() => {
   sandbox.spyOn(URL, "createObjectURL")
@@ -17,7 +18,7 @@ afterEach(() => {
 
 describe("render", () => {
   test("renders without crashing", () => {
-    const store = createStore({
+    const store = mockStore({
       setImage: jest.fn()
     });
 

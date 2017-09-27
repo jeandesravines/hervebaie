@@ -13,7 +13,7 @@ describe("render", () => {
       <BackgroundImage {...props} />
     );
 
-    expect(wrapper.getNode()).not.toBe(null);
+    expect(wrapper.getElement()).not.toBe(null);
     expect(wrapper.find("image").props()).toMatchObject({
       href: props.canvas.toDataURL(),
       opacity: 0.5,
@@ -33,6 +33,6 @@ describe("render", () => {
       <BackgroundImage {...props} />
     );
 
-    expect(wrapper.getNode()).toBe(null);
+    expect(wrapper.getElement()).toBe(null);
   });
 });

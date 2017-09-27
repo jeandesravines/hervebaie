@@ -44,7 +44,7 @@ describe("render", () => {
       x: 0,
       y: 0,
       data: [255, 0, 0, 255],
-      font: {x: 0, y: 0, width: 4.8, height: 6.4}
+      font: {dx: 0, dy: 0, width: 4.8, height: 6.4}
     };
 
     mount(

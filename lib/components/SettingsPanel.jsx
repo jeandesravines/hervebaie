@@ -5,12 +5,12 @@ import _ from "lodash";
 
 import Card, { CardActions, CardContent } from "material-ui/Card"
 import Button from "material-ui/Button";
-import { LabelSwitch } from "material-ui/Switch";
 import TextField from "material-ui/TextField";
 import IconDehaze from "material-ui-icons/Dehaze";
 import IconNavigateBefore from "material-ui-icons/NavigateBefore";
 import Typography from "material-ui/Typography";
 
+import LabelSwitch from "./LabelSwitch";
 import SelectField from "./SelectField";
 import SvgExporter from "./SvgExporter";
 import ImageLoader from "./ImageLoader";
@@ -169,7 +169,7 @@ export class SettingsPanel extends Component<void, Props, State> {
         <div>
           <TextField
             fullWidth
-            marginForm
+            margin="normal"
             name="maxSize"
             type="number"
             label="Max size"
@@ -189,7 +189,7 @@ export class SettingsPanel extends Component<void, Props, State> {
         <div>
           <TextField
             fullWidth
-            marginForm
+            margin="normal"
             type="number"
             name="fontSize"
             label="Font size"
@@ -200,7 +200,7 @@ export class SettingsPanel extends Component<void, Props, State> {
         <div>
           <TextField
             fullWidth
-            marginForm
+            margin="normal"
             type="number"
             name="backgroundImageAlpha"
             label="Background image alpha"
@@ -218,7 +218,7 @@ export class SettingsPanel extends Component<void, Props, State> {
         <div style={{display: settings.rgb ? "" : "none"}}>
           <TextField
             fullWidth
-            marginForm
+            margin="normal"
             type="number"
             name="contrast"
             label="RGB contrast"
@@ -230,6 +230,9 @@ export class SettingsPanel extends Component<void, Props, State> {
     );
   }
 
+  /**
+   * @return {Element}
+   */
   renderActions() {
     const {settings} = this.state;
     const setValue = this.setValue.bind(this);
