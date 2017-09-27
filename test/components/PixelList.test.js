@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
-import createStore from "../utils/store";
+import createStore from "redux-mock-store";
 import RgbPixel from "../../lib/components/RgbPixel";
 import Pixel from "../../lib/components/Pixel";
 import BackgroundColor from "../../lib/components/BackgroundColor";
@@ -9,6 +9,7 @@ import BackgroundImage from "../../lib/components/BackgroundImage";
 import ConnectedPixelList, { PixelList } from "../../lib/components/PixelList";
 
 const sandbox = new Sandbox();
+const mockStore = createStore([]);
 
 beforeEach(() => {
   sandbox.spyOn(HTMLCanvasElement.prototype, "getContext")
@@ -385,11 +386,13 @@ describe("render", () => {
   });
 
   test("renders connected component", () => {
-    const store = createStore({
+    const store = mockStore({
       settings: {}
     });
 
-    mount(<ConnectedPixelList store={store}/>);
+    mount(
+      <ConnectedPixelList store={store}/>
+    );
   });
 
   test("renders without crashing", () => {
@@ -408,8 +411,9 @@ describe("render", () => {
     const wrapper = mount(
       <PixelList {...props} />
     );
-
-    wrapper.update();
+    
+    wrapper.setProps(props);
+    wrapper.mount();
 
     expect(wrapper.find("svg").props()).toMatchObject({
       fontFamily: "Arial,monospace",
@@ -445,6 +449,6 @@ describe("render", () => {
 
     const wrapper = shallow(<PixelList {...props} />);
 
-    expect(wrapper.getNode()).toBe(null);
+    expect(wrapper.getElement()).toBe(null);
   });
 });

@@ -7,47 +7,46 @@
   "contributors": [
     "Luc Berger <luc@lallyberger.com> (http://www.lallyberger.com)"
   ],
-  "devDependencies": {
-    "@jdes/jest-sandbox": "^1.0.0",
-    "babel-eslint": "^7.2.2",
-    "babel-jest": "^20.0.0",
-    "babel-plugin-typecheck": "^3.9.0",
-    "enzyme": "^2.8.2",
-    "eslint": "^4.2.0",
-    "eslint-plugin-react": "^7.0.0",
-    "jest": "^20.0.0",
-    "pre-git": "^3.14.0",
-    "react-test-renderer": "^15.6.1",
-    "webpack-dev-server": "^2.4.2"
-  },
   "dependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.21.1",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-lodash": "^3.2.11",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
     "classnames": "^2.2.5",
-    "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.28.0",
-    "firebase-tools": "^3.9.1",
-    "global": "^4.3.2",
     "lodash": "^4.17.4",
-    "lodash-webpack-plugin": "^0.11.4",
-    "material-ui": "next",
+    "material-ui": "^1.0.0-beta.12",
     "material-ui-icons": "^1.0.0-alpha.19",
-    "node-sass": "^4.5.2",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
+    "redux-promise": "^0.5.3"
+  },
+  "devDependencies": {
+    "@jdes/jest-sandbox": "^1.0.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.21.1",
+    "babel-eslint": "^8.0.1",
+    "babel-jest": "^21.2.0",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-typecheck": "^3.9.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.0",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.0.0",
+    "eslint": "^4.2.0",
+    "eslint-plugin-react": "^7.0.0",
+    "jest": "^21.2.0",
+    "lodash-webpack-plugin": "^0.11.4",
+    "node-sass": "^4.5.2",
+    "pre-git": "^3.14.0",
+    "react-test-renderer": "^16.0.0",
     "redux-mock-store": "^1.2.3",
-    "redux-promise": "^0.5.3",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.2",
-    "webpack": "^3.3.0"
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.4.2"
   },
   "repository": {
     "type": "git",
@@ -56,15 +55,9 @@
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
     "commit": "commit-wizard",
-    "lint": "eslint --fix --ext .js,.jsx lib public test",
+    "lint": "eslint --fix --ext .js,.jsx lib public test *.js",
     "start": "webpack-dev-server",
     "test": "jest"
-  },
-  "jest": {
-    "clearMocks": true,
-    "moduleNameMapper": {
-      ".s?css": "<rootDir>/test/mock/style.js"
-    }
   },
   "config": {
     "pre-git": {
@@ -76,5 +69,8 @@
         "yarn test"
       ]
     }
+  },
+  "release": {
+    "analyzeCommits": "simple-commit-message"
   }
 }

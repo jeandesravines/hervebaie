@@ -2,10 +2,11 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import _ from "lodash";
 import Sandbox from "@jdes/jest-sandbox";
-import createStore from "../utils/store";
+import createStore from "redux-mock-store";
 import ConnectedFontSizeCalculator, { FontSizeCalculator } from "../../lib/components/FontSizeCalculator";
 
 const sandbox = new Sandbox();
+const mockStore = createStore([]);
 
 beforeEach(() => {
   sandbox.spyOn(HTMLUnknownElement.prototype, "getBBox")
@@ -18,7 +19,7 @@ afterEach(() => {
 
 describe("render", () => {
   it("renders without crashing", () => {
-    const store = createStore({
+    const store = mockStore({
       fonts: {
         Arial: {family: "Arial"},
         Helvetica: {family: "Helvetica"}

@@ -1,12 +1,12 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { mount, shallow } from "enzyme";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import createStore from "../utils/store";
+import createStore from "redux-mock-store";
 import Sandbox from "@jdes/jest-sandbox";
 import ConnectedSettingsPanel, { SettingsPanel } from "../../lib/components/SettingsPanel";
 
 const sandbox = new Sandbox();
+const mockStore = createStore([]);
 
 afterEach(() => {
   sandbox.restoreAllMocks();
@@ -224,7 +224,7 @@ describe("toggle", () => {
 
 describe("render", () => {
   test("renders without crashing", () => {
-    const store = createStore({
+    const store = mockStore({
       fonts: {
         Arial: {family: "Arial,monospace"},
         Helvetica: {family: "Helvetica,monospace"}
@@ -244,11 +244,9 @@ describe("render", () => {
     });
 
     mount(
-      <MuiThemeProvider>
-        <Provider store={store}>
-          <ConnectedSettingsPanel/>
-        </Provider>
-      </MuiThemeProvider>
+      <Provider store={store}>
+        <ConnectedSettingsPanel />
+      </Provider>
     );
   });
 });

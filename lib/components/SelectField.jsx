@@ -111,7 +111,7 @@ export default class SelectField extends PureComponent<void, Props, State> {
       <div>
         <TextField
           fullWidth
-          marginForm
+          margin="normal"
           label={floatingTextLabel}
           onClick={show}
           inputRef={setNodeRef}

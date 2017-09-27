@@ -1,11 +1,11 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import Sandbox from "@jdes/jest-sandbox";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import createStore from "../utils/store";
+import createStore from "redux-mock-store";
 import ConnectedSvgExporter, { SvgExporter } from "../../lib/components/SvgExporter";
 
 const sandbox = new Sandbox();
+const mockStore = createStore([]);
 
 beforeEach(() => {
   sandbox.spyOn(URL, "createObjectURL")
@@ -18,7 +18,7 @@ afterEach(() => {
 
 describe("render", () => {
   test("renders without crashing", () => {
-    const store = createStore({
+    const store = mockStore({
       data: "data:image/png;base64,",
       image: {
         alt: "Hello"
@@ -26,9 +26,7 @@ describe("render", () => {
     });
 
     const wrapper = mount(
-      <MuiThemeProvider>
-        <ConnectedSvgExporter store={store}/>
-      </MuiThemeProvider>
+      <ConnectedSvgExporter store={store}/>
     );
 
     expect(wrapper).toHaveLength(1);

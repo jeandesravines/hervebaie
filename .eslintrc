@@ -7,16 +7,10 @@
   },
   "env": {
     "browser": true,
-    "jest": true
+    "jest": true,
+    "node": true
   },
   "plugins": [
     "react"
-  ],
-  "rules": {
-    "indent": ["error", 2],
-    "quotes": ["error", "double", {
-      "allowTemplateLiterals": true
-    }],
-    "no-trailing-spaces": "error"
-  }
+  ]
 }

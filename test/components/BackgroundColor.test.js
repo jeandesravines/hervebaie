@@ -13,7 +13,7 @@ describe("render", () => {
       <BackgroundColor {...props} />
     );
 
-    expect(wrapper.getNode()).not.toBe(null);
+    expect(wrapper.getElement()).not.toBe(null);
     expect(wrapper.find("rect").props()).toMatchObject({
       opacity: 0.5,
       fill: "#FF0000",
@@ -28,6 +28,6 @@ describe("render", () => {
       <BackgroundColor {...props} />
     );
 
-    expect(wrapper.getNode()).toBe(null);
+    expect(wrapper.getElement()).toBe(null);
   });
 });
