@@ -12,10 +12,10 @@ script:
 
 after_success:
   - codecov
+  - yarn build
 
 before_deploy:
   - yarn global add firebase-tools
-  - yarn build
 
 deploy:
   provider: script
